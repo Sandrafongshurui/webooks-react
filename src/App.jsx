@@ -2,7 +2,6 @@ import "./App.css";
 import { Routes, Route } from "react-router-dom";
 import React from "react";
 import {BookshelfLoans} from "./pages/BookshelfLoans";
-import './assets/main.css';
 
 const App = () => {
   return (
