@@ -20,3 +20,10 @@ h2 {
   font-weight: 800;
   font-size: xx-large;
 }
+
+h4 {
+  color: #6a6a6a;
+  font-family: "Roboto", sans-serif;
+  font-weight: 600;
+  font-size: xx-large;
+}
