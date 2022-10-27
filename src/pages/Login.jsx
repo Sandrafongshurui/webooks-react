@@ -1,15 +1,12 @@
 import React, { useState } from "react";
 import {
-  Divider,
   Container,
   Button,
-  Typography,
   CardContent,
-  CardActions,
   Card,
   Box,
   TextField,
-  InputAdornment
+  InputAdornment,
 } from "@mui/material";
 import Image from "mui-image";
 import ArrowBackRoundedIcon from "@mui/icons-material/ArrowBackRounded";
@@ -19,44 +16,82 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye } from "@fortawesome/free-solid-svg-icons";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
-import style from "./styles.module.css";
+import style from "./BookAction.module.css";
+// import Cookies from "universal-cookie";
+import webooksLogo from "../assets/Group 1@2x.png";
 
-const Login = (props) => {
+// const axios = Axios.create({
+//   withCredentials: true
+// })
+// const cookies = new Cookies();
+
+// const useStyles = makeStyles((theme) => ({
+//   root: {
+//     height: "100vh",
+//     backgroundColor: "blue",
+//     [theme.breakpoints.up("sm")]: {
+//       backgroundColor: "red",
+//     },
+//     [theme.breakpoints.up("md")]: {
+//       backgroundColor: "green",
+//     },
+//     [theme.breakpoints.up("lg")]: {
+//       backgroundColor: "orange",
+//     },
+//     [theme.breakpoints.up("xl")]: {
+//       backgroundColor: "cyan",
+//     },
+//   },
+// }));
+
+export const Login = (props) => {
+  // const classes = useStyles();
+  // const theme = useTheme();
   // form validation rules
   const eye = <FontAwesomeIcon icon={faEye} />;
   const validationSchema = yup.object().shape({
     email: yup.string().email("Valid email is required").required(),
-    password: yup.string().min(4, "Mininum 4 characters").required()
+    password: yup.string().min(4, "Mininum 4 characters").required(),
   });
   const [passwordShow, setPasswordShow] = useState(false);
-  const [catchError, setCatchError] = useState(null);
+  // const [catchError, setCatchError] = useState(null);
   const togglePasswordVisiblity = () => {
     setPasswordShow(passwordShow ? false : true);
   };
   //actual input names
   const defaultValues = {
     email: "",
-    password: ""
+    password: "",
   };
   const {
     control,
     handleSubmit,
-    formState: { errors }
+    formState: { errors },
   } = useForm({ resolver: yupResolver(validationSchema), defaultValues });
   const onSubmit = async (data) => {
     console.log("from login:", data);
-    setCatchError(null);
+    // setCatchError(null);
     try {
       const res = await axios.post(
-        `https://${process.env.REACT_APP_SERVER_URL}/api/v1/auth/login`,
-        data
+        `http://w-ebooks.herokuapp.com/api/v1/auth/login`,
+        data,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+          withCredentials: true,
+        }
       );
       if (res.status === 200 || res.status === 201) {
+        //set my cookie
+        console.log(res.headers);
+        console.log(res);
+        // cookies.set("token", res.token, { path: "/" });
         console.log("Login successfullly");
       }
     } catch (error) {
       console.log(error);
-      setCatchError(error.response.data.error);
+      // setCatchError(error.response.data.error);
     }
   };
   return (
@@ -78,17 +113,13 @@ const Login = (props) => {
             margin: "0 auto",
             py: "4em",
             px: "1em",
-            boxShadow: "0 3px 5px 2px rgba(0, 0, 0, .3)"
+            boxShadow: "0 3px 5px 2px rgba(0, 0, 0, .3)",
           }}
         >
-          <Box sx={{ width: "100%", margin: "0 auto" }}>
-            <Typography
-              variant="h5"
-              sx={{ textAlign: "center", margin: "0", fontWeight: 100 }}
-            >
-              WEBOOKS
-            </Typography>
+          <Box sx={{ width: "25%", m: "0 auto" }}>
+            <Image src={webooksLogo} />
           </Box>
+          <h2>WEBOOKS</h2>
           <CardContent sx={{ width: "100%", margin: "0 auto", p: "0" }}>
             <form onSubmit={handleSubmit(onSubmit)}>
               <Box mb={3} borderRadius="100%">
@@ -97,7 +128,7 @@ const Login = (props) => {
                   control={control} //take place of the register RHF
                   render={({
                     //takes a function and rturn a react element
-                    field //this error will be displyed takes over form state errors
+                    field, //this error will be displyed takes over form state errors
                   }) => (
                     <TextField
                       label={"email"} //label in the box
@@ -120,7 +151,7 @@ const Login = (props) => {
                   control={control} //take place of the register RHF
                   render={({
                     //takes a function and rturn a react element
-                    field //this error will be displyed takes over form state errors
+                    field, //this error will be displyed takes over form state errors
                   }) => (
                     <TextField
                       label={"password"} //label in the box
@@ -141,7 +172,7 @@ const Login = (props) => {
                           <InputAdornment position="end">
                             <i onClick={togglePasswordVisiblity}>{eye}</i>{" "}
                           </InputAdornment>
-                        )
+                        ),
                       }}
                     />
                   )}
@@ -157,4 +188,3 @@ const Login = (props) => {
     </Box>
   );
 };
-export default Login;

@@ -1,6 +1,6 @@
 import React, { useRef, useState, useEffect } from "react";
 // import "./styles.css";
-import { ReactReader, ReactReaderStyle } from "react-reader";
+import { ReactReader } from "react-reader";
 // import Ebook from "./epub/sample.epub";
 
 // const ownStyles = {
