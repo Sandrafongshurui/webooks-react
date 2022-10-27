@@ -9,7 +9,7 @@ import Typography from "@mui/material/Typography";
 import Image from "mui-image";
 import axios from "axios";
 import { Container } from "@mui/system";
-imp;
+
 
 export const BookDetails = (props) => {
   const [book, setBook] = useState(null);
