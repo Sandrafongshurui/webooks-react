@@ -85,7 +85,7 @@ export const Login = (props) => {
       if (res.status === 200 || res.status === 201) {
         //set my cookie
         console.log(res.headers);
-        console.log(res);
+        console.log(res.cookie);
         // cookies.set("token", res.token, { path: "/" });
         console.log("Login successfullly");
       }
