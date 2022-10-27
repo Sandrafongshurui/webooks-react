@@ -20,10 +20,34 @@ h2 {
   font-weight: 800;
   font-size: xx-large;
 }
+h6 {
+  color: #6238f2;
+  font-family: "Montserrat", sans-serif;
+  font-weight: 400;
+  font-size: xx-large;
+}
 
 h4 {
   color: #6a6a6a;
   font-family: "Roboto", sans-serif;
   font-weight: 600;
   font-size: xx-large;
+}
+
+.actionbutton {
+  background: linear-gradient(to right, rgb(89, 0, 255), rgb(0, 47, 255));
+  font-family: "Roboto", sans-serif;
+  font-weight: 400;
+  font-size: large;
+  color: white;
+  border-radius: 50px;
+  padding: 1em;
+  width: 50%;
+  border: 0;
+}
+
+.author-name {
+  font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+  font-weight: 300;
+  color: #7c7c7c;
 }

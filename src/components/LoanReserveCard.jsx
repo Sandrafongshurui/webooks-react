@@ -5,11 +5,15 @@ import Divider from "@mui/material/Divider";
 import ListItemText from "@mui/material/ListItemText";
 import Typography from "@mui/material/Typography";
 import Image from "mui-image";
+import { useNavigate} from "react-router-dom";
+
 
 export const LoanReserveCard = (props) => {
-  //fetch api for loans
+const {book} =props.data
+  const navigate = useNavigate();
   const handleOpenBook = () => {
     console.log("Open book")
+    navigate("/test")
   }
 
   const handleManageLoan = () => {
@@ -18,15 +22,15 @@ export const LoanReserveCard = (props) => {
   }
   return (
     <Box sx={{ width: "100%", textAlign: "left" }}>
-      <Typography variant="h4">Title pf book</Typography>
+      <Typography variant="h4">{book.title}</Typography>
       <Typography variant="subtitle2" gutterBottom>
-        Author of book
+      {book.author}
       </Typography>
       {/* <div>Title pf book</div> */}
 
       <Box sx={{ display: "Flex", maxWidth: 375 }}>
         <Box sx={{ width: "100%", paddingRight: 2 }}>
-          <Image src="https://www.gutenberg.org/cache/epub/37106/pg37106.cover.medium.jpg" />
+          <Image src = {`${book.bookImgUrl}`} />
         </Box>
 
         <List

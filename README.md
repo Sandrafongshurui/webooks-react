@@ -1,3 +1,11 @@
+# WEBOOKS
+
+An online library for you to browse, borrow and read books!
+
+# packages
+express
+cookie-parser
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).

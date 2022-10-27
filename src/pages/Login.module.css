@@ -1,0 +1,9 @@
+.actionButton {
+    background-color: linear-gradient(to right, rgb(89, 0, 255), rgb(0, 47, 255));
+    font-family: "Roboto", sans-serif;
+    font-weight: 600;
+    font-size: xx-large;
+    color: white;
+    border-radius: 50px;
+  }
+  

@@ -8,10 +8,7 @@
   color: white;
   border: 1px solid white;
 }
-:global(.sheetBodyText) {
+.sheetBodyText {
   color: #6a6a6a;
   font-family: "Roboto", sans-serif;
-  padding-top: 1em;
-  padding-bottom: 1em;
-  padding-left: 0em;
 }

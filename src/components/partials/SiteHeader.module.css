@@ -1,0 +1,6 @@
+.header {
+    text-align: left;
+    display: flex;
+    justify-content: space-around;
+    box-shadow: inset;
+  }

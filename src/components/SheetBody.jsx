@@ -1,6 +1,4 @@
 import Image from "mui-image";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome"
-import { faRegular, faClock } from '@fortawesome/fontawesome-free-solid'
 import {
   Divider,
   List,
@@ -8,9 +6,9 @@ import {
   ListItemText,
   Typography,
   Box,
-  IconButton 
+  Icon
 } from "@mui/material";
-import {AccessTimeIcon} from '@mui/icons-material'
+import {AccessTime} from '@mui/icons-material'
 import style from "./SheetBody.module.css";
 
 export const SheetBody = () => {
@@ -44,9 +42,9 @@ export const SheetBody = () => {
           }}
         >
           <ListItem alignItems="flex-start" sx={{ pl: 0, pt: 2, pb: 2 }} secondaryAction={
-              <IconButton edge="end" aria-label="comments">
-                <AccessTimeIcon />
-              </IconButton>
+              <Icon edge="end" aria-label="comments">
+                <AccessTime />
+              </Icon>
             }>
             <ListItemText
               primary={
@@ -65,7 +63,9 @@ export const SheetBody = () => {
           <Divider />
           <ListItem
             className={style.sheetBodyText}
-            alignItems="flex-start"cd
+            sx={{pt:1, pb:1, pl: 0}}
+            alignItems="flex-start"
+            button
             onClick={handleReturnLoan}
           >
             <ListItemText primary="Return Loan" />
@@ -73,6 +73,7 @@ export const SheetBody = () => {
           <Divider />
           <ListItem
             className={style.sheetBodyText}
+            sx={{pt:1, pb:1, pl: 0}}
             alignItems="flex-start"
             button
             onClick={handleRenewLoan}
