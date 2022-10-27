@@ -67,6 +67,7 @@ export const BookActionCard = (props) => {
           </Box>
           <CardContent sx={{ width: "50%", margin: "0 auto", p: "0" }}>
             <Image
+              showLoading={true}
               sx={{ my: "2em", borderRadius: "5%" }}
               src="https://www.gutenberg.org/cache/epub/37106/pg37106.cover.medium.jpg"
             />
@@ -135,4 +136,3 @@ export const BookActionCard = (props) => {
     </Box>
   );
 };
-
