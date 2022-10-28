@@ -1,16 +1,19 @@
 @import url("https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;500;900&display=swap");
 
-/* .tab{
- color: #6238f2;
- font-family: 'Roboto', sans-serif;
- font-weight: 900;
-} */
+.siteheader {
+    text-align: left;
+    display: flex;
+    justify-content: space-around;
+    box-shadow: inset;
 
-.header {
+  }
+
+.bookshelfheader {
   text-align: left;
   display: flex;
-  justify-content: space-around;
+  justify-content: space-evenly;
   box-shadow: inset;
+  /* gap: 150px */
 }
 
 .container {

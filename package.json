@@ -23,6 +23,7 @@
     "react-hook-form": "^7.38.0",
     "react-modal-sheet": "^1.8.1",
     "react-reader": "^0.21.3",
+    "react-responsive": "^9.0.0",
     "react-router-dom": "^6.3.0",
     "react-scripts": "^5.0.1",
     "react-spring-bottom-sheet": "^3.4.0",
@@ -31,7 +32,7 @@
     "yup": "^0.32.11"
   },
   "scripts": {
-    "start": "WATCHPACK_POLLING=true react-scripts start",
+    "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"

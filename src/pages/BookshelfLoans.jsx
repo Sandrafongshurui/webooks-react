@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { BookshelfHeader } from "../components/BookshelfHeader";
+import { BookshelfHeader } from "../components/Headers";
 import { BookshelfLoansContent } from "../components/BookshelfLoansContent";
 
 export const BookshelfLoans = () => {

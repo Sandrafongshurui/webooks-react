@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import SiteHeader from "../components/partials/SiteHeader";
+import {SiteHeader} from "../components/Headers";
 import Box from "@mui/material/Box";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
@@ -9,7 +9,6 @@ import Typography from "@mui/material/Typography";
 import Image from "mui-image";
 import axios from "axios";
 import { Container } from "@mui/system";
-
 
 export const BookDetails = (props) => {
   const [book, setBook] = useState(null);
