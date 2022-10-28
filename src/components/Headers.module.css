@@ -13,7 +13,6 @@
   display: flex;
   justify-content: space-evenly;
   box-shadow: inset;
-  /* gap: 150px */
 }
 
 .container {

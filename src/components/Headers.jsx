@@ -20,36 +20,31 @@ import webooksLogo from "../assets/webooks_logo.png";
 
 export const SiteHeader = () => {
   const isMobile = useMediaQuery({ maxWidth: 900 });
-  const fontMobile = {
-    fontSize: 32,
-    margin: "auto 0",
+
+  const mobile = {
+    font: { fontSize: 32, margin: "auto 0" },
+    logo: { width: "50%", objectFit: "contain" },
   };
 
-  const fontDesktop = {
-    fontSize: 40,
-    margin: "auto 0",
+  const desktop = {
+    font: { fontSize: 40, margin: "auto 0" },
+    logo: { width: "80%", objectFit: "contain" },
   };
-  const logoMobile = {
-    width: "50%",
-    objectFit: "contain",
-  };
-  const logoDesktop = {
-    width: "80%",
-    objectFit: "contain",
-  };
-
+  let responsiveLayout = null;
+  isMobile
+    ? (responsiveLayout = { ...mobile })
+    : (responsiveLayout = { ...desktop });
   return (
-    <Box className={style.siteheader} sx={{ boxShadow: "0 3px 5px 2px rgba(0, 0, 0, .1)", py:"0.5em"}}>
-      <Box sx={{ width: "45px" }}>
-        <Image style={isMobile ? logoMobile : logoDesktop} src={webooksLogo} />
+    <Box
+      className={style.siteheader}
+      sx={{ boxShadow: "0 3px 5px 2px rgba(0, 0, 0, .1)", py: "0.5em" }}
+    >
+      <Box sx={{ width: "45px", alignItems: "self-start" }}>
+        <Image style={responsiveLayout.logo} src={webooksLogo} />
       </Box>
-      <Box
-        style={isMobile ? fontMobile : fontDesktop}
-        className={globalStyle.h2}
-      >
-        webooks
+      <Box style={responsiveLayout.font} className={globalStyle.h2}>
+        <span style={{ fontWeight: "100" }}>w</span>ebooks
       </Box>
-
       <SiteHeaderDropDownMenu />
     </Box>
   );
@@ -64,16 +59,20 @@ export const SiteHeaderDropDownMenu = () => {
   const handleClose = () => {
     setAnchorEl(null);
   };
-  const isMobile = useMediaQuery({ maxWidth: 600 });
+  const isMobile = useMediaQuery({ maxWidth: 900 });
   const logoMobile = {
-    fontSize: 25
+    fontSize: 25,
+    alignItems: "self-start",
   };
   const logoDesktop = {
-    fontSize: 40
+    fontSize: 40,
+    alignItems: "self-start",
   };
   return (
     <React.Fragment>
-      <Box sx={{ display: "flex", alignItems: "center", textAlign: "center" }}>
+      <Box
+        sx={{ display: "flex", alignItems: "self-start", textAlign: "center" }}
+      >
         <Tooltip title="Login">
           <IconButton
             onClick={handleClick}
@@ -81,12 +80,14 @@ export const SiteHeaderDropDownMenu = () => {
             edge="start"
             color="inherit"
             aria-label="open drawer"
-            
             aria-controls={open ? "account-menu" : undefined}
             aria-haspopup="true"
             aria-expanded={open ? "true" : undefined}
           >
-            <MenuIcon sx={isMobile ? logoMobile : logoDesktop} style={{fill: "#633bf6"}}/>
+            <MenuIcon
+              sx={isMobile ? logoMobile : logoDesktop}
+              style={{ fill: "#633bf6" }}
+            />
           </IconButton>
           {/* <IconButton
             onClick={handleClick}
@@ -157,11 +158,11 @@ export const SiteHeaderDropDownMenu = () => {
 
 export const CategoriesSubheading = (props) => {
   return (
-    <Container>
-      <div className={style.category}>props,category</div>
-      <div className={style.background}></div>
-      <hr className={style.divider} />
-    </Container>
+    <Box className={style.container}>
+      <Box className={style.category}>{props.title}</Box>
+      <Box className={style.background}></Box>
+      <Divider className={style.divider} />
+    </Box>
   );
 };
 
@@ -173,10 +174,32 @@ export const BookshelfHeader = (props) => {
     props.selectedTab(newValue);
   };
 
+  const isMobile = useMediaQuery({ maxWidth: 900 });
+
+  const mobile = {
+    font: { fontSize: 32, margin: "auto 0" },
+    logo: { width: "50%", objectFit: "contain", alignItems: "self-start" },
+  };
+  const desktop = {
+    font: { fontSize: 40, margin: "auto 0" },
+    logo: { width: "80%", objectFit: "contain", alignItems: "self-start" },
+  };
+  let responsiveLayout = null;
+  isMobile
+    ? (responsiveLayout = { ...mobile })
+    : (responsiveLayout = { ...desktop });
   return (
-    <div className={style.header}>
-      <div>
-        <h2>Bookshelf</h2>
+    <Box
+      className={style.bookshelfheader}
+      sx={{ boxShadow: "0 3px 5px 2px rgba(0, 0, 0, .1)", py: "0.5em" }}
+    >
+      {/* <Box sx={{ width: "45px",  alignItems: "self-start" }}>
+        <Image style={responsiveLayout.logo} src={webooksLogo} />
+      </Box> */}
+      <Box>
+        <Box style={responsiveLayout.font} className={globalStyle.h2}>
+          <span style={{ fontWeight: "100" }}>Book</span>shelf
+        </Box>
         <Box
           sx={{
             color: " #6238f2",
@@ -202,8 +225,8 @@ export const BookshelfHeader = (props) => {
             <Tab value="favourites" label="Favourites" />
           </Tabs>
         </Box>
-      </div>
+      </Box>
       <SiteHeaderDropDownMenu />
-    </div>
+    </Box>
   );
 };

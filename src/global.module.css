@@ -8,6 +8,14 @@ h2 {
   margin: 0;
   padding: 0.3em;
 }
+.h2 {
+  color: #6238f2;
+  font-family: "Montserrat", sans-serif;
+  font-weight: 800;
+  font-size: 50px;
+  margin: 0;
+  padding: 0.3em;
+}
 .h6 {
   color: #6238f2;
   font-family: "Montserrat", sans-serif;

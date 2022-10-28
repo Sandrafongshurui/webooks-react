@@ -11,17 +11,14 @@ export const App = () => {
   return (
     <div className="App">
       <Routes>
-        <Route path="/" element={<SiteHeader />}>
-          <Route path="bookshelf/loans" element={<BookshelfLoans />} />
-          <Route
-            path="bookshelf/loans/:id/read/:page"
-            element={<EpubReader />}
-          />
-        </Route>
+        <Route path="bookshelf/loans" element={<BookshelfLoans />} />
+        <Route path="bookshelf/loans/:id/read/:page" element={<EpubReader />} />
+
         <Route path="/login" element={<Login />} />
-        <Route path="/:Id" element={<BookDetails />} />
+        <Route path="/" element={<SiteHeader />}>
+          <Route path="/:Id" element={<BookDetails />} />
+        </Route>
       </Routes>
     </div>
   );
 };
-

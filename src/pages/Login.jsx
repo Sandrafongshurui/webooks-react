@@ -50,12 +50,13 @@ export const Login = (props) => {
     handleSubmit,
     formState: { errors },
   } = useForm({ resolver: yupResolver(validationSchema), defaultValues });
+  
   const onSubmit = async (data) => {
     console.log("from login:", data);
     // setCatchError(null);
     try {
       const res = await axios.post(
-        `https://${process.env.REACT_APP_SERVER_URL}/api/v1/auth/login/`,
+        `http://${process.env.REACT_APP_SERVER_URL}/api/v1/auth/login/`,
         data,
         {
           headers: {
@@ -226,7 +227,7 @@ export const Login = (props) => {
                 component="button"
                 variant="subtitle2"
                 color={"#FF8865"}
-                underline="false"
+               
               >
                 Register
               </Link>
