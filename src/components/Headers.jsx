@@ -19,7 +19,7 @@ import { Container } from "@mui/system";
 import webooksLogo from "../assets/webooks_logo.png";
 
 export const SiteHeader = () => {
-  const isMobile = useMediaQuery({ maxWidth: 600 });
+  const isMobile = useMediaQuery({ maxWidth: 900 });
   const fontMobile = {
     fontSize: 32,
     margin: "auto 0",

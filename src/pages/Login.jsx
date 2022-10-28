@@ -7,6 +7,9 @@ import {
   Box,
   TextField,
   InputAdornment,
+  Typography,
+  Divider,
+  Link,
 } from "@mui/material";
 import Image from "mui-image";
 import ArrowBackRoundedIcon from "@mui/icons-material/ArrowBackRounded";
@@ -16,38 +19,17 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye } from "@fortawesome/free-solid-svg-icons";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
-import style from "./BookAction.module.css";
+import globalStyle from "../global.module.css";
 // import Cookies from "universal-cookie";
 import webooksLogo from "../assets/Group 1@2x.png";
-
+import { useMediaQuery } from "react-responsive";
+import { borderRadius } from "@mui/system";
 // const axios = Axios.create({
 //   withCredentials: true
 // })
-// const cookies = new Cookies();
-
-// const useStyles = makeStyles((theme) => ({
-//   root: {
-//     height: "100vh",
-//     backgroundColor: "blue",
-//     [theme.breakpoints.up("sm")]: {
-//       backgroundColor: "red",
-//     },
-//     [theme.breakpoints.up("md")]: {
-//       backgroundColor: "green",
-//     },
-//     [theme.breakpoints.up("lg")]: {
-//       backgroundColor: "orange",
-//     },
-//     [theme.breakpoints.up("xl")]: {
-//       backgroundColor: "cyan",
-//     },
-//   },
-// }));
 
 export const Login = (props) => {
-  // const classes = useStyles();
-  // const theme = useTheme();
-  // form validation rules
+  const isMobile = useMediaQuery({ maxWidth: 900 });
   const eye = <FontAwesomeIcon icon={faEye} />;
   const validationSchema = yup.object().shape({
     email: yup.string().email("Valid email is required").required(),
@@ -94,6 +76,50 @@ export const Login = (props) => {
       // setCatchError(error.response.data.error);
     }
   };
+  const mobile = {
+    card: {
+      padding: "2em",
+      boxShadow: "0 3px 5px 2px rgba(0, 0, 0, 0)",
+    },
+    logo: { width: "80%", objectFit: "contain" },
+    CardContent: {
+      width: "100%",
+      margin: "0 auto",
+      p: "0",
+      paddingTop : "2em"
+    },
+    image : {
+      width: "20%", m: "0 auto"
+    }
+  };
+  const desktop = {
+    card: {
+      width: "45%",
+      margin: "0 auto",
+      py: "4em",
+      px: "1.5em",
+      boxShadow: "0 3px 5px 2px rgba(0, 0, 0, .3)",
+      display: "flex",
+      gap: "40px",
+      borderRadius : "30px",
+      marginTop: "8em"
+
+    },
+    logo: { width: "80%", objectFit: "contain" },
+    CardContent: {
+      width: "400px",
+      margin: "0 auto",
+      pb:"0"
+    },
+    image : {
+      width: "60%", m: "0 auto"
+    }
+  };
+
+  let responsiveLayout = null;
+  isMobile
+    ? (responsiveLayout = { ...mobile })
+    : (responsiveLayout = { ...desktop });
   return (
     <Box>
       <Box
@@ -106,23 +132,22 @@ export const Login = (props) => {
           <ArrowBackRoundedIcon />
         </Button>
       </Box>
-      <Container sx={{ my: 0 }}>
-        <Card
-          sx={{
-            width: "50%",
-            margin: "0 auto",
-            py: "4em",
-            px: "1em",
-            boxShadow: "0 3px 5px 2px rgba(0, 0, 0, .3)",
-          }}
-        >
-          <Box sx={{ width: "25%", m: "0 auto" }}>
-            <Image src={webooksLogo} />
+      <Box>
+        <Card sx={responsiveLayout.card}>
+          <Box sx={{margin:"auto"}}>
+            <Box sx={responsiveLayout.image}>
+              <Image style={responsiveLayout.logo} src={webooksLogo} />
+            </Box>
+            <h2>
+              <span style={{ fontWeight: "100" }}>w</span>ebooks
+            </h2>
           </Box>
-          <h2>WEBOOKS</h2>
-          <CardContent sx={{ width: "100%", margin: "0 auto", p: "0" }}>
+          <CardContent sx={responsiveLayout.CardContent}>
+            <Typography variant="subtitle1" className="author-name" py={1}>
+              Login to your account
+            </Typography>
             <form onSubmit={handleSubmit(onSubmit)}>
-              <Box mb={3} borderRadius="100%">
+              <Box mb={3}>
                 <Controller
                   name="email" //actual input
                   control={control} //take place of the register RHF
@@ -145,7 +170,7 @@ export const Login = (props) => {
                   )}
                 />
               </Box>
-              <Box mb={3} className={style.inputbox}>
+              <Box mb={3}>
                 <Controller
                   name="password" //actual input
                   control={control} //take place of the register RHF
@@ -178,13 +203,37 @@ export const Login = (props) => {
                   )}
                 />
               </Box>
-              <button className={style.actionbutton} type="submit">
-                Login
-              </button>
+              <Link >
+                <button
+                  className={`${globalStyle.actionbutton} ${globalStyle.loginbutton}`}
+                  type="submit"
+                >
+                  Login
+                </button>
+              </Link>
             </form>
+            <Divider
+              sx={{
+                width: "20px",
+                margin: "0 auto",
+                borderColor: "#6a6a6a",
+                p: "1em",
+              }}
+            />
+            <Typography variant="subtitle2" className="author-name" pt={3}>
+              Don't have an account?{" "}
+              <Link
+                component="button"
+                variant="subtitle2"
+                color={"#FF8865"}
+                underline="false"
+              >
+                Register
+              </Link>
+            </Typography>
           </CardContent>
         </Card>
-      </Container>
+      </Box>
     </Box>
   );
 };
