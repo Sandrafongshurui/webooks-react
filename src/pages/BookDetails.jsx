@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { SiteHeader } from "../components/Headers";
+import { SiteHeader, CategoriesSubheading } from "../components/Headers";
 import Image from "mui-image";
 import axios from "axios";
 import { Container } from "@mui/system";
@@ -12,7 +12,6 @@ import {
   Divider,
   List,
 } from "@mui/material";
-
 
 export const BookDetails = (props) => {
   const [book, setBook] = useState(null);
@@ -50,84 +49,10 @@ export const BookDetails = (props) => {
     <div>
       <SiteHeader />
       {book && (
-        <Container>
-          {/* <Box sx={{ maxWidth: 800 }}>
-            <h2>{book.title}</h2>
-            <Box sx={{ display: "inline", maxWidth: 375 }}>
-              <Box sx={{ width: "100%", paddingRight: 2 }}>
-                <Image src={`${book.bookImgUrl}`} />
-              </Box>
-              <List
-                sx={{
-                  width: "100%",
-                  maxWidth: 360,
-                  bgcolor: "background.paper",
-                  padding: 0,
-                }}
-              >
-                <Divider />
-                <ListItem
-                  alignItems="flex-start"
-                  sx={{ padding: 2 }}
-                  button
-                  onClick={handleOpenBook}
-                >
-                  <ListItemText primary="borrow" />
-                </ListItem>
-                <Divider />
-                <ListItem
-                  alignItems="flex-start"
-                  sx={{ padding: 2 }}
-                  button
-                  onClick={handleManageLoan}
-                >
-                  <ListItemText primary="Manage Loan" />
-                </ListItem>
-                <Divider />
-                <ListItem alignItems="flex-start" sx={{ padding: 2 }}>
-                  <ListItemText
-                    primary={
-                      <Typography
-                        sx={{ display: "inline" }}
-                        component="span"
-                        variant="body3"
-                        color="text.secondary"
-                      >
-                        Add to favourites
-                      </Typography>
-                    }
-                  />
-                </ListItem>
-                <Divider />
-                <ListItem alignItems="flex-start" sx={{ padding: 2 }}>
-                  <ListItemText
-                    primary={
-                      <Typography
-                        sx={{ display: "inline" }}
-                        component="span"
-                        variant="body3"
-                        color="text.secondary"
-                      >
-                        Borrowed Today
-                      </Typography>
-                    }
-                  />
-                </ListItem>
-                <Divider />
-              </List>
-            </Box>
-            <p>{book.sypnopsis}</p>
-          </Box> */}
+        <Box sx={{ margin: "0 auto", width: "70%", marginTop: "4em" }}>
+          <CategoriesSubheading categoryName={book.title} />
           <Grid>
             <Box sx={{ width: "100%", textAlign: "left", maxWidth: "244px" }}>
-              <Box>
-                <Typography noWrap variant="h6" style={{ color: "#4b4b4b" }}>
-                  {book.title}{" "}
-                </Typography>
-                {/* <Typography noWrap variant="body1" style={{color:"#4b4b4b"}} gutterBottom>
-              by {book.author}
-            </Typography> */}
-              </Box>
               <Box
                 sx={{
                   display: "Flex",
@@ -181,7 +106,7 @@ export const BookDetails = (props) => {
                     >
                       <ListItemText primary="Details" />
                       <ListItemText>
-                        <Box sx={{display: "flex"}}>
+                        <Box sx={{ display: "flex" }}>
                           <Typography
                             sx={{ display: "flex" }}
                             variant="body3"
@@ -232,7 +157,12 @@ export const BookDetails = (props) => {
               </Box>
             </Box>
           </Grid>
-        </Container>
+          <Box sx={{ textAlign: "start", my: "2em" }}>
+            <Typography variant="body3" color="text.secondary" lineHeight= "2">
+              {book.sypnosis}
+            </Typography>
+          </Box>
+        </Box>
       )}
     </div>
   );

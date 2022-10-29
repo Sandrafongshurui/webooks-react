@@ -159,6 +159,7 @@ export const CategoriesSubheading = (props) => {
     <Box className={style.container}>
       <Box className={style.category}>{props.categoryName}</Box>
       <Box className={style.background}></Box>
+      
       <Divider className={style.divider} />
     </Box>
   );
