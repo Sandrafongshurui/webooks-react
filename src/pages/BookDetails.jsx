@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { SiteHeader, CategoriesSubheading } from "../components/Headers";
 import Image from "mui-image";
 import axios from "axios";
-import { Container } from "@mui/system";
 import {
   Grid,
   Box,

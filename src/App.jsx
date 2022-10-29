@@ -6,6 +6,7 @@ import { Login } from "./pages/Login";
 import { EpubReader } from "./components/EpubReader";
 import { SiteHeader } from "./components/Headers";
 import { BookDetails } from "./pages/BookDetails";
+import { CreateBook } from "./pages/CreateBook";
 
 export const App = () => {
   return (
@@ -16,6 +17,7 @@ export const App = () => {
 
         <Route path="/login" element={<Login />} />
         <Route path="/books/1" element={<BookDetails />} />
+        <Route path="/books/add-book" element={<CreateBook />} />
         <Route path="/" element={<SiteHeader />}>
           <Route path="books/1" element={<BookDetails />} />
         </Route>
