@@ -15,8 +15,9 @@ export const App = () => {
         <Route path="bookshelf/loans/:id/read/:page" element={<EpubReader />} />
 
         <Route path="/login" element={<Login />} />
+        <Route path="/books/1" element={<BookDetails />} />
         <Route path="/" element={<SiteHeader />}>
-          <Route path="/:Id" element={<BookDetails />} />
+          <Route path="books/1" element={<BookDetails />} />
         </Route>
       </Routes>
     </div>
