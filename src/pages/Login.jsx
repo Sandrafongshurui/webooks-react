@@ -22,7 +22,6 @@ import globalStyle from "../global.module.css";
 // import Cookies from "universal-cookie";
 import webooksLogo from "../assets/Group 1@2x.png";
 import { useMediaQuery } from "react-responsive";
-import { borderRadius } from "@mui/system";
 // const axios = Axios.create({
 //   withCredentials: true
 // })

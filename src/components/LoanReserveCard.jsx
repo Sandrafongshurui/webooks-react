@@ -8,8 +8,6 @@ import {
   Typography,
   Divider,
   List,
-  experimentalStyled as styled,
-  Paper,
 } from "@mui/material";
 
 export const LoanReserveCard = (props) => {
@@ -25,13 +23,13 @@ export const LoanReserveCard = (props) => {
     props.manageLoan();
   };
 
-  const Item = styled(Paper)(({ theme }) => ({
-    backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
-    ...theme.typography.body2,
-    padding: theme.spacing(2),
-    textAlign: "center",
-    color: theme.palette.text.secondary,
-  }));
+  // const Item = styled(Paper)(({ theme }) => ({
+  //   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
+  //   ...theme.typography.body2,
+  //   padding: theme.spacing(2),
+  //   textAlign: "center",
+  //   color: theme.palette.text.secondary,
+  // }));
 
   const listItemStyle = { padding: 0.5, color:"#4b4b4b"  }
   return (

@@ -2,20 +2,10 @@ import React, { useState, useEffect } from "react";
 import { SheetBody } from "./SheetBody";
 import { LoanReserveCard } from "./LoanReserveCard";
 import { CategoriesSubheading } from "./Headers";
-import style from "./Headers.module.css";
 import Sheet from "react-modal-sheet";
 import axios from "axios";
 import {
-  Container,
-  Button,
-  CardContent,
-  Card,
   Box,
-  TextField,
-  InputAdornment,
-  Typography,
-  Divider,
-  Link,
   Grid,
 } from "@mui/material";
 //send the cookies along with each req, make sure BE cors is not *

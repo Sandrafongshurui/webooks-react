@@ -7,7 +7,6 @@ import {
   MenuItem,
   Tab,
   Tabs,
-  Typography,
 } from "@mui/material";
 import Image from "mui-image";
 import style from "./Headers.module.css";
@@ -15,7 +14,6 @@ import globalStyle from "../global.module.css";
 import React, { useState } from "react";
 import { useMediaQuery } from "react-responsive";
 import MenuIcon from "@mui/icons-material/Menu";
-import { Container } from "@mui/system";
 import webooksLogo from "../assets/webooks_logo.png";
 
 export const SiteHeader = () => {
