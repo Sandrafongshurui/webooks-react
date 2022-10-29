@@ -17,8 +17,11 @@ import globalStyle from "../global.module.css";
 
 export const CreateBook = (props) => {
   const validationSchema = yup.object().shape({
-    email: yup.string().email("Valid email is required").required(),
-    password: yup.string().min(4, "Mininum 4 characters").required(),
+    title: yup.string().min(1, "Title is required").required(),
+    author: yup.string().min(4, "Author is required").required(),
+    genre: yup.number().required(),
+    copiesAvailable:  yup.number().required(),
+    sypnopsis: yup.number.string().min(10, "Please fill in the sypnosis").required(),
   });
   const [backgroundImg, setBackgroundImg] = useState(false);
   const numOfFiles = () => {
@@ -53,23 +56,6 @@ export const CreateBook = (props) => {
       </ul>
     </li>
   ));
-  //   useEffect(() => {
-  //     console.log("revoke url");
-  //     URL.revokeObjectURL(imagePreview);
-  //   }, [imagePreview]);
-  //   const thumbs = files.map(file => (
-  //     <div style={thumb} key={file.name}>
-  //       <div style={thumbInner}>
-  //         <img
-  //           src={imagefile.preview}
-  //           style={img}
-  //           // Revoke data uri after image is loaded
-  //           onLoad={() => { URL.revokeObjectURL(imagefile.preview) }}
-  //         />
-  //       </div>
-  //     </div>
-  //   ));
-
   const imagefile = acceptedFiles.map((file) => URL.createObjectURL(file));
 
   const defaultValues = {
@@ -297,6 +283,29 @@ export const CreateBook = (props) => {
             </button>
           </Link>
         </form>
+        <Box
+          mb={3}
+          style={backgroundImg ? backgroundImgStyle : {}}
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            width: "30%",
+            color: "#707070",
+            border: "1px dashed #bdbdbd",
+            fontSize: "14px",
+            cursor: "pointer",
+            flexWrap: "wrap",
+            height: "305px",
+          }}
+          {...getRootProps({ className: "dropzone" })}
+        >
+          <input {...getInputProps()} />
+          <Typography variant="body2">
+            Drag 'n' drop some files here, or click to select files
+          </Typography>
+          <List>{fileRejectionItems}</List>
+        </Box>
       </Box>
     </div>
   );

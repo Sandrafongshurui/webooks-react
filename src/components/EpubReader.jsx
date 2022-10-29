@@ -2,6 +2,8 @@ import React, { useRef, useState, useEffect } from "react";
 // import "./styles.css";
 import { ReactReader } from "react-reader";
 // import Ebook from "./epub/sample.epub";
+import axios from "axios";
+import { Box, ListItem } from "@mui/material";
 
 // const ownStyles = {
 //   ...ReactReaderStyle,
@@ -27,7 +29,25 @@ export const EpubReader = () => {
     setLocation(epubcifi);
     console.log(location);
   };
-
+  //fetch api for get epub
+  useEffect(() => {
+    const fetchApi = async () => {
+      const res = await axios.get(
+        `http://${process.env.REACT_APP_SERVER_URL}/api/v1/loan/1/book/1/open`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+          withCredentials: true,
+        }
+      );
+      if (res.status === 200 || res.status === 201) {
+        const data = await res.data;
+        console.log("data", data);
+      }
+    };
+    fetchAPI();
+  }, []);
   useEffect(() => {
     // a ref will return a current, once selection is made do this
     console.log("--->", renditionRef.current);
@@ -66,7 +86,7 @@ export const EpubReader = () => {
             "fill-opacity": "0.5",
           }
         );
-        //for the dom, 
+        //for the dom,
         //returns a Selection object representing the range of text selected by the user or the current position in dom
         //can hv multiple range instances, but only can get 1 selection per doc
         //remove old ranges that are currently selected.
@@ -82,14 +102,13 @@ export const EpubReader = () => {
     }
   }, [setSelections, selections]);
   return (
-    <>
-    
-      <div style={{ height: "100vh" }}>
+    <Box>
+      <Box style={{ height: "100vh" }}>
         <ReactReader
           location={location}
           locationChanged={locationChanged}
           url="https://react-reader.metabits.no/files/alice.epub"
-        //   styles={ownStyles}
+          //   styles={ownStyles}
           getRendition={(rendition) => {
             //rendtion is gotten from this inbuilt props fucntion
             renditionRef.current = rendition;
@@ -102,8 +121,8 @@ export const EpubReader = () => {
             setSelections([]);
           }}
         />
-      </div>
-      <div
+      </Box>
+      <Box
         style={{
           position: "absolute",
           bottom: "1rem",
@@ -112,33 +131,34 @@ export const EpubReader = () => {
           backgroundColor: "white",
         }}
       >
-        Selection:
-        <ul>
-          {selections.map(({ text, cfiRange }, i) => (
-            <li key={i}>
-              {text} {/* click the show button, brings to to the cfiRange */}
-              <button
-                onClick={() => {
-                  renditionRef.current.display(cfiRange);
-                }}
-              >
-                Show
-              </button>
-              <button
-                onClick={() => {
-                  renditionRef.current.annotations.remove(
-                    cfiRange,
-                    "highlight"
-                  );
-                  setSelections(selections.filter((item, j) => j !== i));
-                }}
-              >
-                x
-              </button>
-            </li>
-          ))}
-        </ul>
-      </div>
-    </>
+        <Box>
+          <ListItem>
+            {selections.map(({ text, cfiRange }, i) => (
+              <li key={i}>
+                {text} {/* click the show button, brings to to the cfiRange */}
+                <button
+                  onClick={() => {
+                    renditionRef.current.display(cfiRange);
+                  }}
+                >
+                  Show
+                </button>
+                <button
+                  onClick={() => {
+                    renditionRef.current.annotations.remove(
+                      cfiRange,
+                      "highlight"
+                    );
+                    setSelections(selections.filter((item, j) => j !== i));
+                  }}
+                >
+                  x
+                </button>
+              </li>
+            ))}
+          </ListItem>
+        </Box>
+      </Box>
+    </Box>
   );
 };
