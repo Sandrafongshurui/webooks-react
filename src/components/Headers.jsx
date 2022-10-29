@@ -159,7 +159,7 @@ export const SiteHeaderDropDownMenu = () => {
 export const CategoriesSubheading = (props) => {
   return (
     <Box className={style.container}>
-      <Box className={style.category}>{props.title}</Box>
+      <Box className={style.category}>{props.categoryName}</Box>
       <Box className={style.background}></Box>
       <Divider className={style.divider} />
     </Box>
@@ -190,43 +190,45 @@ export const BookshelfHeader = (props) => {
     : (responsiveLayout = { ...desktop });
   return (
     <Box
-      className={style.bookshelfheader}
       sx={{ boxShadow: "0 3px 5px 2px rgba(0, 0, 0, .1)", py: "0.5em" }}
     >
-      {/* <Box sx={{ width: "45px",  alignItems: "self-start" }}>
+      <Box className={style.bookshelfheader} sx={{ width: "80%", margin: "0 auto" }}>
+        {/* <Box sx={{ width: "45px",  alignItems: "self-start" }}>
         <Image style={responsiveLayout.logo} src={webooksLogo} />
       </Box> */}
-      <Box>
-        <Box style={responsiveLayout.font} className={globalStyle.h2}>
-          <span style={{ fontWeight: "100" }}>Book</span>shelf
-        </Box>
-        <Box
-          sx={{
-            color: " #6238f2",
-            fontFamily: "'Roboto', sans-serif",
-            fontWeight: "900",
-          }}
-        >
-          <Tabs
-            value={value}
-            onChange={handleChange}
-            textColor="inherit"
-            TabIndicatorProps={{
-              style: {
-                backgroundColor: "#6238f2",
-                fontWeight: "bold",
-              },
+        <Box>
+          <Box style={responsiveLayout.font} className={globalStyle.h2}>
+            <span style={{ fontWeight: "100" }}>Book</span>shelf
+          </Box>
+          <Box
+            sx={{
+              color: " #6238f2",
+              fontFamily: "'Roboto', sans-serif",
+              fontWeight: "900",
             }}
-            // indicatorColor="secondary"
-            // aria-label="secondary tabs example"
           >
-            <Tab value="loans" label="Loans" />
-            <Tab value="reserves" label="Reserves" />
-            <Tab value="favourites" label="Favourites" />
-          </Tabs>
+            <Tabs
+              value={value}
+              onChange={handleChange}
+              textColor="inherit"
+              TabIndicatorProps={{
+                style: {
+                  backgroundColor: "#6238f2",
+                  fontWeight: "bold",
+                },
+              }}
+              // indicatorColor="secondary"
+              // aria-label="secondary tabs example"
+            >
+              <Tab value="loans" label="Loans" />
+              <Tab value="reserves" label="Reserves" />
+              <Tab value="favourites" label="Favourites" />
+            </Tabs>
+          </Box>
         </Box>
+
+        <SiteHeaderDropDownMenu />
       </Box>
-      <SiteHeaderDropDownMenu />
     </Box>
   );
 };

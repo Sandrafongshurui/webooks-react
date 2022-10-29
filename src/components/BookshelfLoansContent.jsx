@@ -51,21 +51,20 @@ export const BookshelfLoansContent = () => {
   }, []);
 
   return (
-    <Box>
-      <CategoriesSubheading title={"Yet to start"} />
-      <Box sx={{ flexGrow: 0 }}>
-      <Grid container spacing={{ xs: 2, sm: 3 }} columns={{ xs: 1
-        , sm: 3}}>
-        {loans &&
-          loans.map((loanData) => (
-            <LoanReserveCard
-              data={loanData}
-              // actions={cardActions}
-              manageLoan={() => setBottomSheetOpen(true)}
-              key={loanData.id}
-            />
-          ))}
-      </Grid>
+    <Box sx={{margin: "0 auto", width: "80%", marginTop: "4em"}}>
+      <CategoriesSubheading categoryName={"Yet to start"} />
+      <Box sx={{ flexGrow: 1 }}>
+        <Grid container spacing={{ xs: 5, sm: 5, md:5  }} columns={{ xs: 1, sm: 2, md:3 }}>
+          {loans &&
+            loans.map((loanData) => (
+              <LoanReserveCard
+                data={loanData}
+                // actions={cardActions}
+                manageLoan={() => setBottomSheetOpen(true)}
+                key={loanData.id}
+              />
+            ))}
+        </Grid>
       </Box>
 
       <Sheet isOpen={bottomSheetOpen} onClose={() => setBottomSheetOpen(false)}>

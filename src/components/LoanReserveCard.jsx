@@ -1,5 +1,5 @@
-import Image from 'mui-image'
-import { useNavigate } from 'react-router-dom'
+import Image from "mui-image";
+import { useNavigate } from "react-router-dom";
 import {
   Grid,
   Box,
@@ -9,107 +9,113 @@ import {
   Divider,
   List,
   experimentalStyled as styled,
-  Paper
-} from '@mui/material'
+  Paper,
+} from "@mui/material";
 
 export const LoanReserveCard = (props) => {
-  const { book } = props.data
-  const navigate = useNavigate()
+  const { book } = props.data;
+  const navigate = useNavigate();
   const handleOpenBook = () => {
-    console.log('Open book')
-    navigate('/test')
-  }
+    console.log("Open book");
+    navigate("/test");
+  };
 
   const handleManageLoan = () => {
-    console.log('Open bottom sheet')
-    props.manageLoan()
-  }
+    console.log("Open bottom sheet");
+    props.manageLoan();
+  };
 
   const Item = styled(Paper)(({ theme }) => ({
-    backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
+    backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
     ...theme.typography.body2,
     padding: theme.spacing(2),
-    textAlign: 'center',
+    textAlign: "center",
     color: theme.palette.text.secondary,
-  }))
+  }));
 
+  const listItemStyle = { padding: 0.5, color:"#4b4b4b"  }
   return (
-    <Grid item xs={2} sm={'1'} key={props.id}>
-      <Item>
-        xs=2
-        <Box sx={{ width: '100%', textAlign: 'left' }}>
+    <Grid item xs={2} sm={1} key={props.id} sx={{height: "338px"}} >
+        <Box sx={{ width: "100%", textAlign: "left", maxWidth: "271px"}}>
           <Box>
-            <Typography variant="h6">{book.title}</Typography>
-            <Typography variant="subtitle2" gutterBottom>
-              {book.author}
-            </Typography>
+            <Typography noWrap variant="h6" style={{color:"#4b4b4b"}} >{book.title} </Typography>
+            {/* <Typography noWrap variant="body1" style={{color:"#4b4b4b"}} gutterBottom>
+              by {book.author}
+            </Typography> */}
           </Box>
-          <Box sx={{ display: 'Flex', maxWidth: 375 }}>
-            <Box sx={{ width: '100%', paddingRight: 2 }}>
-              <Image src={`${book.bookImgUrl}`} />
+          <Box sx={{ display: "Flex", maxWidth: "271px", maxHeight: "186px", marginTop: "1.5em"}}>
+            <Box sx={{paddingRight: 2, height: "186px" }}>
+              <Image
+                src={`${book.bookImgUrl}`}
+                style={{ objectFit: "contain" }}
+              />
             </Box>
-
-            <List
-              sx={{
-                width: '100%',
-                maxWidth: 360,
-                bgcolor: 'background.paper',
-                padding: 0,
-              }}
-            >
-              <Divider />
-              <ListItem
-                alignItems="flex-start"
-                sx={{ padding: 2 }}
-                button
-                onClick={handleOpenBook}
+            <Box>
+              <List
+                sx={{
+                  width: "100%",
+                  maxWidth: 360,
+                  bgcolor: "background.paper",
+                  padding: 0,
+                  display: "flex",
+                  flexDirection: "column",
+                  height: "100%",
+                  justifyContent: "space-between",
+                }}
               >
-                <ListItemText primary="Open Book" />
-              </ListItem>
-              <Divider />
-              <ListItem
-                alignItems="flex-start"
-                sx={{ padding: 2 }}
-                button
-                onClick={handleManageLoan}
-              >
-                <ListItemText primary="Manage Loan" />
-              </ListItem>
-              <Divider />
-              <ListItem alignItems="flex-start" sx={{ padding: 2 }}>
-                <ListItemText
-                  primary={
-                    <Typography
-                      sx={{ display: 'inline' }}
-                      component="span"
-                      variant="body3"
-                      color="text.secondary"
-                    >
-                      Due in 21 Days
-                    </Typography>
-                  }
-                />
-              </ListItem>
-              <Divider />
-              <ListItem alignItems="flex-start" sx={{ padding: 2 }}>
-                <ListItemText
-                  primary={
-                    <Typography
-                      sx={{ display: 'inline' }}
-                      component="span"
-                      variant="body3"
-                      color="text.secondary"
-                    >
-                      Borrowed Today
-                    </Typography>
-                  }
-                />
-              </ListItem>
-              <Divider />
-            </List>
+                <Divider />
+                <ListItem
+                  alignItems="flex-start"
+                  sx={listItemStyle}
+                  button
+                  onClick={handleOpenBook}
+                >
+                  <ListItemText primary="Open Book" />
+                </ListItem>
+                <Divider />
+                <ListItem
+                  alignItems="flex-start"
+                  sx={listItemStyle}
+                  button
+                  onClick={handleManageLoan}
+                >
+                  <ListItemText primary="Manage Loan" />
+                </ListItem>
+                <Divider />
+                <ListItem alignItems="flex-start" sx={listItemStyle}>
+                  <ListItemText
+                    primary={
+                      <Typography
+                        sx={{ display: "inline" }}
+                        component="span"
+                        variant="body3"
+                        color="text.secondary"
+                      >
+                        Due in 21 Days
+                      </Typography>
+                    }
+                  />
+                </ListItem>
+                <Divider />
+                <ListItem alignItems="flex-start" sx={listItemStyle}>
+                  <ListItemText
+                    primary={
+                      <Typography
+                        sx={{ display: "inline" }}
+                        component="span"
+                        variant="body3"
+                        color="text.secondary"
+                      >
+                        Borrowed Today
+                      </Typography>
+                    }
+                  />
+                </ListItem>
+                <Divider />
+              </List>
+            </Box>
           </Box>
         </Box>
-      </Item>
     </Grid>
-  )
-}
+  );
+};
