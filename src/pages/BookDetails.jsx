@@ -13,6 +13,7 @@ import {
   List,
 } from "@mui/material";
 
+
 export const BookDetails = (props) => {
   const [book, setBook] = useState(null);
 
@@ -44,7 +45,7 @@ export const BookDetails = (props) => {
     };
     fetchApi();
   }, []);
-  const listItemStyle = { padding: 0.5, color: "#4b4b4b", display : "table" };
+  const listItemStyle = { padding: 0.5, color: "#4b4b4b", display: "table" };
   return (
     <div>
       <SiteHeader />
@@ -176,51 +177,54 @@ export const BookDetails = (props) => {
                     <ListItem
                       alignItems="flex-start"
                       sx={listItemStyle}
-                      button
                       onClick={handleManageLoan}
-
                     >
-                      <ListItemText primary="Details"/>
+                      <ListItemText primary="Details" />
+                      <ListItemText>
+                        <Box sx={{display: "flex"}}>
+                          <Typography
+                            sx={{ display: "flex" }}
+                            variant="body3"
+                            color="text.secondary"
+                          >
+                            Title:
+                          </Typography>
+                          <Typography
+                            sx={{}}
+                            variant="body3"
+                            color="text.secondary"
+                          >
+                            {book.title}
+                          </Typography>
+                        </Box>
+                      </ListItemText>
                       <ListItemText>
                         <Typography
                           sx={{ display: "inline" }}
-                   
                           variant="body3"
                           color="text.secondary"
                         >
-                          Due in 21 Days
+                          Author: {book.author}
                         </Typography>
                       </ListItemText>
-                    </ListItem>
-                    <Divider />
-                    <ListItem alignItems="flex-start" sx={listItemStyle}>
-                      <ListItemText
-                        primary={
-                          <Typography
-                            sx={{ display: "inline" }}
-                            component="span"
-                            variant="body3"
-                            color="text.secondary"
-                          >
-                            Due in 21 Days
-                          </Typography>
-                        }
-                      />
-                    </ListItem>
-                    <Divider />
-                    <ListItem alignItems="flex-start" sx={listItemStyle}>
-                      <ListItemText
-                        primary={
-                          <Typography
-                            sx={{ display: "inline" }}
-                            component="span"
-                            variant="body3"
-                            color="text.secondary"
-                          >
-                            Borrowed Today
-                          </Typography>
-                        }
-                      />
+                      <ListItemText>
+                        <Typography
+                          sx={{ display: "inline" }}
+                          variant="body3"
+                          color="text.secondary"
+                        >
+                          Genre: {book.genreId}
+                        </Typography>
+                      </ListItemText>
+                      <ListItemText>
+                        <Typography
+                          sx={{ display: "inline" }}
+                          variant="body3"
+                          color="text.secondary"
+                        >
+                          Copies available: {book.copiesAvailable}
+                        </Typography>
+                      </ListItemText>
                     </ListItem>
                     <Divider />
                   </List>
