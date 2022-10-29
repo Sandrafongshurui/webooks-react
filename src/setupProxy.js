@@ -2,9 +2,9 @@ const { createProxyMiddleware } = require('http-proxy-middleware');
 
 module.exports = function(app) {
   app.use(
-    '/api',
+    '/api/v1',
     createProxyMiddleware({
-      target: 'http://localhost:3000',
+      target: 'https://w-ebooks.herokuapp.com',
       changeOrigin: true,
     })
   );

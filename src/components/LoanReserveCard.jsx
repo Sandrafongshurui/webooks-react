@@ -1,5 +1,5 @@
-import Image from "mui-image";
-import { useNavigate } from "react-router-dom";
+import Image from 'mui-image'
+import { useNavigate } from 'react-router-dom'
 import {
   Grid,
   Box,
@@ -8,40 +8,52 @@ import {
   Typography,
   Divider,
   List,
-} from "@mui/material";
+  experimentalStyled as styled,
+  Paper
+} from '@mui/material'
 
 export const LoanReserveCard = (props) => {
-  const { book } = props.data;
-  const navigate = useNavigate();
+  const { book } = props.data
+  const navigate = useNavigate()
   const handleOpenBook = () => {
-    console.log("Open book");
-    navigate("/test");
-  };
+    console.log('Open book')
+    navigate('/test')
+  }
 
   const handleManageLoan = () => {
-    console.log("Open bottom sheet");
-    props.manageLoan();
-  };
+    console.log('Open bottom sheet')
+    props.manageLoan()
+  }
+
+  const Item = styled(Paper)(({ theme }) => ({
+    backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
+    ...theme.typography.body2,
+    padding: theme.spacing(2),
+    textAlign: 'center',
+    color: theme.palette.text.secondary,
+  }))
+
   return (
-    <Grid item xs={2} sm={4} md={4} key={book.id}>
-      
-        <Box sx={{ width: "100%", textAlign: "left"}}>
+    <Grid item xs={2} sm={'1'} key={props.id}>
+      <Item>
+        xs=2
+        <Box sx={{ width: '100%', textAlign: 'left' }}>
           <Box>
             <Typography variant="h6">{book.title}</Typography>
             <Typography variant="subtitle2" gutterBottom>
               {book.author}
             </Typography>
           </Box>
-          <Box sx={{ display: "Flex", maxWidth: 375 }}>
-            <Box sx={{ width: "100%", paddingRight: 2 }}>
+          <Box sx={{ display: 'Flex', maxWidth: 375 }}>
+            <Box sx={{ width: '100%', paddingRight: 2 }}>
               <Image src={`${book.bookImgUrl}`} />
             </Box>
 
             <List
               sx={{
-                width: "100%",
+                width: '100%',
                 maxWidth: 360,
-                bgcolor: "background.paper",
+                bgcolor: 'background.paper',
                 padding: 0,
               }}
             >
@@ -68,7 +80,7 @@ export const LoanReserveCard = (props) => {
                 <ListItemText
                   primary={
                     <Typography
-                      sx={{ display: "inline" }}
+                      sx={{ display: 'inline' }}
                       component="span"
                       variant="body3"
                       color="text.secondary"
@@ -83,7 +95,7 @@ export const LoanReserveCard = (props) => {
                 <ListItemText
                   primary={
                     <Typography
-                      sx={{ display: "inline" }}
+                      sx={{ display: 'inline' }}
                       component="span"
                       variant="body3"
                       color="text.secondary"
@@ -97,7 +109,7 @@ export const LoanReserveCard = (props) => {
             </List>
           </Box>
         </Box>
-      
+      </Item>
     </Grid>
-  );
-};
+  )
+}

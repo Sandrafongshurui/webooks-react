@@ -134,7 +134,7 @@ export const Login = (props) => {
       </Box>
       <Box>
         <Card sx={responsiveLayout.card}>
-          <Box sx={{margin:"auto"}}>
+          <Box sx={{margin:"auto", width:"50%"}}>
             <Box sx={responsiveLayout.image}>
               <Image style={responsiveLayout.logo} src={webooksLogo} />
             </Box>

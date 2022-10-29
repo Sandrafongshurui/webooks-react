@@ -53,7 +53,9 @@ export const BookshelfLoansContent = () => {
   return (
     <Box>
       <CategoriesSubheading title={"Yet to start"} />
-      <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 1, sm: 4, md: 12 }}>
+      <Box sx={{ flexGrow: 0 }}>
+      <Grid container spacing={{ xs: 2, sm: 3 }} columns={{ xs: 1
+        , sm: 3}}>
         {loans &&
           loans.map((loanData) => (
             <LoanReserveCard
@@ -64,6 +66,7 @@ export const BookshelfLoansContent = () => {
             />
           ))}
       </Grid>
+      </Box>
 
       <Sheet isOpen={bottomSheetOpen} onClose={() => setBottomSheetOpen(false)}>
         <Sheet.Container>
