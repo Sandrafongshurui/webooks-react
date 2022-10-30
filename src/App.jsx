@@ -11,16 +11,21 @@ import { CreateBook } from "./pages/CreateBook";
 export const App = () => {
   return (
     <div className="App">
+      <SiteHeader>
+        <Routes>
+          <Route path="/books/1" element={<BookDetails />} />
+          <Route path="/books/add-book" element={<CreateBook />} />
+        </Routes>
+      </SiteHeader>
       <Routes>
         <Route path="bookshelf/loans" element={<BookshelfLoans />} />
         <Route path="bookshelf/loans/:id/read/:page" element={<EpubReader />} />
-
         <Route path="/login" element={<Login />} />
-        <Route path="/books/1" element={<BookDetails />} />
+        {/* <Route path="/books/1" element={<BookDetails />} />
         <Route path="/books/add-book" element={<CreateBook />} />
         <Route path="/" element={<SiteHeader />}>
           <Route path="books/1" element={<BookDetails />} />
-        </Route>
+        </Route> */}
       </Routes>
     </div>
   );

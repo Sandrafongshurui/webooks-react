@@ -30,6 +30,7 @@ export const EpubReader = () => {
     console.log(location);
   };
   //fetch api for get epub
+  
   useEffect(() => {
     const fetchApi = async () => {
       const res = await axios.get(
@@ -46,7 +47,7 @@ export const EpubReader = () => {
         console.log("data", data);
       }
     };
-    fetchAPI();
+    fetchApi();
   }, []);
   useEffect(() => {
     // a ref will return a current, once selection is made do this
