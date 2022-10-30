@@ -7,7 +7,7 @@ import { EpubReader } from "./components/EpubReader";
 import { SiteHeader } from "./components/Headers";
 import { BookDetails } from "./pages/BookDetails";
 import { CreateBook } from "./pages/CreateBook";
-
+import { Test } from "./pages/Test";
 export const App = () => {
   return (
     <div className="App">
@@ -16,12 +16,14 @@ export const App = () => {
       <Routes>
         <Route path="/books/1" element={<BookDetails />} />
         <Route path="/books/add-book" element={<CreateBook />} />
+        
       </Routes>
 
       <Routes>
         <Route path="/bookshelf/loans" element={<BookshelfLoans />} />
         <Route path="/bookshelf/loans/:id/read/:page" element={<EpubReader />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/test" element={<Test />} />
         {/* <Route path="/books/1" element={<BookDetails />} />
         <Route path="/books/add-book" element={<CreateBook />} />
         <Route path="/" element={<SiteHeader />}>

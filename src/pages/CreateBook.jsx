@@ -10,6 +10,7 @@ import {
   List,
   ListItem,
   ListItemText,
+  Button,
 } from "@mui/material";
 import { SiteHeader, CategoriesSubheading } from "../components/Headers";
 import axios from "axios";
@@ -23,12 +24,13 @@ export const CreateBook = (props) => {
   const validationSchema = yup.object().shape({
     title: yup.string().min(1, "Please include a title").required(),
     author: yup.string().min(4, "Please include an author").required(),
-    genre: yup.number().required(),
-    copiesAvailable: yup.number().required(),
-    sypnopsis: yup.string().min(10, "Please include a sypnosis").required(),
+    genreId: yup.number().required("Please include a genre"),
+    copiesAvailable: yup.number().min(1, "Please state the number of copies available").required(),
+    sypnosis: yup.string().min(10, "Please include a sypnosis").required(),
   });
   const [backgroundImg, setBackgroundImg] = useState(false);
   const [epubFile, setEpubFile] = useState(false);
+  const [files, setFiles] = useState([])
   // const numOfFiles = (file) => {
   //   if (imageAcceptedFiles.length > 1) {
   //     return {
@@ -115,6 +117,7 @@ export const CreateBook = (props) => {
     maxFiles: 1,
     onDrop: () => {
       setEpubFile(true);
+
     },
     // validator: numOfFiles,
   });
@@ -163,13 +166,24 @@ export const CreateBook = (props) => {
   });
   const epubFilePath = epubAcceptedFiles.map((file) => file.path);
 
+  const backgroundImgStyle = {
+    backgroundImage: `url(${imagefile})`,
+    backgroundRepeat: "no-repeat",
+    backgroundSize: "cover",
+    backgroundBlendMode: "overlay",
+  };
+
+  const propertyField = {
+    width: "100%",
+  };
+
   const defaultValues = {
     title: "",
     author: "",
-    genre: "",
-    copiesAvailable: "",
-    sypnopsis: "",
-    files: [],
+    genreId: 0,
+    copiesAvailable: 0,
+    sypnosis: "",
+    
   };
   const {
     control,
@@ -179,12 +193,30 @@ export const CreateBook = (props) => {
 
   const onSubmit = async (data) => {
     console.log("create book", data);
+    files.push(epubAcceptedFiles)
+    files.push(imageAcceptedFiles)
+
+    console.log(epubAcceptedFiles)
+    console.log(imageAcceptedFiles)
+    console.log(files)
     try {
+      const formData = new FormData();
+      Object.keys(data).forEach((element) => {
+        formData.append(element, data[element]);
+      });
+    
+        formData.append("file", epubAcceptedFiles[0]);
+        formData.append("file", imageAcceptedFiles[0]);
+      // Object.keys(imageAcceptedFiles).forEach((element) => {
+      //   formData.append(element, data[element]);
+      // });
+      // console.log(formData)
       const res = await axios.post(
         `http://${process.env.REACT_APP_SERVER_URL}/api/v1/book`,
+        formData,
         {
           headers: {
-            "Content-Type": "application/json",
+            "Content-Type": "multipart/form-data",
           },
           withCredentials: true,
         }
@@ -196,33 +228,16 @@ export const CreateBook = (props) => {
       console.log(error);
     }
   };
-
-  //   const uplaodBookImg = () => {
-  //     console.log("upload book cover img");
-  //   };
-
-  //   const uplaodEpub = () => {
-  //     console.log("upload epub");
-  //   };
-
-  //   const listItemStyle = { padding: 0.5, color: "#4b4b4b", display: "table" };
   const genres = [
     {
-      value: "Adventure",
+      value: "1",
       label: "Adventure",
     },
     {
-      value: "Romance",
+      value: "2",
       label: "Romance",
     },
   ];
-
-  const backgroundImgStyle = {
-    backgroundImage: `url(${imagefile})`,
-    backgroundRepeat: "no-repeat",
-    backgroundSize: "cover",
-    backgroundBlendMode: "overlay",
-  };
 
   return (
     <div>
@@ -231,10 +246,18 @@ export const CreateBook = (props) => {
         <input type="file" onChange={previewImage}/>
         <img src={this.state.file}/>
       </div> */}
-      <Box sx={{ margin: "0 auto", width: "50%", marginTop: "4em" }}>
+      <Box
+        sx={{
+          margin: "0 auto",
+          width: "50%",
+          marginTop: "4em",
+          marginBottom: "4em",
+        }}
+      >
         <CategoriesSubheading categoryName={"Add a book"} />
         <form onSubmit={handleSubmit(onSubmit)}>
           <Box
+            mb={3}
             sx={{
               display: "flex",
               flexWrap: "wrap",
@@ -357,9 +380,16 @@ export const CreateBook = (props) => {
               </Box> */}
             </Box>
             {/* right side inputs */}
-            <Box sx={{ width: "55%" }}>
+            <Box
+              sx={{
+                width: "55%",
+                display: "flex",
+                flexWrap: "Wrap",
+                alignContent: "space-between",
+              }}
+            >
               {/* Title */}
-              <Box mb={3}>
+              <Box sx={propertyField}>
                 <Controller
                   name="title" //actual input
                   control={control} //take place of the register RHF
@@ -373,15 +403,15 @@ export const CreateBook = (props) => {
                       fullWidth
                       // error={!!error} //convert obj into a bool
                       // helperText={error ? error.message : null}
-                      error={errors.email ? true : false}
-                      helperText={errors.email?.message}
+                      error={errors.title ? true : false}
+                      helperText={errors.title?.message}
                       {...field}
                     />
                   )}
                 />
               </Box>
               {/* Author */}
-              <Box mb={3}>
+              <Box sx={propertyField}>
                 <Controller
                   name="author" //actual input
                   control={control} //take place of the register RHF
@@ -395,8 +425,8 @@ export const CreateBook = (props) => {
                       fullWidth
                       // error={!!error} //convert obj into a bool
                       // helperText={error ? error.message : null}
-                      error={errors.password ? true : false}
-                      helperText={errors.password?.message}
+                      error={errors.author ? true : false}
+                      helperText={errors.author?.message}
                       {...field}
                     />
                   )}
@@ -408,12 +438,14 @@ export const CreateBook = (props) => {
                   display: "flex",
                   flexWrap: "wrap",
                   justifyContent: "space-between",
+                  width: "100%",
                 }}
               >
-                <Box mb={3} width={"60%"}>
+                <Box width={"60%"}>
                   <Controller
-                    name="genre" //actual input
+                    name="genreId" //actual input
                     control={control} //take place of the register RHF
+                    defaultValue=''
                     render={({
                       //takes a function and rturn a react element
                       field, //this error will be displyed takes over form state errors
@@ -423,8 +455,9 @@ export const CreateBook = (props) => {
                         label="Genre"
                         variant="outlined"
                         fullWidth
-                        error={errors.genres ? true : false}
-                        helperText={errors.genres?.message}
+                      
+                        error={errors.genreId ? true : false}
+                        helperText={errors.genreId?.message}
                         {...field}
                       >
                         {genres.map((option) => (
@@ -436,9 +469,9 @@ export const CreateBook = (props) => {
                     )}
                   />
                 </Box>
-                <Box mb={3} width={"35%"}>
+                <Box width={"35%"}>
                   <Controller
-                    name="copies" //actual input
+                    name="copiesAvailable" //actual input
                     control={control} //take place of the register RHF
                     render={({
                       //takes a function and rturn a react element
@@ -449,9 +482,8 @@ export const CreateBook = (props) => {
                         variant="outlined"
                         fullWidth
                         type="number"
-                        autoComplete="email"
-                        error={errors.copies ? true : false}
-                        helperText={errors.copies?.message}
+                        error={errors.copiesAvailable ? true : false}
+                        helperText={errors.copiesAvailable?.message}
                         {...field}
                       />
                     )}
@@ -459,9 +491,8 @@ export const CreateBook = (props) => {
                 </Box>
               </Box>
               {/* epub uploader */}
-              <Box>
+              <Box sx={propertyField}>
                 <Box
-                  mb={3}
                   sx={{
                     display: "flex",
                     alignItems: "center",
@@ -549,14 +580,14 @@ export const CreateBook = (props) => {
           </Box>
           <Box mb={3}>
             <Controller
-              name="sypnopsis" //actual input
+              name="sypnosis" //actual input
               control={control} //take place of the register RHF
               render={({
                 //takes a function and rturn a react element
                 field, //this error will be displyed takes over form state errors
               }) => (
                 <TextField
-                  label={"Sypnopsis"} //label in the box
+                  label={"Write a brief synopsis meaning of this book, it will help our users in selecting!"} //label in the box
                   variant="outlined"
                   fullWidth
                   multiline
@@ -564,26 +595,24 @@ export const CreateBook = (props) => {
                   rows="3"
                   // error={!!error} //convert obj into a bool
                   // helperText={error ? error.message : null}
-                  error={errors.sypnopsis ? true : false}
-                  helperText={errors.sypnopsis?.message}
+                  error={errors.sypnosis ? true : false}
+                  helperText={errors.sypnosis?.message}
                   {...field}
                   inputProps={{
                     style: {
-                      height: "300px",
+                      height: "170px",
                     },
                   }}
                 />
               )}
             />
           </Box>
-          <Link>
-            <button
-              className={`${globalStyle.actionbutton} ${globalStyle.loginbutton}`}
-              type="submit"
-            >
-              Login
-            </button>
-          </Link>
+          <button
+            className={`${globalStyle.actionbutton} ${globalStyle.loginbutton}`}
+            type="submit"
+          >
+            Add Book
+          </button>
         </form>
       </Box>
     </div>
