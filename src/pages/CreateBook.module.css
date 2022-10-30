@@ -1,0 +1,6 @@
+
+.bookCoverr, .bookCoverr:hover{
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-color: red;
+}
