@@ -12,11 +12,12 @@ import {
 } from "@mui/material";
 
 export const BookshelfLoans = () => {
+    const [books, setBooks] = useState(null);
   //fetch api for get loans
   useEffect(() => {
     const fetchApi = async () => {
       const res = await axios.get(
-        `http://${process.env.REACT_APP_SERVER_URL}/api/v1/loans`,
+        `http://${process.env.REACT_APP_SERVER_URL}/api/v1/books`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -27,7 +28,7 @@ export const BookshelfLoans = () => {
       if (res.status === 200 || res.status === 201) {
         const data = await res.data;
         console.log("data", data);
-        setLoans(data);
+        setBooks(data);
       }
     };
     fetchApi();
@@ -36,6 +37,7 @@ export const BookshelfLoans = () => {
   return (
     <Box>
       <CategoriesSubheading categoryName={"New Arrivals"} />
+      {books && 
     </Box>
   );
 };
