@@ -5,12 +5,10 @@ import {
   Box,
   TextField,
   Typography,
-  Link,
   MenuItem,
   List,
   ListItem,
   ListItemText,
-  Button,
 } from "@mui/material";
 import { SiteHeader, CategoriesSubheading } from "../components/Headers";
 import axios from "axios";
@@ -30,7 +28,7 @@ export const CreateBook = (props) => {
   });
   const [backgroundImg, setBackgroundImg] = useState(false);
   const [epubFile, setEpubFile] = useState(false);
-  const [files, setFiles] = useState([])
+  const files = []
   // const numOfFiles = (file) => {
   //   if (imageAcceptedFiles.length > 1) {
   //     return {
