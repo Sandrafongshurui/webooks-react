@@ -23,11 +23,6 @@ export const App = () => {
         <Route path="/bookshelf/loans" element={<BookshelfLoans />} />
         <Route path="/bookshelf/loans/1/read" element={<EpubReader />} />
         <Route path="/login" element={<Login />} />
-        {/* <Route path="/books/1" element={<BookDetails />} />
-        <Route path="/books/add-book" element={<CreateBook />} />
-        <Route path="/" element={<SiteHeader />}>
-          <Route path="books/1" element={<BookDetails />} />
-        </Route> */}
       </Routes>
     </div>
   );
