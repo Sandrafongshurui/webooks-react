@@ -15,7 +15,7 @@ export const LoanReserveCard = (props) => {
   const navigate = useNavigate();
   const handleOpenBook = () => {
     console.log("Open book");
-    navigate("/test");
+    navigate("/bookshelf/loans/1/read");
   };
 
   const handleManageLoan = () => {
