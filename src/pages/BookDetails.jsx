@@ -27,7 +27,7 @@ export const BookDetails = (props) => {
     console.log("get book");
     const fetchApi = async () => {
       const res = await axios.get(
-        `http://${process.env.REACT_APP_SERVER_URL}/api/v1/books/1`,
+        `https://${process.env.REACT_APP_SERVER_URL}/api/v1/books/1`,
         {
           headers: {
             "Content-Type": "application/json",
