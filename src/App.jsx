@@ -14,14 +14,14 @@ export const App = () => {
       
       {/* <SiteHeader /> */}
       <Routes>
-        <Route path="/books/1" element={<BookDetails />} />
+        <Route path="/books/:bookId" element={<BookDetails />} />
         <Route path="/books/add-book" element={<CreateBook />} />
         
       </Routes>
 
       <Routes>
         <Route path="/bookshelf/loans" element={<BookshelfLoans />} />
-        <Route path="/bookshelf/loans/1/read" element={<EpubReader />} />
+        <Route path="/bookshelf/loans/:loanId/book/:bookId/read" element={<EpubReader />} />
         <Route path="/login" element={<Login />} />
       </Routes>
     </div>

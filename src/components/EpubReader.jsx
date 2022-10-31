@@ -3,9 +3,10 @@ import React, { useRef, useState, useEffect } from 'react'
 import { ReactReader } from 'react-reader'
 // import Ebook from "./epub/sample.epub";
 import axios from 'axios'
-import { Box, Button, ListItem } from '@mui/material'
+import { Box, Button} from '@mui/material'
 import { List } from '@mui/material'
-import { set } from 'react-hook-form'
+import { useNavigate, useParams } from 'react-router-dom'
+import ebook from '../assets/Little-Women.epub'
 
 // const ownStyles = {
 //   ...ReactReaderStyle,
@@ -19,13 +20,14 @@ import { set } from 'react-hook-form'
 // const loc = null;
 
 export const EpubReader = () => {
+  const navigate = useNavigate()
+  const { loanId, bookId } = useParams()
   const [selections, setSelections] = useState([])
-  const [bookmark, setBookmark] = useState(null)
   const [data, setData] = useState(null)
   //rendition Displays an Epub as a series of Views for each Section
   const renditionRef = useRef(null)
-  const [currentPage, setCurrentPage] = useState(null)
   const [location, setLocation] = useState(null)
+
   ///location changes gets called on very first render
   const locationChanged = (epubcifi) => {
     // epubcifi is a internal string used by epubjs to point to a location in an epub.
@@ -45,10 +47,11 @@ export const EpubReader = () => {
   //fetch api for get epub
 
   useEffect(() => {
+    
     const fetchApi = async () => {
       console.log('fetch')
       const res = await axios.get(
-        `http://${process.env.REACT_APP_SERVER_URL}/api/v1/loan/2/book/2/open`,
+        `http://${process.env.REACT_APP_SERVER_URL}/api/v1/loan/${loanId}/book/${bookId}/open`,
         {
           headers: {
             'Content-Type': 'application/json',
@@ -60,13 +63,17 @@ export const EpubReader = () => {
         const bookData = await res.data
         console.log('data', bookData)
         setData(bookData)
-        setLocation("epubcfi(/6/10!/4/2/16/1:0)")
+        if (bookData.bookProgress !== '0') {
+          setLocation(bookData.bookProgress)
+        }
       }
     }
     fetchApi()
+      // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   useEffect(() => {
+   
     // a ref will return a current, once selection is made do this
     console.log('--->', renditionRef.current)
     //current points value of the ref, which was set in react reader getRendition props
@@ -80,7 +87,8 @@ export const EpubReader = () => {
           selections.concat({
             // this gets the actual annottation text
             text: renditionRef.current.getRange(cfiRange).toString(),
-            cfiRange,
+            page: cfiRange,
+            loanId: parseInt(loanId)
           }),
         )
         console.log(
@@ -119,35 +127,37 @@ export const EpubReader = () => {
         renditionRef.current.off('selected', setRenderSelection)
       }
     }
+      // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [setSelections, selections])
 
   // const clickBookmark = () => {
   //   setBookmark(location)
   // }
-  const closeBook = async() => {
-    console.log("Exit epubcifi:", location);
-    // try {
-    //   const res = await axios.post(
-    //     `http://${process.env.REACT_APP_SERVER_URL}/api/v1/auth/login/`,
-    //     data,
-    //     {
-    //       headers: {
-    //         "Content-Type": "application/json",
-    //       },
-    //       withCredentials: true,
-    //     }
-    //   );
-    //   if (res.status === 200 || res.status === 201) {
-    //     //set my cookie
-    //     console.log(res.headers);
-    //     console.log(res.cookie);
-    //     // cookies.set("token", res.token, { path: "/" });
-    //     console.log("Login successfullly");
-    //   }
-    // } catch (error) {
-    //   console.log(error);
-    //   // setCatchError(error.response.data.error);
-    // }
+  const closeBook = async () => {
+    console.log('Exit epubcifi:', location)
+    console.log('Highlights:', selections)
+    const data = {
+      bookProgress: location,
+      annotationArry: selections,
+    }
+    try {
+      const res = await axios.patch(
+        `http://${process.env.REACT_APP_SERVER_URL}/api/v1/loan/${loanId}/book/${bookId}/close`,
+        data,
+        {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          withCredentials: true,
+        },
+      )
+      if (res.status === 200 || res.status === 201) {
+        console.log('Updated, book pregress')
+        navigate('/bookshelf/loans')
+      }
+    } catch (error) {
+      console.log(error)
+    }
   }
   return (
     <Box>
@@ -159,7 +169,10 @@ export const EpubReader = () => {
             location={location}
             // their props is passing the epubcifi info
             locationChanged={locationChanged}
-            url="https://react-reader.metabits.no/files/alice.epub"
+            //url={"https://gerhardsletten.github.io/react-reader/files/alice.epub"}
+            //url={"https://gerhardsletten.github.io/react-reader/files/alice.epub"}
+            //url={"https://webooks-epub-files.s3.amazonaws.com/The-Secret-Adversary.epub"}
+            url={ebook}
             //   styles={ownStyles}
             getRendition={(rendition) => {
               //rendtion is gotten from this inbuilt props fucntion
@@ -189,12 +202,13 @@ export const EpubReader = () => {
       >
         <Box>
           <List>
-            {selections.map(({ text, cfiRange }, i) => (
+            {selections.map(({ text, page }, i) => (
               <li key={i}>
                 {text} {/* click the show button, brings to to the cfiRange */}
                 <button
                   onClick={() => {
-                    renditionRef.current.display(cfiRange)
+                    console.log(page)
+                    renditionRef.current.display(page)
                   }}
                 >
                   Show
@@ -202,7 +216,7 @@ export const EpubReader = () => {
                 <button
                   onClick={() => {
                     renditionRef.current.annotations.remove(
-                      cfiRange,
+                      page,
                       'highlight',
                     )
                     setSelections(selections.filter((item, j) => j !== i))

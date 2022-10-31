@@ -22,11 +22,13 @@ import globalStyle from "../global.module.css";
 // import Cookies from "universal-cookie";
 import webooksLogo from "../assets/Group 1@2x.png";
 import { useMediaQuery } from "react-responsive";
+import { useNavigate } from "react-router-dom";
 // const axios = Axios.create({
 //   withCredentials: true
 // })
 
 export const Login = (props) => {
+  const navigate = useNavigate();
   const isMobile = useMediaQuery({ maxWidth: 900 });
   const eye = <FontAwesomeIcon icon={faEye} />;
   const validationSchema = yup.object().shape({
@@ -69,6 +71,7 @@ export const Login = (props) => {
         console.log(res.cookie);
         // cookies.set("token", res.token, { path: "/" });
         console.log("Login successfullly");
+        navigate(`/bookshelf/loans`);
       }
     } catch (error) {
       console.log(error);

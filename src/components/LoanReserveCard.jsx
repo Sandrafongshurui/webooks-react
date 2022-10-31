@@ -11,11 +11,11 @@ import {
 } from "@mui/material";
 
 export const LoanReserveCard = (props) => {
-  const { book } = props.data;
+  const { book, id } = props.data;
   const navigate = useNavigate();
   const handleOpenBook = () => {
     console.log("Open book");
-    navigate("/bookshelf/loans/1/read");
+    navigate(`/bookshelf/loans/${id}/book/${book.id}/read`);
   };
 
   const handleManageLoan = () => {
