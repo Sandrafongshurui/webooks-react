@@ -202,7 +202,7 @@ export const Login = (props) => {
                   )}
                 />
               </Box>
-              <Link >
+              <Link to="/bookshelf/loans">
                 <button
                   className={`${globalStyle.actionbutton} ${globalStyle.loginbutton}`}
                   type="submit"

@@ -1,9 +1,11 @@
-import React, { useRef, useState, useEffect } from "react";
+import React, { useRef, useState, useEffect } from 'react'
 // import "./styles.css";
-import { ReactReader } from "react-reader";
+import { ReactReader } from 'react-reader'
 // import Ebook from "./epub/sample.epub";
-import axios from "axios";
-import { Box, ListItem } from "@mui/material";
+import axios from 'axios'
+import { Box, Button, ListItem } from '@mui/material'
+import { List } from '@mui/material'
+import { set } from 'react-hook-form'
 
 // const ownStyles = {
 //   ...ReactReaderStyle,
@@ -17,41 +19,56 @@ import { Box, ListItem } from "@mui/material";
 // const loc = null;
 
 export const EpubReader = () => {
-  const [selections, setSelections] = useState([]);
+  const [selections, setSelections] = useState([])
+  const [bookmark, setBookmark] = useState(null)
+  const [data, setData] = useState(null)
   //rendition Displays an Epub as a series of Views for each Section
-  const renditionRef = useRef(null);
-
-  const [location, setLocation] = useState(null);
+  const renditionRef = useRef(null)
+  const [currentPage, setCurrentPage] = useState(null)
+  const [location, setLocation] = useState(null)
   ///location changes gets called on very first render
   const locationChanged = (epubcifi) => {
     // epubcifi is a internal string used by epubjs to point to a location in an epub.
     //It looks like this: epubcfi(/6/6[titlepage]!/4/2/12[pgepubid00003]/3:0)
-    setLocation(epubcifi);
-    console.log(location);
-  };
+    // if(bookmark === "0"){
+    //   if (renditionRef.current) {
+    //     console.log(renditionRef.current.location.start.cfi)
+    //     setBookmark(renditionRef.current.location.start.cfi)
+    //   }
+    // }else{
+    //   setLocation("epubcfi(/6/14!/4/2/20/1:142)")
+    // }
+    setLocation(epubcifi)
+    console.log(location)
+    console.log(epubcifi)
+  }
   //fetch api for get epub
-  
+
   useEffect(() => {
     const fetchApi = async () => {
+      console.log('fetch')
       const res = await axios.get(
-        `http://${process.env.REACT_APP_SERVER_URL}/api/v1/loan/1/book/1/open`,
+        `http://${process.env.REACT_APP_SERVER_URL}/api/v1/loan/2/book/2/open`,
         {
           headers: {
-            "Content-Type": "application/json",
+            'Content-Type': 'application/json',
           },
           withCredentials: true,
-        }
-      );
+        },
+      )
       if (res.status === 200 || res.status === 201) {
-        const data = await res.data;
-        console.log("data", data);
+        const bookData = await res.data
+        console.log('data', bookData)
+        setData(bookData)
+        setLocation("epubcfi(/6/10!/4/2/16/1:0)")
       }
-    };
-    fetchApi();
-  }, []);
+    }
+    fetchApi()
+  }, [])
+
   useEffect(() => {
     // a ref will return a current, once selection is made do this
-    console.log("--->", renditionRef.current);
+    console.log('--->', renditionRef.current)
     //current points value of the ref, which was set in react reader getRendition props
     //which is the rendition of this book
     if (renditionRef.current) {
@@ -64,82 +81,120 @@ export const EpubReader = () => {
             // this gets the actual annottation text
             text: renditionRef.current.getRange(cfiRange).toString(),
             cfiRange,
-          })
-        );
+          }),
+        )
         console.log(
-          "1",
+          '1',
           cfiRange,
           contents,
-          renditionRef.current.getRange(cfiRange).toString()
-        );
-        console.log("2", renditionRef);
-        console.log("3", selections);
+          renditionRef.current.getRange(cfiRange).toString(),
+        )
+        console.log('2', renditionRef)
+        console.log('3', selections)
         //epub.js function that adds to the array pf highlight, underline or marl
         renditionRef.current.annotations.add(
-          "highlight", //type of annotation
+          'highlight', //type of annotation
           cfiRange, //cfirange to to attache the annotation to
           {}, //data to attach annottaion to
           null, //cb to impelement after adding
-          "hl", //class name to assign to annotation
+          'hl', //class name to assign to annotation
           {
             //css stylesfor annotation
-            fill: "yellow",
-            "fill-opacity": "0.5",
-          }
-        );
+            fill: 'yellow',
+            'fill-opacity': '0.5',
+          },
+        )
         //for the dom,
         //returns a Selection object representing the range of text selected by the user or the current position in dom
         //can hv multiple range instances, but only can get 1 selection per doc
         //remove old ranges that are currently selected.
-        contents.window.getSelection().removeAllRanges();
-      };
+        contents.window.getSelection().removeAllRanges()
+      }
+      //console.log(renditionRef.current.location)
       //trigger the setRenderSelection()
-      renditionRef.current.on("selected", setRenderSelection);
-      console.log(selections);
+      renditionRef.current.on('selected', setRenderSelection)
+      console.log(selections)
       //must off immediately, if not will keep rerender because is seting the selections
       return () => {
-        renditionRef.current.off("selected", setRenderSelection);
-      };
+        renditionRef.current.off('selected', setRenderSelection)
+      }
     }
-  }, [setSelections, selections]);
+  }, [setSelections, selections])
+
+  // const clickBookmark = () => {
+  //   setBookmark(location)
+  // }
+  const closeBook = async() => {
+    console.log("Exit epubcifi:", location);
+    // try {
+    //   const res = await axios.post(
+    //     `http://${process.env.REACT_APP_SERVER_URL}/api/v1/auth/login/`,
+    //     data,
+    //     {
+    //       headers: {
+    //         "Content-Type": "application/json",
+    //       },
+    //       withCredentials: true,
+    //     }
+    //   );
+    //   if (res.status === 200 || res.status === 201) {
+    //     //set my cookie
+    //     console.log(res.headers);
+    //     console.log(res.cookie);
+    //     // cookies.set("token", res.token, { path: "/" });
+    //     console.log("Login successfullly");
+    //   }
+    // } catch (error) {
+    //   console.log(error);
+    //   // setCatchError(error.response.data.error);
+    // }
+  }
   return (
     <Box>
-      <Box style={{ height: "100vh" }}>
-        <ReactReader
-          location={location}
-          locationChanged={locationChanged}
-          url="https://react-reader.metabits.no/files/alice.epub"
-          //   styles={ownStyles}
-          getRendition={(rendition) => {
-            //rendtion is gotten from this inbuilt props fucntion
-            renditionRef.current = rendition;
-            renditionRef.current.themes.default({
-              "::selection": {
-                background: "yellow",
-              },
-            });
-            // set selections as empty array first, cos no seletion has been made
-            setSelections([]);
-          }}
-        />
-      </Box>
+      {/* <Button onClick={clickBookmark}>Bookmark</Button> */}
+      <Button onClick={closeBook}>Exit</Button>
+      {data && (
+        <Box style={{ height: '100vh' }}>
+          <ReactReader
+            location={location}
+            // their props is passing the epubcifi info
+            locationChanged={locationChanged}
+            url="https://react-reader.metabits.no/files/alice.epub"
+            //   styles={ownStyles}
+            getRendition={(rendition) => {
+              //rendtion is gotten from this inbuilt props fucntion
+              console.log('getrendition')
+              renditionRef.current = rendition
+              renditionRef.current.themes.default({
+                '::selection': {
+                  background: 'yellow',
+                },
+              })
+              // set selections as empty array first, cos no seletion has been made
+              //change to the data selections
+              setSelections([])
+            }}
+          />
+        </Box>
+      )}
+      {/* highlights */}
       <Box
         style={{
-          position: "absolute",
-          bottom: "1rem",
-          right: "1rem",
+          position: 'absolute',
+          bottom: '1rem',
+          right: '1rem',
           zIndex: 1,
-          backgroundColor: "white",
+          backgroundColor: 'blue',
         }}
       >
         <Box>
-          <ListItem>
+          <List>
             {selections.map(({ text, cfiRange }, i) => (
               <li key={i}>
                 {text} {/* click the show button, brings to to the cfiRange */}
                 <button
                   onClick={() => {
-                    renditionRef.current.display(cfiRange);
+                    renditionRef.current.display(cfiRange)
                   }}
                 >
                   Show
@@ -148,18 +203,18 @@ export const EpubReader = () => {
                   onClick={() => {
                     renditionRef.current.annotations.remove(
                       cfiRange,
-                      "highlight"
-                    );
-                    setSelections(selections.filter((item, j) => j !== i));
+                      'highlight',
+                    )
+                    setSelections(selections.filter((item, j) => j !== i))
                   }}
                 >
                   x
                 </button>
               </li>
             ))}
-          </ListItem>
+          </List>
         </Box>
       </Box>
     </Box>
-  );
-};
+  )
+}

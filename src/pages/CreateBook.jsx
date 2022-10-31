@@ -24,7 +24,7 @@ export const CreateBook = (props) => {
   const validationSchema = yup.object().shape({
     title: yup.string().min(1, "Please include a title").required(),
     author: yup.string().min(4, "Please include an author").required(),
-    genreId: yup.number().required("Please include a genre"),
+    genreId: yup.number().min(1, "Please select a genre").required(),
     copiesAvailable: yup.number().min(1, "Please state the number of copies available").required(),
     sypnosis: yup.string().min(10, "Please include a sypnosis").required(),
   });
@@ -181,7 +181,7 @@ export const CreateBook = (props) => {
     title: "",
     author: "",
     genreId: 0,
-    copiesAvailable: 0,
+    copiesAvailable: 1,
     sypnosis: "",
     
   };
@@ -192,13 +192,13 @@ export const CreateBook = (props) => {
   } = useForm({ resolver: yupResolver(validationSchema), defaultValues });
 
   const onSubmit = async (data) => {
-    console.log("create book", data);
+    // console.log("create book", data);
     files.push(epubAcceptedFiles)
     files.push(imageAcceptedFiles)
 
-    console.log(epubAcceptedFiles)
-    console.log(imageAcceptedFiles)
-    console.log(files)
+    // console.log(epubAcceptedFiles)
+    // console.log(imageAcceptedFiles)
+    // console.log(files)
     try {
       const formData = new FormData();
       Object.keys(data).forEach((element) => {
@@ -230,12 +230,56 @@ export const CreateBook = (props) => {
   };
   const genres = [
     {
-      value: "1",
-      label: "Adventure",
+      value: "0",
+      label: "Select",
     },
     {
-      value: "2",
+      value: "11",
+      label: "Mystery",
+    },
+    {
+      value: "12",
+      label: "Crime",
+    },
+    {
+      value: "13",
+      label: "Family",
+    },
+    {
+      value: "14",
+      label: "Thriller",
+    },
+    {
+      value: "15",
+      label: "Psychological",
+    },
+    {
+      value: "16",
+      label: "Biographies",
+    },
+    {
+      value: "17",
+      label: "Fantasy",
+    },
+    {
+      value: "18",
+      label: "Young Adult",
+    },
+    {
+      value: "19",
+      label: "Classic",
+    },
+    {
+      value: "20",
+      label: "Fiction",
+    },
+    {
+      value: "21",
       label: "Romance",
+    },
+    {
+      value: "22",
+      label: "Adventure",
     },
   ];
 
@@ -445,7 +489,7 @@ export const CreateBook = (props) => {
                   <Controller
                     name="genreId" //actual input
                     control={control} //take place of the register RHF
-                    defaultValue=''
+                    defaultValue='11'
                     render={({
                       //takes a function and rturn a react element
                       field, //this error will be displyed takes over form state errors
@@ -478,7 +522,7 @@ export const CreateBook = (props) => {
                       field, //this error will be displyed takes over form state errors
                     }) => (
                       <TextField
-                        label="Copies Available"
+                        label="Qty"
                         variant="outlined"
                         fullWidth
                         type="number"
