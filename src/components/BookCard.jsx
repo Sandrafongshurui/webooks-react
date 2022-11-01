@@ -1,6 +1,5 @@
 import Image from 'mui-image'
-import { useNavigate } from 'react-router-dom'
-import { Grid, Box, Typography, Button } from '@mui/material'
+import { Grid, Box, Typography } from '@mui/material'
 import { Link } from 'react-router-dom';
 
 export const BookCard = (props) => {
