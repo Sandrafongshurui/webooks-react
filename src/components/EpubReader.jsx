@@ -169,10 +169,10 @@ export const EpubReader = () => {
             location={location}
             // their props is passing the epubcifi info
             locationChanged={locationChanged}
-            //url={"https://gerhardsletten.github.io/react-reader/files/alice.epub"}
+            url={"https://storage.googleapis.com/webooks-epub/Little-Women.epub"}
             //url={"https://gerhardsletten.github.io/react-reader/files/alice.epub"}
             //url={"https://webooks-epub-files.s3.amazonaws.com/The-Secret-Adversary.epub"}
-            url={ebook}
+            //url={ebook}
             //   styles={ownStyles}
             getRendition={(rendition) => {
               //rendtion is gotten from this inbuilt props fucntion
