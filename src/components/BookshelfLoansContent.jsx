@@ -23,7 +23,7 @@ export const BookshelfLoansContent = () => {
   useEffect(() => {
     const fetchApi = async () => {
       const res = await axios.get(
-        `httpS://${process.env.REACT_APP_SERVER_URL}/api/v1/loans`,
+        `https://${process.env.REACT_APP_SERVER_URL}/api/v1/loans`,
         {
           headers: {
             "Content-Type": "application/json",
