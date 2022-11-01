@@ -19,7 +19,7 @@ import { useParams, useNavigate } from 'react-router-dom'
 export const BookDetailsPage = (props) => {
   const { bookId } = useParams()
   const [book, setBook] = useState(null)
-  const [openActionCard, setOpenActionCard] = useState(false)
+  // const [openActionCard, setOpenActionCard] = useState(false)
   const [bottomSheetOpen, setBottomSheetOpen] = useState(false)
   const navigate = useNavigate()
 
@@ -31,7 +31,7 @@ export const BookDetailsPage = (props) => {
     //fetch the post loan api
     try {
       const res = await axios.post(
-        `http://${process.env.REACT_APP_SERVER_URL}/api/v1/loan/book/${bookId}`,
+        `https://${process.env.REACT_APP_SERVER_URL}/api/v1/loan/book/${bookId}`,
         {body: "nodata"},
         {
           headers: {
@@ -57,7 +57,7 @@ export const BookDetailsPage = (props) => {
     console.log('get book')
     const fetchApi = async () => {
       const res = await axios.get(
-        `http://${process.env.REACT_APP_SERVER_URL}/api/v1/books/${bookId}`,
+        `https://${process.env.REACT_APP_SERVER_URL}/api/v1/books/${bookId}`,
         {
           headers: {
             'Content-Type': 'application/json',
@@ -72,6 +72,7 @@ export const BookDetailsPage = (props) => {
       }
     }
     fetchApi()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
   const listItemStyle = { padding: 0.5, color: '#4b4b4b', display: 'table' }
   return (

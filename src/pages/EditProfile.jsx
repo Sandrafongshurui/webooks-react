@@ -129,7 +129,7 @@ export const EditProfile = (props) => {
       formData.append('file', imageAcceptedFiles[0])
 
       const res = await axios.patch(
-        `http://${process.env.REACT_APP_SERVER_URL}/api/v1/profile`,
+        `https://${process.env.REACT_APP_SERVER_URL}/api/v1/profile`,
         formData,
         {
           headers: {

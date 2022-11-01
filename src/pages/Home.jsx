@@ -11,7 +11,7 @@ export const Home = () => {
   //fetch api for get loans
   useEffect(() => {
     let url = ''
-    url = `http://${process.env.REACT_APP_SERVER_URL}/api/v1/books`
+    url = `https://${process.env.REACT_APP_SERVER_URL}/api/v1/books`
 
     const fetchApi = async () => {
       const res = await axios.get(url, {

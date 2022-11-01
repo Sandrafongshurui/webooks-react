@@ -13,6 +13,12 @@ import {
 export const LoanReserveCard = (props) => {
   const { book, id } = props.data
   const navigate = useNavigate()
+
+
+  const handleCancel = () => {
+    console.log('cancel reservation')
+    props.cancelReserve(id)
+  }
   const handleOpenBook = () => {
     console.log('Open book')
     navigate(`/bookshelf/loans/${id}/book/${book.id}/read`)
@@ -23,27 +29,36 @@ export const LoanReserveCard = (props) => {
     props.manageLoan()
   }
 
-const styleForTimeline= {
-  paddingRight: 2, 
-}
-const styleForLoans = {
-  paddingRight: 2, 
-  height: "186px"
-}
+  const styleForTimeline = {
+    paddingRight: 2,
+  }
+  const styleForLoans = {
+    paddingRight: 2,
+    height: '186px',
+  }
+
+  const dueDate = () => {
+    if (props.isTimeline) {
+      return 'Returned on due date'
+    } else if (props.isReserve) {
+      return `Placed on ${props.data.createdAt}`
+    } else {
+      return 'Due in 21 days'
+    }
+  }
 
   const listItemStyle = { padding: 0.5, color: '#4b4b4b' }
   return (
     <Grid item xs={2} sm={1} key={props.id} sx={{ height: '338px' }}>
       <Box sx={{ width: '100%', textAlign: 'left', maxWidth: '271px' }}>
-
-          <Box>
-            <Typography noWrap variant="h6" style={{ color: '#4b4b4b' }}>
-              {book.title}{' '}
-            </Typography>
-            {/* <Typography noWrap variant="body1" style={{color:"#4b4b4b"}} gutterBottom>
+        <Box>
+          <Typography noWrap variant="h6" style={{ color: '#4b4b4b' }}>
+            {book.title}{' '}
+          </Typography>
+          {/* <Typography noWrap variant="body1" style={{color:"#4b4b4b"}} gutterBottom>
               by {book.author}
             </Typography> */}
-          </Box>
+        </Box>
 
         <Box
           sx={{
@@ -53,7 +68,7 @@ const styleForLoans = {
             marginTop: '1.5em',
           }}
         >
-          <Box sx={props.isTimeline? styleForTimeline : styleForLoans}>
+          <Box sx={props.isTimeline ? styleForTimeline : styleForLoans}>
             <Image
               src={`${book.bookImgUrl}`}
               style={{ objectFit: 'contain' }}
@@ -79,10 +94,16 @@ const styleForLoans = {
                     alignItems="flex-start"
                     sx={listItemStyle}
                     button
-                    onClick={handleOpenBook}
+                    onClick={props.isReserve ? handleCancel : handleOpenBook}
                   >
-                    <ListItemText primary="Open Book" />
+                    <ListItemText
+                      primary={props.isReserve ? 'Cancel' : 'Open Book'}
+                    />
                   </ListItem>
+                </div>
+              )}
+              {!props.isTimeline && !props.isReserve && (
+                <div>
                   <Divider />
                   <ListItem
                     alignItems="flex-start"
@@ -105,9 +126,7 @@ const styleForLoans = {
                       variant="body3"
                       color="text.secondary"
                     >
-                      {props.isTimeline
-                        ? 'Returned on due date'
-                        : ' Due in 21 Days'}
+                      {dueDate()}
                     </Typography>
                   }
                 />
@@ -122,7 +141,7 @@ const styleForLoans = {
                       variant="body3"
                       color="text.secondary"
                     >
-                      {props.isTimeline ? 'september 2022' : ' Borrowed tODAT'}
+                      {props.isTimeline ? 'september 2022' : ' Borrowed today'}
                     </Typography>
                   }
                 />

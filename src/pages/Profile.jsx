@@ -7,13 +7,13 @@ import axios from 'axios'
 import { LoanReserveCard } from '../components/LoanReserveCard'
 
 export const Profile = (props) => {
-  const [backgroundImg, setBackgroundImg] = useState(false)
+//   const [backgroundImg, setBackgroundImg] = useState(false)
   const [loans, setLoans] = useState(null)
   const [user, setUser] = useState(null)
   useEffect(() => {
     const fetchApi = async () => {
       const res = await axios.get(
-        `http://${process.env.REACT_APP_SERVER_URL}/api/v1/profile`,
+        `https://${process.env.REACT_APP_SERVER_URL}/api/v1/profile`,
         {
           headers: {
             'Content-Type': 'application/json',
@@ -32,7 +32,7 @@ export const Profile = (props) => {
   useEffect(() => {
     const fetchApi = async () => {
       const res = await axios.get(
-        `http://${process.env.REACT_APP_SERVER_URL}/api/v1/loans`,
+        `https://${process.env.REACT_APP_SERVER_URL}/api/v1/loans`,
         {
           headers: {
             'Content-Type': 'application/json',
@@ -48,12 +48,12 @@ export const Profile = (props) => {
     }
     fetchApi()
   }, [])
-  const backgroundImgStyle = {
-    // backgroundImage: `url(${imagefile})`,
-    backgroundRepeat: 'no-repeat',
-    backgroundSize: 'cover',
-    backgroundBlendMode: 'overlay',
-  }
+//   const backgroundImgStyle = {
+//     // backgroundImage: `url(${imagefile})`,
+//     backgroundRepeat: 'no-repeat',
+//     backgroundSize: 'cover',
+//     backgroundBlendMode: 'overlay',
+//   }
 
   const genrePropertyField = {
     width: '80px',
@@ -63,60 +63,60 @@ export const Profile = (props) => {
     borderRadius: '100%',
   }
 
-  const genres = [
-    {
-      value: '0',
-      label: 'Select',
-    },
-    {
-      value: '11',
-      label: 'Mystery',
-    },
-    {
-      value: '12',
-      label: 'Crime',
-    },
-    {
-      value: '13',
-      label: 'Family',
-    },
-    {
-      value: '14',
-      label: 'Thriller',
-    },
-    {
-      value: '15',
-      label: 'Psychological',
-    },
-    {
-      value: '16',
-      label: 'Biographies',
-    },
-    {
-      value: '17',
-      label: 'Fantasy',
-    },
-    {
-      value: '18',
-      label: 'Young Adult',
-    },
-    {
-      value: '19',
-      label: 'Classic',
-    },
-    {
-      value: '20',
-      label: 'Fiction',
-    },
-    {
-      value: '21',
-      label: 'Romance',
-    },
-    {
-      value: '22',
-      label: 'Adventure',
-    },
-  ]
+//   const genres = [
+//     {
+//       value: '0',
+//       label: 'Select',
+//     },
+//     {
+//       value: '11',
+//       label: 'Mystery',
+//     },
+//     {
+//       value: '12',
+//       label: 'Crime',
+//     },
+//     {
+//       value: '13',
+//       label: 'Family',
+//     },
+//     {
+//       value: '14',
+//       label: 'Thriller',
+//     },
+//     {
+//       value: '15',
+//       label: 'Psychological',
+//     },
+//     {
+//       value: '16',
+//       label: 'Biographies',
+//     },
+//     {
+//       value: '17',
+//       label: 'Fantasy',
+//     },
+//     {
+//       value: '18',
+//       label: 'Young Adult',
+//     },
+//     {
+//       value: '19',
+//       label: 'Classic',
+//     },
+//     {
+//       value: '20',
+//       label: 'Fiction',
+//     },
+//     {
+//       value: '21',
+//       label: 'Romance',
+//     },
+//     {
+//       value: '22',
+//       label: 'Adventure',
+//     },
+//   ]
 
   return (
     <Box className={globalStyle.contentsbody}>
@@ -142,7 +142,7 @@ export const Profile = (props) => {
             }}
           >
             <Box
-              style={backgroundImg ? backgroundImgStyle : {}}
+            //   style={backgroundImg ? backgroundImgStyle : {}}
               sx={{
                 width: '150px',
                 color: '#3d3d3d',
