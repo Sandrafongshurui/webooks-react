@@ -6,7 +6,7 @@ import axios from 'axios'
 import { Box, Button} from '@mui/material'
 import { List } from '@mui/material'
 import { useNavigate, useParams } from 'react-router-dom'
-import ebook from '../assets/Little-Women.epub'
+// import ebook from '../assets/Little-Women.epub'
 
 // const ownStyles = {
 //   ...ReactReaderStyle,
