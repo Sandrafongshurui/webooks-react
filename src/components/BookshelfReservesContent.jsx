@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { SheetBody } from "./SheetBody";
+
 import { LoanReserveCard } from "./LoanReserveCard";
 import { CategoriesSubheading } from "./Headers";
-import Sheet from "react-modal-sheet";
 import axios from "axios";
 import {
   Box,
@@ -13,17 +12,16 @@ import {
 //   withCredentials: true,
 // });
 
-export const BookshelfLoansContent = () => {
+export const BookshelfReservesContent = () => {
   // const [cardActions, setCardActions] = useState(null);
   // const [bottomSheetDetails, setBottomSheetDatails] = useState(null);
-  const [loans, setLoans] = useState(null);
-  const [bottomSheetOpen, setBottomSheetOpen] = useState(false);
+  const [reserves, setReserves] = useState(null);
 
   //fetch api for get loans
   useEffect(() => {
     const fetchApi = async () => {
       const res = await axios.get(
-        `http://${process.env.REACT_APP_SERVER_URL}/api/v1/loans`,
+        `http://${process.env.REACT_APP_SERVER_URL}/api/v1/reserves`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -34,7 +32,7 @@ export const BookshelfLoansContent = () => {
       if (res.status === 200 || res.status === 201) {
         const data = await res.data;
         console.log("data", data);
-        setLoans(data);
+        setReserves(data);
       }
     };
     fetchApi();
@@ -42,31 +40,20 @@ export const BookshelfLoansContent = () => {
 
   return (
     <Box sx={{margin: "0 auto", width: "80%", marginTop: "4em"}}>
-      <CategoriesSubheading categoryName={"Yet to start"} />
+      <CategoriesSubheading categoryName={"Fully booked"} />
       <Box sx={{ flexGrow: 1 }}>
         <Grid container spacing={{ xs: 5, sm: 5, md:5  }} columns={{ xs: 1, sm: 2, md:3 }}>
-          {loans &&
-            loans.map((loanData) => (
+          {reserves &&
+            reserves.map((reservesData) => (
               <LoanReserveCard
-                data={loanData}
+                data={reservesData}
                 // actions={cardActions}
-                manageLoan={() => setBottomSheetOpen(true)}
-                key={loanData.id}
+                isReserve={true}
+                key={reservesData.id}
               />
             ))}
         </Grid>
       </Box>
-
-      <Sheet isOpen={bottomSheetOpen} onClose={() => setBottomSheetOpen(false)}>
-        <Sheet.Container>
-          <Sheet.Header />
-          <Sheet.Content>
-            <SheetBody />
-          </Sheet.Content>
-        </Sheet.Container>
-
-        <Sheet.Backdrop />
-      </Sheet>
     </Box>
   );
 };

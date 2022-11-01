@@ -34,7 +34,7 @@ h2 {
   background: linear-gradient(to right, #3D3DF4, #9A37F2);
   font-family: "Roboto", sans-serif;
   font-weight: 380;
-  /* font-size: large;  */
+  font-size: large; 
   color: white;
   border-radius: 50px;
   padding: 1em;
@@ -43,6 +43,7 @@ h2 {
   box-shadow: 0 3px 5px 2px rgba(0, 0, 0, .25);
   cursor: pointer
 }
+
 
 .loginbutton {
   /* font-weight: 380; */
@@ -58,3 +59,17 @@ h2 {
 .roundedInput{
     border-radius: 50px;
   }
+
+.contentsbody{
+  margin: 0 auto; 
+  width: 70%; 
+  margin-top:4em;
+}
+
+a:hover -webkit-any-link {
+  text-decoration: underline;
+}
+
+a:hover {
+  text-decoration: underline;
+}

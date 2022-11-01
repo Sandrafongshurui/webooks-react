@@ -5,8 +5,10 @@ import { BookshelfLoans } from "./pages/BookshelfLoans";
 import { Login } from "./pages/Login";
 import { EpubReader } from "./components/EpubReader";
 // import { SiteHeader } from "./components/Headers";
-import { BookDetails } from "./pages/BookDetails";
+import { BookDetailsPage } from "./pages/BookDetailsPage";
 import { CreateBook } from "./pages/CreateBook";
+import { Home } from "./pages/Home";
+import { Profile } from "./pages/Profile";
 
 export const App = () => {
   return (
@@ -14,9 +16,10 @@ export const App = () => {
       
       {/* <SiteHeader /> */}
       <Routes>
-        <Route path="/books/:bookId" element={<BookDetails />} />
+        <Route path="/books/:bookId" element={<BookDetailsPage />} />
         <Route path="/books/add-book" element={<CreateBook />} />
-        
+        <Route path="/profile" element={<Profile />} />
+        <Route path="/" element={<Home />} />
       </Routes>
 
       <Routes>

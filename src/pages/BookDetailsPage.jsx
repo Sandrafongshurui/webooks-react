@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from "react";
-import { SiteHeader, CategoriesSubheading } from "../components/Headers";
-import Image from "mui-image";
-import axios from "axios";
+import React, { useState, useEffect } from 'react'
+import { SiteHeader, CategoriesSubheading } from '../components/Headers'
+import Image from 'mui-image'
+import axios from 'axios'
 import {
   Grid,
   Box,
@@ -10,73 +10,103 @@ import {
   Typography,
   Divider,
   List,
-} from "@mui/material";
+} from '@mui/material'
+import style from '../global.module.css'
+import { BookActionCard } from '../components/BookActionCard'
+import Sheet from 'react-modal-sheet'
+import { useParams, useNavigate } from 'react-router-dom'
 
-export const BookDetails = (props) => {
-  const [book, setBook] = useState(null);
+export const BookDetailsPage = (props) => {
+  const { bookId } = useParams()
+  const [book, setBook] = useState(null)
+  const [openActionCard, setOpenActionCard] = useState(false)
+  const [bottomSheetOpen, setBottomSheetOpen] = useState(false)
+  const navigate = useNavigate()
 
-  const handleOpenBook = () => {
-    console.log("openbook");
-  };
-
-  const handleManageLoan = () => {
-    console.log("openbook");
-  };
-  //fetch api for show bool
-  useEffect(() => {
-    console.log("get book");
-    const fetchApi = async () => {
-      const res = await axios.get(
-        `https://${process.env.REACT_APP_SERVER_URL}/api/v1/books/1`,
+  const handleBorrowBook = () => {
+    setBottomSheetOpen(true)
+  }
+  const handleSubmit = async () => {
+    console.log('borrow book')
+    //fetch the post loan api
+    try {
+      const res = await axios.post(
+        `http://${process.env.REACT_APP_SERVER_URL}/api/v1/loan/book/${bookId}`,
+        {body: "nodata"},
         {
           headers: {
-            "Content-Type": "application/json",
+            'Content-Type': 'application/json',
           },
           withCredentials: true,
-        }
-      );
+        },
+      )
       if (res.status === 200 || res.status === 201) {
-        const data = await res.data;
-        console.log("data", data);
-        setBook(data);
+        console.log('Borrowed sucessfully')
+        navigate('/bookshelf/loans')
       }
-    };
-    fetchApi();
-  }, []);
-  const listItemStyle = { padding: 0.5, color: "#4b4b4b", display: "table" };
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  const handleManageLoan = () => {
+    console.log('add to favourites')
+  }
+  //fetch api for show bool
+  useEffect(() => {
+    console.log('get book')
+    const fetchApi = async () => {
+      const res = await axios.get(
+        `http://${process.env.REACT_APP_SERVER_URL}/api/v1/books/${bookId}`,
+        {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          withCredentials: true,
+        },
+      )
+      if (res.status === 200 || res.status === 201) {
+        const data = await res.data
+        console.log('data', data)
+        setBook(data)
+      }
+    }
+    fetchApi()
+  }, [])
+  const listItemStyle = { padding: 0.5, color: '#4b4b4b', display: 'table' }
   return (
     <div>
       <SiteHeader />
       {book && (
-        <Box sx={{ margin: "0 auto", width: "70%", marginTop: "4em" }}>
+        <Box className={style.contentsbody}>
           <CategoriesSubheading categoryName={book.title} />
           <Grid>
-            <Box sx={{ width: "100%", textAlign: "left", maxWidth: "244px" }}>
+            <Box sx={{ width: '100%', textAlign: 'left', maxWidth: '244px' }}>
               <Box
                 sx={{
-                  display: "Flex",
-                  width: "577px",
-                  maxHeight: "400px",
-                  marginTop: "1.5em",
+                  display: 'Flex',
+                  width: '577px',
+                  maxHeight: '400px',
+                  marginTop: '1.5em',
                 }}
               >
-                <Box sx={{ paddingRight: 2, height: "400px", width: "50%" }}>
+                <Box sx={{ paddingRight: 2, height: '400px', width: '50%' }}>
                   <Image
                     src={`${book.bookImgUrl}`}
-                    style={{ objectFit: "cover", width: "100%" }}
+                    style={{ objectFit: 'cover', width: '100%' }}
                   />
                 </Box>
-                <Box sx={{ paddingRight: 2, height: "400px", width: "50%" }}>
+                <Box sx={{ paddingRight: 2, height: '400px', width: '50%' }}>
                   <List
                     sx={{
                       maxWidth: 360,
-                      bgcolor: "background.paper",
+                      bgcolor: 'background.paper',
                       padding: 0,
-                      display: "flex",
-                      flexDirection: "column",
-                      height: "100%",
-                      justifyContent: "space-between",
-                      width: "100%",
+                      display: 'flex',
+                      flexDirection: 'column',
+                      height: '100%',
+                      justifyContent: 'space-between',
+                      width: '100%',
                     }}
                   >
                     <Divider />
@@ -84,7 +114,7 @@ export const BookDetails = (props) => {
                       alignItems="flex-start"
                       sx={listItemStyle}
                       button
-                      onClick={handleOpenBook}
+                      onClick={handleBorrowBook}
                     >
                       <ListItemText primary="Borrow" />
                     </ListItem>
@@ -105,9 +135,9 @@ export const BookDetails = (props) => {
                     >
                       <ListItemText primary="Details" />
                       <ListItemText>
-                        <Box sx={{ display: "flex" }}>
+                        <Box sx={{ display: 'flex' }}>
                           <Typography
-                            sx={{ display: "flex" }}
+                            sx={{ display: 'flex' }}
                             variant="body3"
                             color="text.secondary"
                           >
@@ -124,7 +154,7 @@ export const BookDetails = (props) => {
                       </ListItemText>
                       <ListItemText>
                         <Typography
-                          sx={{ display: "inline" }}
+                          sx={{ display: 'inline' }}
                           variant="body3"
                           color="text.secondary"
                         >
@@ -133,7 +163,7 @@ export const BookDetails = (props) => {
                       </ListItemText>
                       <ListItemText>
                         <Typography
-                          sx={{ display: "inline" }}
+                          sx={{ display: 'inline' }}
                           variant="body3"
                           color="text.secondary"
                         >
@@ -142,7 +172,7 @@ export const BookDetails = (props) => {
                       </ListItemText>
                       <ListItemText>
                         <Typography
-                          sx={{ display: "inline" }}
+                          sx={{ display: 'inline' }}
                           variant="body3"
                           color="text.secondary"
                         >
@@ -156,13 +186,24 @@ export const BookDetails = (props) => {
               </Box>
             </Box>
           </Grid>
-          <Box sx={{ textAlign: "start", my: "2em" }}>
-            <Typography variant="body3" color="text.secondary" lineHeight= "2">
+          <Box sx={{ textAlign: 'start', my: '2em' }}>
+            <Typography variant="body3" color="text.secondary" lineHeight="2">
               {book.sypnosis}
             </Typography>
           </Box>
         </Box>
       )}
+      <Sheet isOpen={bottomSheetOpen} onClose={() => setBottomSheetOpen(false)}>
+        <Sheet.Container>
+          <Sheet.Header />
+          <Sheet.Content>
+            {/* -------------------insert sheetbody comp here--------------- */}
+            <BookActionCard data={book} onSubmit={handleSubmit} />
+          </Sheet.Content>
+        </Sheet.Container>
+
+        <Sheet.Backdrop />
+      </Sheet>
     </div>
-  );
-};
+  )
+}

@@ -56,7 +56,7 @@ export const Login = (props) => {
     // setCatchError(null);
     try {
       const res = await axios.post(
-        `https://${process.env.REACT_APP_SERVER_URL}/api/v1/auth/login/`,
+        `http://${process.env.REACT_APP_SERVER_URL}/api/v1/auth/login/`,
         data,
         {
           headers: {
@@ -71,7 +71,7 @@ export const Login = (props) => {
         console.log(res.cookie);
         // cookies.set("token", res.token, { path: "/" });
         console.log("Login successfullly");
-        navigate(`/bookshelf/loans`);
+        navigate(`/`);
       }
     } catch (error) {
       console.log(error);
