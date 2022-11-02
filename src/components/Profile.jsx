@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react'
 import { Box, Typography, Grid, Avatar, IconButton } from '@mui/material'
-import { CategoriesSubheading } from '../components/Headers'
+import { CategoriesSubheading } from './Headers'
 import globalStyle from '../global.module.css'
 import UploadIcon from '@mui/icons-material/Upload'
 import axios from 'axios'
-import { LoanReserveCard } from '../components/LoanReserveCard'
+import { LoanReserveCard } from './LoanReserveCard'
 import EditIcon from '@mui/icons-material/Edit'
 import { useNavigate } from 'react-router-dom'
 
@@ -126,6 +126,7 @@ export const Profile = (props) => {
   }
 
   return (
+
     <Box className={globalStyle.contentsbody}>
       {user && (
         <Box

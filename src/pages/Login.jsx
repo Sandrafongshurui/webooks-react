@@ -23,6 +23,7 @@ import globalStyle from '../global.module.css'
 import webooksLogo from '../assets/Group 1@2x.png'
 import { useMediaQuery } from 'react-responsive'
 import { useNavigate } from 'react-router-dom'
+import { BackArrow } from '../components/Headers'
 // const axios = Axios.create({
 //   withCredentials: true
 // })
@@ -129,16 +130,7 @@ export const Login = (props) => {
     : (responsiveLayout = { ...desktop })
   return (
     <Box>
-      <Box
-        m={0} //margin
-        display="flex"
-        justifyContent="flex-start"
-        alignItems="flex-start"
-      >
-        <Button variant="contained" color="primary" sx={{ height: 40 }}>
-          <ArrowBackRoundedIcon />
-        </Button>
-      </Box>
+      <BackArrow />
       <Box>
         <Card sx={responsiveLayout.card}>
           <Box sx={{ margin: 'auto', width: '50%' }}>

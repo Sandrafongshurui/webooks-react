@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react'
 import ErrorIcon from '@mui/icons-material/Error'
-import UploadIcon from '@mui/icons-material/Upload'
 import {
   Box,
   TextField,
@@ -10,9 +9,8 @@ import {
   ListItemText,
   Avatar,
   Paper,
-  Button,
 } from '@mui/material'
-import { CategoriesSubheading } from '../components/Headers'
+import { CategoriesSubheading, BackArrow } from '../components/Headers'
 import axios from 'axios'
 import * as yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
@@ -21,7 +19,7 @@ import { useDropzone } from 'react-dropzone'
 import globalStyle from '../global.module.css'
 import EditIcon from '@mui/icons-material/Edit'
 import { useNavigate } from 'react-router-dom'
-import ArrowBackRoundedIcon from '@mui/icons-material/ArrowBackRounded'
+
 
 export const EditProfile = (props) => {
   const navigate = useNavigate()
@@ -229,16 +227,7 @@ export const EditProfile = (props) => {
   return (
     <div>
       {' '}
-      <Box sx={{display: "flex"}}>
-        <Box
-          className={globalStyle.triangletopleft}
-          sx={{
-            background:
-              'https://w7.pngwing.com/pngs/336/105/png-transparent-arrow-free-content-quiver-arrow-line-s-angle-text-bow-and-arrow.png',
-          }}
-        />
-        <ArrowBackRoundedIcon sx={{fontSize:30}}className={globalStyle.backArrow}/>
-      </Box>
+      <BackArrow />
       <Box
         sx={{
           margin: '0 auto',
