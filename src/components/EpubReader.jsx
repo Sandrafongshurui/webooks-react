@@ -23,7 +23,8 @@ export const EpubReader = () => {
   const navigate = useNavigate()
   const { loanId, bookId } = useParams()
   const [selections, setSelections] = useState([])
-  const [data, setData] = useState(null)
+  const [loan, setLoan] = useState(null)
+  const [annotations, setAnnotations] = useState(null)
   //rendition Displays an Epub as a series of Views for each Section
   const renditionRef = useRef(null)
   const [location, setLocation] = useState(null)
@@ -60,11 +61,15 @@ export const EpubReader = () => {
         },
       )
       if (res.status === 200 || res.status === 201) {
-        const bookData = await res.data
-        console.log('data', bookData)
-        setData(bookData)
-        if (bookData.bookProgress !== '0') {
-          setLocation(bookData.bookProgress)
+        const data = await res.data
+        console.log('data', data)
+        setLoan(data.loan)
+        setAnnotations(data.annotations)
+        if (data.loan.bookProgress !== '0') {
+          setLocation(data.loan.bookProgress)
+        }
+        if(data.annotations.length>0){
+          setSelections(data.annotations)
         }
       }
     }
@@ -163,14 +168,14 @@ export const EpubReader = () => {
     <Box>
       {/* <Button onClick={clickBookmark}>Bookmark</Button> */}
       <Button onClick={closeBook}>Exit</Button>
-      {data && (
+      {loan && (
         <Box style={{ height: '100vh' }}>
           <ReactReader
             location={location}
             // their props is passing the epubcifi info
             locationChanged={locationChanged}
             //url={"https://storage.googleapis.com/webooks-epub/The-Secret-Adversary.epub"}
-            url={data.book.epubUrl}
+            url={loan.book.epubUrl}
             //url={ebook}
             //   styles={ownStyles}
             getRendition={(rendition) => {
@@ -184,7 +189,8 @@ export const EpubReader = () => {
               })
               // set selections as empty array first, cos no seletion has been made
               //change to the data selections
-              setSelections([])
+             
+              // setSelections([])
             }}
           />
         </Box>
