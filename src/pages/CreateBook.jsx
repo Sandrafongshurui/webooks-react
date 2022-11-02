@@ -17,8 +17,10 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { Controller, useForm } from "react-hook-form";
 import { useDropzone } from "react-dropzone";
 import globalStyle from "../global.module.css";
+import { useNavigate } from "react-router-dom";
 
 export const CreateBook = (props) => {
+  const navigate = useNavigate()
   const validationSchema = yup.object().shape({
     title: yup.string().min(1, "Please include a title").required(),
     author: yup.string().min(4, "Please include an author").required(),
@@ -221,6 +223,7 @@ export const CreateBook = (props) => {
       );
       if (res.status === 200 || res.status === 201) {
         console.log("Created book");
+        navigate("/")
       }
     } catch (error) {
       console.log(error);

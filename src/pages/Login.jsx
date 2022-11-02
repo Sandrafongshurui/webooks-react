@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import {
-  Button,
   CardContent,
   Card,
   Box,
@@ -11,7 +10,6 @@ import {
   Link,
 } from '@mui/material'
 import Image from 'mui-image'
-import ArrowBackRoundedIcon from '@mui/icons-material/ArrowBackRounded'
 import axios from 'axios'
 import { Controller, useForm } from 'react-hook-form'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'

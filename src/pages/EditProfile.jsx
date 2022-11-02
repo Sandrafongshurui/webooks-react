@@ -134,6 +134,7 @@ export const EditProfile = (props) => {
       }
     }
     fetchApi()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const onSubmit = async (data) => {
@@ -163,60 +164,60 @@ export const EditProfile = (props) => {
       console.log(error)
     }
   }
-  const genres = [
-    {
-      value: '0',
-      label: 'Select',
-    },
-    {
-      value: '11',
-      label: 'Mystery',
-    },
-    {
-      value: '12',
-      label: 'Crime',
-    },
-    {
-      value: '13',
-      label: 'Family',
-    },
-    {
-      value: '14',
-      label: 'Thriller',
-    },
-    {
-      value: '15',
-      label: 'Psychological',
-    },
-    {
-      value: '16',
-      label: 'Biographies',
-    },
-    {
-      value: '17',
-      label: 'Fantasy',
-    },
-    {
-      value: '18',
-      label: 'Young Adult',
-    },
-    {
-      value: '19',
-      label: 'Classic',
-    },
-    {
-      value: '20',
-      label: 'Fiction',
-    },
-    {
-      value: '21',
-      label: 'Romance',
-    },
-    {
-      value: '22',
-      label: 'Adventure',
-    },
-  ]
+  // const genres = [
+  //   {
+  //     value: '0',
+  //     label: 'Select',
+  //   },
+  //   {
+  //     value: '11',
+  //     label: 'Mystery',
+  //   },
+  //   {
+  //     value: '12',
+  //     label: 'Crime',
+  //   },
+  //   {
+  //     value: '13',
+  //     label: 'Family',
+  //   },
+  //   {
+  //     value: '14',
+  //     label: 'Thriller',
+  //   },
+  //   {
+  //     value: '15',
+  //     label: 'Psychological',
+  //   },
+  //   {
+  //     value: '16',
+  //     label: 'Biographies',
+  //   },
+  //   {
+  //     value: '17',
+  //     label: 'Fantasy',
+  //   },
+  //   {
+  //     value: '18',
+  //     label: 'Young Adult',
+  //   },
+  //   {
+  //     value: '19',
+  //     label: 'Classic',
+  //   },
+  //   {
+  //     value: '20',
+  //     label: 'Fiction',
+  //   },
+  //   {
+  //     value: '21',
+  //     label: 'Romance',
+  //   },
+  //   {
+  //     value: '22',
+  //     label: 'Adventure',
+  //   },
+  // ]
   const {
     reset,
     control,

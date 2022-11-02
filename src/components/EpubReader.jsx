@@ -169,9 +169,8 @@ export const EpubReader = () => {
             location={location}
             // their props is passing the epubcifi info
             locationChanged={locationChanged}
-            url={"https://storage.googleapis.com/webooks-epub/The-Secret-Adversary.epub"}
-            //url={"https://gerhardsletten.github.io/react-reader/files/alice.epub"}
-            //url={"https://webooks-epub-files.s3.amazonaws.com/The-Secret-Adversary.epub"}
+            //url={"https://storage.googleapis.com/webooks-epub/The-Secret-Adversary.epub"}
+            url={data.book.epubUrl}
             //url={ebook}
             //   styles={ownStyles}
             getRendition={(rendition) => {
