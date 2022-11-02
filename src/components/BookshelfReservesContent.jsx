@@ -17,7 +17,7 @@ export const BookshelfReservesContent = (props) => {
   useEffect(() => {
     const fetchApi = async () => {
       const res = await axios.get(
-        `https://${process.env.REACT_APP_SERVER_URL}/api/v1/reserves`,
+        `${process.env.REACT_APP_SERVER_URL}/api/v1/reserves`,
         {
           headers: {
             'Content-Type': 'application/json',
@@ -36,7 +36,7 @@ export const BookshelfReservesContent = (props) => {
 
   const handleCancelReserve = async (id) => {
     const res = await axios.delete(
-      `https://${process.env.REACT_APP_SERVER_URL}/api/v1/reserve/${id}/cancel`,
+      `${process.env.REACT_APP_SERVER_URL}/api/v1/reserve/${id}/cancel`,
       {
         headers: {
           'Content-Type': 'application/json',

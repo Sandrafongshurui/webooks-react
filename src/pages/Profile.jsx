@@ -1,19 +1,22 @@
 import React, { useState, useEffect } from 'react'
-import { Box, Typography, Grid } from '@mui/material'
+import { Box, Typography, Grid, Avatar, IconButton } from '@mui/material'
 import { CategoriesSubheading } from '../components/Headers'
 import globalStyle from '../global.module.css'
 import UploadIcon from '@mui/icons-material/Upload'
 import axios from 'axios'
 import { LoanReserveCard } from '../components/LoanReserveCard'
+import EditIcon from '@mui/icons-material/Edit'
+import { useNavigate } from 'react-router-dom'
 
 export const Profile = (props) => {
-//   const [backgroundImg, setBackgroundImg] = useState(false)
+  const navigate = useNavigate()
+  //   const [backgroundImg, setBackgroundImg] = useState(false)
   const [loans, setLoans] = useState(null)
   const [user, setUser] = useState(null)
   useEffect(() => {
     const fetchApi = async () => {
       const res = await axios.get(
-        `https://${process.env.REACT_APP_SERVER_URL}/api/v1/profile`,
+        `${process.env.REACT_APP_SERVER_URL}/api/v1/profile`,
         {
           headers: {
             'Content-Type': 'application/json',
@@ -32,7 +35,7 @@ export const Profile = (props) => {
   useEffect(() => {
     const fetchApi = async () => {
       const res = await axios.get(
-        `https://${process.env.REACT_APP_SERVER_URL}/api/v1/loans`,
+        `${process.env.REACT_APP_SERVER_URL}/api/v1/loans`,
         {
           headers: {
             'Content-Type': 'application/json',
@@ -48,12 +51,12 @@ export const Profile = (props) => {
     }
     fetchApi()
   }, [])
-//   const backgroundImgStyle = {
-//     // backgroundImage: `url(${imagefile})`,
-//     backgroundRepeat: 'no-repeat',
-//     backgroundSize: 'cover',
-//     backgroundBlendMode: 'overlay',
-//   }
+  //   const backgroundImgStyle = {
+  //     // backgroundImage: `url(${imagefile})`,
+  //     backgroundRepeat: 'no-repeat',
+  //     backgroundSize: 'cover',
+  //     backgroundBlendMode: 'overlay',
+  //   }
 
   const genrePropertyField = {
     width: '80px',
@@ -63,60 +66,64 @@ export const Profile = (props) => {
     borderRadius: '100%',
   }
 
-//   const genres = [
-//     {
-//       value: '0',
-//       label: 'Select',
-//     },
-//     {
-//       value: '11',
-//       label: 'Mystery',
-//     },
-//     {
-//       value: '12',
-//       label: 'Crime',
-//     },
-//     {
-//       value: '13',
-//       label: 'Family',
-//     },
-//     {
-//       value: '14',
-//       label: 'Thriller',
-//     },
-//     {
-//       value: '15',
-//       label: 'Psychological',
-//     },
-//     {
-//       value: '16',
-//       label: 'Biographies',
-//     },
-//     {
-//       value: '17',
-//       label: 'Fantasy',
-//     },
-//     {
-//       value: '18',
-//       label: 'Young Adult',
-//     },
-//     {
-//       value: '19',
-//       label: 'Classic',
-//     },
-//     {
-//       value: '20',
-//       label: 'Fiction',
-//     },
-//     {
-//       value: '21',
-//       label: 'Romance',
-//     },
-//     {
-//       value: '22',
-//       label: 'Adventure',
-//     },
-//   ]
+  //   const genres = [
+  //     {
+  //       value: '0',
+  //       label: 'Select',
+  //     },
+  //     {
+  //       value: '11',
+  //       label: 'Mystery',
+  //     },
+  //     {
+  //       value: '12',
+  //       label: 'Crime',
+  //     },
+  //     {
+  //       value: '13',
+  //       label: 'Family',
+  //     },
+  //     {
+  //       value: '14',
+  //       label: 'Thriller',
+  //     },
+  //     {
+  //       value: '15',
+  //       label: 'Psychological',
+  //     },
+  //     {
+  //       value: '16',
+  //       label: 'Biographies',
+  //     },
+  //     {
+  //       value: '17',
+  //       label: 'Fantasy',
+  //     },
+  //     {
+  //       value: '18',
+  //       label: 'Young Adult',
+  //     },
+  //     {
+  //       value: '19',
+  //       label: 'Classic',
+  //     },
+  //     {
+  //       value: '20',
+  //       label: 'Fiction',
+  //     },
+  //     {
+  //       value: '21',
+  //       label: 'Romance',
+  //     },
+  //     {
+  //       value: '22',
+  //       label: 'Adventure',
+  //     },
+  //   ]
+
+  const clickEditProfile = () => {
+    navigate('/profile/edit')
+  }
 
   return (
     <Box className={globalStyle.contentsbody}>
@@ -141,25 +148,30 @@ export const Profile = (props) => {
               justifyContent: 'space-between',
             }}
           >
-            <Box
-            //   style={backgroundImg ? backgroundImgStyle : {}}
+            <Avatar
               sx={{
-                width: '150px',
-                color: '#3d3d3d',
-                border: '2px dashed #bdbdbd',
-                fontSize: '14px',
-                cursor: 'pointer',
-                height: '150px',
-                borderRadius: '100%',
+                width: '120px',
+                background: 'linear-gradient(to right, #3D3DF4, #9A37F2)',
+                fontSize: '50px',
+                fontWeight: '300',
+                height: '120px',
                 margin: '0',
-                '&:hover': {
-                  backgroundColor: '#ffffff63',
-                },
               }}
-            ></Box>
+              src={user.profileImgUrl}
+            >
+              {user.profileImgUrl === 'null' ? (
+                <div>
+                  {user.firstName.charAt(0)}
+                  {user.lastName.charAt(0)}
+                </div>
+              ) : (
+                ""
+                
+              )}
+            </Avatar>
             <Box
               sx={{
-                width: '75%',
+                width: '80%',
                 flexDirection: 'row',
                 display: 'flex',
                 flexWrap: 'nowrap',
@@ -167,17 +179,23 @@ export const Profile = (props) => {
                 alignItems: 'center',
               }}
             >
-              <Box sx={{ textAlign: 'left', color: '#4b4b4b' }}>
-                <Typography noWrap variant="h6">
+              <Box sx={{ textAlign: 'left', color: '#633bf6' }}>
+                <Typography noWrap variant="h4" sx={{ color: '#633bf6' }}>
                   {user.firstName} {user.lastName}
                 </Typography>
-                <Typography noWrap variant="body1" gutterBottom>
+                <Typography noWrap variant="subtitle1" gutterBottom>
                   {user.email}
                 </Typography>
               </Box>
-              <Box>
-                <UploadIcon style={{ color: '#633bf6', marginLeft: '10px' }} />
-              </Box>
+
+              <IconButton color="primary" onClick={clickEditProfile}>
+                <EditIcon
+                  sx={{
+                    color: '#633bf6',
+                    fontSize: 40,
+                  }}
+                />
+              </IconButton>
             </Box>
           </Box>
           <Box>

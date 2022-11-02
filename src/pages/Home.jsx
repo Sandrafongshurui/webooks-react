@@ -10,16 +10,17 @@ export const Home = () => {
   const [latestBooks, setLatestBooks] = useState(null)
   //fetch api for get loans
   useEffect(() => {
-    let url = ''
-    url = `https://${process.env.REACT_APP_SERVER_URL}/api/v1/books`
 
     const fetchApi = async () => {
-      const res = await axios.get(url, {
-        headers: {
-          'Content-Type': 'application/json',
+      const res = await axios.get(
+        `${process.env.REACT_APP_SERVER_URL}/api/v1/books`,
+        {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          withCredentials: true,
         },
-        withCredentials: true,
-      })
+      )
       if (res.status === 200 || res.status === 201) {
         const data = await res.data
         console.log('data', data)
@@ -42,7 +43,7 @@ export const Home = () => {
             columns={{ xs: 4, sm: 3, md: 4 }}
           >
             {latestBooks &&
-              latestBooks.map((booksData, idx) => 
+              latestBooks.map((booksData, idx) =>
                 idx < 8 ? (
                   <BookCard data={booksData} key={booksData.id} />
                 ) : null,

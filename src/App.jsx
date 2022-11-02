@@ -9,7 +9,7 @@ import { BookDetailsPage } from "./pages/BookDetailsPage";
 import { CreateBook } from "./pages/CreateBook";
 import { Home } from "./pages/Home";
 import { Profile } from "./pages/Profile";
-
+import { EditProfile } from "./pages/EditProfile";
 export const App = () => {
   return (
     <div className="App">
@@ -19,6 +19,7 @@ export const App = () => {
         <Route path="/books/:bookId" element={<BookDetailsPage />} />
         <Route path="/books/add-book" element={<CreateBook />} />
         <Route path="/profile" element={<Profile />} />
+        <Route path="/profile/edit" element={<EditProfile />} />
         <Route path="/" element={<Home />} />
       </Routes>
 

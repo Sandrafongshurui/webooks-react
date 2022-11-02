@@ -210,7 +210,7 @@ export const CreateBook = (props) => {
       // });
       // console.log(formData)
       const res = await axios.post(
-        `https://${process.env.REACT_APP_SERVER_URL}/api/v1/book`,
+        `${process.env.REACT_APP_SERVER_URL}/api/v1/book`,
         formData,
         {
           headers: {

@@ -51,7 +51,7 @@ export const EpubReader = () => {
     const fetchApi = async () => {
       console.log('fetch')
       const res = await axios.get(
-        `https://${process.env.REACT_APP_SERVER_URL}/api/v1/loan/${loanId}/book/${bookId}/open`,
+        `${process.env.REACT_APP_SERVER_URL}/api/v1/loan/${loanId}/book/${bookId}/open`,
         {
           headers: {
             'Content-Type': 'application/json',
@@ -142,7 +142,7 @@ export const EpubReader = () => {
     }
     try {
       const res = await axios.patch(
-        `https://${process.env.REACT_APP_SERVER_URL}/api/v1/loan/${loanId}/book/${bookId}/close`,
+        `${process.env.REACT_APP_SERVER_URL}/api/v1/loan/${loanId}/book/${bookId}/close`,
         data,
         {
           headers: {

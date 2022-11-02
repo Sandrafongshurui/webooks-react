@@ -31,7 +31,7 @@ export const BookDetailsPage = (props) => {
     //fetch the post loan api
     try {
       const res = await axios.post(
-        `https://${process.env.REACT_APP_SERVER_URL}/api/v1/loan/book/${bookId}`,
+        `${process.env.REACT_APP_SERVER_URL}/api/v1/loan/book/${bookId}`,
         {body: "nodata"},
         {
           headers: {
@@ -57,7 +57,7 @@ export const BookDetailsPage = (props) => {
     console.log('get book')
     const fetchApi = async () => {
       const res = await axios.get(
-        `https://${process.env.REACT_APP_SERVER_URL}/api/v1/books/${bookId}`,
+        `${process.env.REACT_APP_SERVER_URL}/api/v1/books/${bookId}`,
         {
           headers: {
             'Content-Type': 'application/json',

@@ -1,8 +1,8 @@
-@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800;900&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800;900&display=swap');
 
 h2 {
   color: #6238f2;
-  font-family: "Montserrat", sans-serif;
+  font-family: 'Montserrat', sans-serif;
   font-weight: 800;
   font-size: 50px;
   margin: 0;
@@ -10,7 +10,7 @@ h2 {
 }
 .h2 {
   color: #6238f2;
-  font-family: "Montserrat", sans-serif;
+  font-family: 'Montserrat', sans-serif;
   font-weight: 800;
   font-size: 50px;
   margin: 0;
@@ -18,32 +18,37 @@ h2 {
 }
 .h6 {
   color: #6238f2;
-  font-family: "Montserrat", sans-serif;
+  font-family: 'Montserrat', sans-serif;
   font-weight: 400;
   font-size: xx-large;
 }
 
 .h4 {
   color: #6a6a6a;
-  font-family: "Roboto", sans-serif;
+  font-family: 'Roboto', sans-serif;
   font-weight: 600;
   font-size: xx-large;
 }
 
 .actionbutton {
-  background: linear-gradient(to right, #3D3DF4, #9A37F2);
-  font-family: "Roboto", sans-serif;
+  background: linear-gradient(to right, #3d3df4, #9a37f2);
+  font-family: 'Roboto', sans-serif;
   font-weight: 380;
-  font-size: large; 
+  font-size: large;
   color: white;
   border-radius: 50px;
   padding: 1em;
   width: 100%;
   border: 0;
-  box-shadow: 0 3px 5px 2px rgba(0, 0, 0, .25);
-  cursor: pointer
+  box-shadow: 0 3px 5px 2px rgba(0, 0, 0, 0.25);
+  cursor: pointer;
 }
 
+.backArrow {
+  margin: 0.5em;
+  color: #3d3df4;
+  
+}
 
 .loginbutton {
   /* font-weight: 380; */
@@ -51,19 +56,19 @@ h2 {
 }
 
 .author-name {
-  font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+  font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif;
   font-weight: 300;
   color: #7c7c7c;
 }
 
-.roundedInput{
-    border-radius: 50px;
-  }
+.roundedInput {
+  border-radius: 50px;
+}
 
-.contentsbody{
-  margin: 0 auto; 
-  width: 70%; 
-  margin-top:4em;
+.contentsbody {
+  margin: 0 auto;
+  width: 70%;
+  margin-top: 4em;
 }
 
 a:hover -webkit-any-link {
@@ -72,4 +77,14 @@ a:hover -webkit-any-link {
 
 a:hover {
   text-decoration: underline;
+}
+
+.triangletopleft {
+  width: 0;
+  height: 0;
+  border-top: 100px solid #f3ffba;
+  border-right: 100px solid transparent;
+  position: absolute;
+  z-index: -10;
+  filter: drop-shadow(0px 2px 5px rgba(0, 0, 0, 0.2));
 }
