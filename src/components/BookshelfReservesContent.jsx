@@ -4,10 +4,12 @@ import { LoanReserveCard } from './LoanReserveCard'
 import { CategoriesSubheading } from './Headers'
 import axios from 'axios'
 import { Box, Grid } from '@mui/material'
-import { useNavigate } from 'react-router-dom'
+// import { useNavigate } from 'react-router-dom'
+import { toast } from 'react-toastify'
+
 
 export const BookshelfReservesContent = (props) => {
-    const navigate = useNavigate()
+  // const navigate = useNavigate()
 
   // const [cardActions, setCardActions] = useState(null);
   // const [bottomSheetDetails, setBottomSheetDatails] = useState(null);
@@ -35,19 +37,28 @@ export const BookshelfReservesContent = (props) => {
   }, [])
 
   const handleCancelReserve = async (id) => {
-    const res = await axios.delete(
-      `${process.env.REACT_APP_SERVER_URL}/api/v1/reserve/${id}/cancel`,
-      {
-        headers: {
-          'Content-Type': 'application/json',
+    try {
+      const res = await axios.delete(
+        `${process.env.REACT_APP_SERVER_URL}/api/v1/reserve/${id}/cancel`,
+        {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          withCredentials: true,
         },
-        withCredentials: true,
-      },
-    )
-    if (res.status === 200 || res.status === 201) {
-      console.log('cancelled reservation')
-    //   props.tab("reserves")
-      navigate("/bookshelf/reserves")
+      )
+      if (res.status === 200 || res.status === 201) {
+        console.log('cancelled reservation')
+        toast.success('Cancelled successfullly', {
+          position: toast.POSITION.TOP_CENTER,
+        })
+        window.location.reload(false)
+      }
+    } catch (error) {
+      console.log(error)
+      toast.error(error.response.data.error, {
+        position: toast.POSITION.TOP_CENTER,
+      })
     }
   }
 

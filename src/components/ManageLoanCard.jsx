@@ -1,10 +1,9 @@
 import React, { useState } from 'react'
+import axios from 'axios'
+// import { useNavigate } from 'react-router-dom'
 import {
   Divider,
   Container,
-  List,
-  ListItem,
-  ListItemText,
   Typography,
   CardContent,
   CardActions,
@@ -13,18 +12,93 @@ import {
   Icon,
 } from '@mui/material'
 import Image from 'mui-image'
-import style from '../global.module.css'
+import globalStyle from '../global.module.css'
 import { AccessTime } from '@mui/icons-material'
-import ArrowBackRoundedIcon from '@mui/icons-material/ArrowBackRounded'
+import datesBetween from 'dates-between'
+import { toast } from 'react-toastify'
+
 
 export const ManageLoanCard = (props) => {
-  const { book, dueDate } = props.loanData
-  const handleReturnLoan = () => {
-    console.log('click manage loan')
+  // const navigate = useNavigate()
+  const { book, dueDate, id, bookId } = props.loanData
+  const [renewMsg, setRenewMsg] = useState(null)
+
+  const handleReturnLoan = async () => {
+    console.log('Return loan')
+    try {
+      const res = await axios.delete(
+        `${process.env.REACT_APP_SERVER_URL}/api/v1/loan/${id}/book/${bookId}/return`,
+        {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          withCredentials: true,
+        },
+      )
+      if (res.status === 200 || res.status === 201) {
+        console.log('return loan sucessfully')
+        toast.success('Return loan successfullly', {
+          position: toast.POSITION.TOP_CENTER,
+        })
+        // window.location.reload(false)
+        // navigate("/bookshelf/loans")
+        props.returnLoan(true)
+        props.bottomSheetOpen(false)
+      }
+    } catch (error) {
+      console.log(error)
+      toast.error(error.response.data.error, {
+        position: toast.POSITION.TOP_CENTER,
+      })
+    }
+  
+  }
+  const getDatesInRange = (startDate, endDate) => {
+    const arrayOfDates = []
+    for (const date of datesBetween(startDate, endDate)) {
+      arrayOfDates.push(date)
+    }
+    return arrayOfDates
   }
 
-  const handleRenewLoan = () => {
-    console.log('click return loan')
+  const handleRenewLoan = async () => {
+    //check the days b
+    const arrayOfDates = getDatesInRange(new Date(), new Date(dueDate))
+    const daysToRenewal = arrayOfDates.length - 4
+
+    //only less than 3 days then can renew
+    if (arrayOfDates.length > 4) {
+      setRenewMsg(
+        `It's too early for renewal! You will be able to renew it in ${daysToRenewal} days`,
+      )
+    } else {
+      console.log('renew loan')
+      try {
+        const res = await axios.patch(
+          `${process.env.REACT_APP_SERVER_URL}/api/v1/loan/${id}/renew`,
+          { loanId: `${id}` },
+          {
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            withCredentials: true,
+          },
+        )
+        if (res.status === 200 || res.status === 201) {
+          console.log(res.data)
+          console.log('sucessfully renew loan')
+          toast.success('Renew successfullly', {
+            position: toast.POSITION.TOP_CENTER,
+          })
+          window.location.reload(false)
+        }
+      } catch (error) {
+        console.log(error)
+        toast.error(error.response.data.error, {
+          position: toast.POSITION.TOP_CENTER,
+        })
+      }
+    }
   }
 
   const getDateString = () => {
@@ -115,7 +189,7 @@ export const ManageLoanCard = (props) => {
             <Box>
               <CardActions sx={{ justifyContent: 'center', my: '2em', p: '0' }}>
                 <button
-                  className={style.actionbutton}
+                  className={globalStyle.actionbutton}
                   onClick={handleReturnLoan}
                   type="submit"
                 >
@@ -123,14 +197,24 @@ export const ManageLoanCard = (props) => {
                 </button>
               </CardActions>
               <CardActions sx={{ justifyContent: 'center', my: '2em', p: '0' }}>
-                <button
-                  className={style.actionbuttonDisabled}
-                  //   onClick={handleClickAction}
-                  type="submit"
-                  onClick={handleRenewLoan}
-                >
-                  Renew Loan
-                </button>
+                {renewMsg ? (
+                  <button
+                    className={globalStyle.actionbuttonDisabled}
+                    //   onClick={handleClickAction}
+                    sx={{}}
+                  >
+                    {renewMsg}
+                  </button>
+                ) : (
+                  <button
+                    className={globalStyle.actionbuttonOutline}
+                    //   onClick={handleClickAction}
+                    type="submit"
+                    onClick={handleRenewLoan}
+                  >
+                    Renew Loan
+                  </button>
+                )}
               </CardActions>
             </Box>
           </Card>

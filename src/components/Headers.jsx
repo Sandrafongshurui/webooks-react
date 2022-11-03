@@ -18,7 +18,6 @@ import webooksLogo from '../assets/webooks_logo.png'
 import ArrowBackRoundedIcon from '@mui/icons-material/ArrowBackRounded'
 import { useNavigate, Link } from 'react-router-dom'
 
-
 export const SiteHeader = () => {
   const isMobile = useMediaQuery({ maxWidth: 900 })
 
@@ -195,7 +194,7 @@ export const CategoriesSubheading = (props) => {
 
 export const BookshelfHeader = (props) => {
   const navigate = useNavigate()
-  const [value, setValue] = useState('loans')
+  const [value, setValue] = useState(props.currentTab)
 
   const handleChange = (event, newValue) => {
     setValue(newValue)
@@ -208,10 +207,12 @@ export const BookshelfHeader = (props) => {
   const mobile = {
     font: { fontSize: 32, margin: 'auto 0' },
     logo: { width: '50%', objectFit: 'contain', alignItems: 'self-start' },
+    header: { width: '90%', margin: '0 auto' },
   }
   const desktop = {
     font: { fontSize: 40, margin: 'auto 0' },
     logo: { width: '80%', objectFit: 'contain', alignItems: 'self-start' },
+    header: { width: '80%', margin: '0 auto' },
   }
   let responsiveLayout = null
   isMobile
@@ -220,17 +221,23 @@ export const BookshelfHeader = (props) => {
   return (
     <div>
       <Box sx={{ boxShadow: '0 3px 5px 2px rgba(0, 0, 0, .1)', py: '0.5em' }}>
-        <Box
-          className={style.bookshelfheader}
-          sx={{ width: '80%', margin: '0 auto' }}
-        >
-          {/* <Box sx={{ width: "45px",  alignItems: "self-start" }}>
-        <Image style={responsiveLayout.logo} src={webooksLogo} />
-      </Box> */}
+        <Box className={style.bookshelfheader} sx={responsiveLayout.header}>
           <Box>
-            <Box style={responsiveLayout.font} className={globalStyle.h2}>
-              <span style={{ fontWeight: '100' }}>Book</span>shelf
+            <Box sx={{ display: 'flex' }}>
+              <Box sx={{ width: '45px', alignItems: 'self-start' }}>
+                <Image
+                  style={responsiveLayout.logo}
+                  sx={{ cursor: 'pointer' }}
+                  src={webooksLogo}
+                  onClick={() => navigate('/')}
+                />
+              </Box>
+
+              <Box style={responsiveLayout.font} className={globalStyle.h2}>
+                <span style={{ fontWeight: '100' }}>Book</span>shelf
+              </Box>
             </Box>
+
             <Box
               sx={{
                 color: ' #6238f2',

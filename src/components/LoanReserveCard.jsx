@@ -11,7 +11,7 @@ import {
 } from '@mui/material'
 
 export const LoanReserveCard = (props) => {
-  const { book, id } = props.data
+  const { book, id, dueDate } = props.data
   const navigate = useNavigate()
 
 
@@ -36,14 +36,18 @@ export const LoanReserveCard = (props) => {
     paddingRight: 2,
     height: '186px',
   }
+  const getDateString = (value) => {
+    const date = new Date(value)
+    return date.toLocaleDateString()
+  }
 
-  const dueDate = () => {
+  const loanDueDate = (value) => {
     if (props.isTimeline) {
       return 'Returned on due date'
     } else if (props.isReserve) {
       return `Placed on ${props.data.createdAt}`
     } else {
-      return 'Due in 21 days'
+      return `Due on ${getDateString(value)}`
     }
   }
 
@@ -126,7 +130,7 @@ export const LoanReserveCard = (props) => {
                       variant="body3"
                       color="text.secondary"
                     >
-                      {dueDate()}
+                      {loanDueDate(dueDate)}
                     </Typography>
                   }
                 />

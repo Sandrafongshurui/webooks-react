@@ -10,12 +10,13 @@ import {
   Typography,
   Divider,
   List,
-  Container,
 } from '@mui/material'
 import style from '../global.module.css'
 import { BookActionCard } from '../components/BookActionCard'
 import Sheet from 'react-modal-sheet'
 import { useParams, useNavigate } from 'react-router-dom'
+import { toast } from "react-toastify";
+
 
 export const BookDetailsPage = (props) => {
   const { bookId } = useParams()
@@ -47,10 +48,22 @@ export const BookDetailsPage = (props) => {
       )
       if (res.status === 200 || res.status === 201) {
         console.log('Borrowed sucessfully')
+        toast.success(
+          "Borrowed sucessfully",
+          {
+              position: toast.POSITION.TOP_CENTER
+          }
+        )
         navigate('/bookshelf/loans')
       }
     } catch (error) {
       console.log(error)
+      toast.error(
+        error.response.data.error,
+        {
+            position: toast.POSITION.TOP_CENTER
+        }
+    )
     }
   }
   const handleReserve = async () => {
@@ -69,10 +82,22 @@ export const BookDetailsPage = (props) => {
       )
       if (res.status === 200 || res.status === 201) {
         console.log('reserved sucessfully')
-        navigate('/bookshelf/reserve')
+        toast.success(
+          "Reserved successfullly",
+          {
+              position: toast.POSITION.TOP_CENTER
+          }
+      )
+        navigate('/bookshelf/reserves')
       }
     } catch (error) {
       console.log(error)
+      toast.error(
+        error.response.data.error,
+        {
+            position: toast.POSITION.TOP_CENTER
+        }
+    )
     }
   }
 
@@ -229,7 +254,6 @@ export const BookDetailsPage = (props) => {
         <Sheet.Container>
           <Sheet.Header />
           <Sheet.Content>
-            {/* -------------------insert sheetbody comp here--------------- */}
             <BookActionCard
               data={book}
               action={action}

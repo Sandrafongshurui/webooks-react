@@ -19,6 +19,7 @@ import globalStyle from '../global.module.css'
 import { useMediaQuery } from 'react-responsive'
 import { useNavigate } from 'react-router-dom'
 import { BackArrow } from '../components/Headers'
+import { toast } from 'react-toastify'
 
 export const Register = (props) => {
   const navigate = useNavigate()
@@ -26,21 +27,29 @@ export const Register = (props) => {
   const eye = <FontAwesomeIcon icon={faEye} />
   // form validation rules
   const validationSchema = yup.object().shape({
-    firstName: yup.string().min(4, 'Mininum 4 characters').required(),
-    lastName: yup.string().min(2, 'Mininum 2 characters').required(),
+    firstName: yup
+      .string()
+      .min(4, 'Mininum 4 characters')
+      .required()
+      .matches(/^[aA-zZ\s]+$/, 'Only alphabets are allowed for this field '),
+    lastName: yup
+      .string()
+      .min(2, 'Mininum 2 characters')
+      .required()
+      .matches(/^[aA-zZ\s]+$/, 'Only alphabets are allowed for this field '),
     email: yup.string().email('Valid email is required').required(),
     password: yup
       .string()
       .required('Password is required')
       .min(4, 'Mininum 4 characters'),
-    confirmpassword: yup
+    confirmPassword: yup
       .string()
       .required('Confirm Password is required')
       .oneOf([yup.ref('password')], 'Passwords must match'),
   })
   const [passwordShow, setPasswordShow] = useState(false)
   const [confirmPasswordShow, setConfirmPasswordShow] = useState(false)
-  const [catchError, setCatchError] = useState(null)
+  // const [catchError, setCatchError] = useState(null)
   const togglePasswordVisiblity = () => {
     setPasswordShow(passwordShow ? false : true)
   }
@@ -79,11 +88,16 @@ export const Register = (props) => {
         console.log(res.cookie)
         // cookies.set("token", res.token, { path: "/" });
         console.log('Registered successfullly')
+        toast.success('Registered successfully', {
+          position: toast.POSITION.TOP_CENTER,
+        })
         navigate('/')
       }
     } catch (error) {
       console.log(error)
-      setCatchError(error.response.data.error)
+      toast.error(error.response.data.error, {
+        position: toast.POSITION.TOP_CENTER,
+      })
     }
   }
   const mobile = {
@@ -106,15 +120,15 @@ export const Register = (props) => {
   }
   const desktop = {
     card: {
-    //   width: '45%',
+      //   width: '45%',
       margin: '0 auto',
-      padding: "2em",
+      padding: '2em',
       boxShadow: '0 3px 5px 2px rgba(0, 0, 0, .1)',
       display: 'flex',
       gap: '40px',
       borderRadius: '30px',
       marginTop: '6em',
-      maxWidth: "400px"
+      maxWidth: '400px',
     },
     logo: { width: '80%', objectFit: 'contain' },
     CardContent: {
@@ -138,7 +152,7 @@ export const Register = (props) => {
       <Box>
         <Card sx={responsiveLayout.card}>
           <CardContent sx={responsiveLayout.CardContent}>
-            {catchError && (
+            {/* {catchError && (
               <Typography
                 variant="subtitle1"
                 className="author-name"
@@ -147,7 +161,7 @@ export const Register = (props) => {
               >
                 {catchError}
               </Typography>
-            )}
+            )} */}
             <Typography variant="subtitle1" className="author-name" py={1}>
               Sign up for an account
             </Typography>
@@ -269,7 +283,9 @@ export const Register = (props) => {
                         // <-- This is where the toggle button is added.
                         endAdornment: (
                           <InputAdornment position="end">
-                            <i onClick={toggleConfirmPasswordVisiblity}>{eye}</i>{' '}
+                            <i onClick={toggleConfirmPasswordVisiblity}>
+                              {eye}
+                            </i>{' '}
                           </InputAdornment>
                         ),
                       }}

@@ -22,9 +22,7 @@ import webooksLogo from '../assets/webooks-logo.png'
 import { useMediaQuery } from 'react-responsive'
 import { useNavigate } from 'react-router-dom'
 import { BackArrow } from '../components/Headers'
-// const axios = Axios.create({
-//   withCredentials: true
-// })
+import { toast } from 'react-toastify'
 
 export const Login = (props) => {
   const navigate = useNavigate()
@@ -70,22 +68,28 @@ export const Login = (props) => {
       )
       if (res.status === 200 || res.status === 201) {
         //set my cookie
-        console.log(res.headers)
-        console.log(res.cookie)
+        console.log(res)
+        // const token = res.data.token
+        localStorage.setItem("user_token", res.data.token);
+        // console.log(res.cookie)
         // cookies.set("token", res.token, { path: "/" });
         console.log('Login successfullly')
+        toast.success('Login successfullly', {
+          position: toast.POSITION.TOP_CENTER,
+        })
         navigate(`/`)
       }
     } catch (error) {
       console.log(error)
-      // setCatchError(error.response.data.error);
+      toast.error(error.response.data.error, {
+        position: toast.POSITION.TOP_CENTER,
+      })
     }
   }
   const mobile = {
     card: {
       padding: '2em',
       boxShadow: '0 3px 5px 2px rgba(0, 0, 0, 0)',
-     
     },
     logo: { width: '80%', objectFit: 'contain' },
     CardContent: {
@@ -101,7 +105,6 @@ export const Login = (props) => {
   }
   const desktop = {
     card: {
-      
       margin: '0 auto',
       p: '2em',
       boxShadow: '0 3px 5px 2px rgba(0, 0, 0, .1)',
@@ -109,7 +112,7 @@ export const Login = (props) => {
       gap: '40px',
       borderRadius: '30px',
       marginTop: '6em',
-      maxWidth: "700px"
+      maxWidth: '700px',
     },
     logo: { width: '80%', objectFit: 'contain' },
     CardContent: {
@@ -132,7 +135,7 @@ export const Login = (props) => {
       <BackArrow />
       <Box>
         <Card sx={responsiveLayout.card}>
-          <Box sx={{ margin: 'auto'}}>
+          <Box sx={{ margin: 'auto' }}>
             <Box sx={responsiveLayout.image}>
               <Image style={responsiveLayout.logo} src={webooksLogo} />
             </Box>

@@ -3,7 +3,7 @@ import { BookshelfHeader } from '../components/Headers'
 import { BookshelfLoansContent } from '../components/BookshelfLoansContent'
 import { BookshelfReservesContent } from '../components/BookshelfReservesContent'
 
-export const Bookshelf = (props) => {
+export const BookshelfPage = (props) => {
   const [tab, setTab] = useState(props.tab)
   return (
     <div>
@@ -11,6 +11,7 @@ export const Bookshelf = (props) => {
         selectedTab={(value) => {
           setTab(value)
         }}
+      currentTab={tab}
       />
       {props.tab === 'reserves' && <BookshelfReservesContent />}
       {props.tab === 'loans' && <BookshelfLoansContent />}

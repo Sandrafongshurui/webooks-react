@@ -3,9 +3,14 @@ import React, { useRef, useState, useEffect } from 'react'
 import { ReactReader } from 'react-reader'
 // import Ebook from "./epub/sample.epub";
 import axios from 'axios'
-import { Box, Button} from '@mui/material'
-import { List } from '@mui/material'
+import { Box, Button, ListItem,  List, Typography } from '@mui/material'
+
 import { useNavigate, useParams } from 'react-router-dom'
+import CloseIcon from '@mui/icons-material/Close'
+import EditIcon from '@mui/icons-material/Edit'
+import Sheet from 'react-modal-sheet'
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 // import ebook from '../assets/Little-Women.epub'
 
 // const ownStyles = {
@@ -24,7 +29,8 @@ export const EpubReader = () => {
   const { loanId, bookId } = useParams()
   const [selections, setSelections] = useState([])
   const [loan, setLoan] = useState(null)
-  const [annotations, setAnnotations] = useState(null)
+  // const [annotations, setAnnotations] = useState(null)
+  const [bottomSheetOpen, setBottomSheetOpen] = useState(false)
   //rendition Displays an Epub as a series of Views for each Section
   const renditionRef = useRef(null)
   const [location, setLocation] = useState(null)
@@ -48,7 +54,6 @@ export const EpubReader = () => {
   //fetch api for get epub
 
   useEffect(() => {
-    
     const fetchApi = async () => {
       console.log('fetch')
       const res = await axios.get(
@@ -64,39 +69,38 @@ export const EpubReader = () => {
         const data = await res.data
         console.log('data', data)
         setLoan(data.loan)
-        setAnnotations(data.annotations)
+        // setAnnotations(data.annotations)
         if (data.loan.bookProgress !== '0') {
           setLocation(data.loan.bookProgress)
         }
-        if(data.annotations.length>0){
+        if (data.annotations.length > 0) {
           setSelections(data.annotations)
-          addAnnotations()
         }
       }
     }
     fetchApi()
-      // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  const addAnnotations = (contents) => {
-    
-    contents.window.getSelection().addRange("epubcfi(/6/52!/4/2,/314/1:19,/316/1:205)");
-    // renditionRef.current.annotations.add(
-    //   'highlight', //type of annotation
-    //   cfiRange, //cfirange to to attache the annotation to
-    //   {}, //data to attach annottaion to
-    //   null, //cb to impelement after adding
-    //   'hl', //class name to assign to annotation
-    //   {
-    //     //css stylesfor annotation
-    //     fill: 'yellow',
-    //     'fill-opacity': '0.5',
-    //   },
-    // )
+  const showPreviousAnotations = (selections) => {
+    console.log(selections)
+    selections.forEach((element) => {
+      renditionRef.current.annotations.add(
+        'highlight', //type of annotation
+        element.page, //cfirange to to attache the annotation to
+        {}, //data to attach annottaion to
+        null, //cb to impelement after adding
+        'hl', //class name to assign to annotation
+        {
+          //css stylesfor annotation
+          fill: 'yellow',
+          'fill-opacity': '0.5',
+        },
+      )
+    })
   }
 
   useEffect(() => {
-   
     // a ref will return a current, once selection is made do this
     console.log('--->', renditionRef.current)
     //current points value of the ref, which was set in react reader getRendition props
@@ -111,7 +115,7 @@ export const EpubReader = () => {
             // this gets the actual annottation text
             text: renditionRef.current.getRange(cfiRange).toString(),
             page: cfiRange,
-            loanId: parseInt(loanId)
+            loanId: parseInt(loanId),
           }),
         )
         console.log(
@@ -150,9 +154,8 @@ export const EpubReader = () => {
         renditionRef.current.off('selected', setRenderSelection)
       }
     }
-      // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [setSelections, selections])
-
 
   // const clickBookmark = () => {
   //   setBookmark(location)
@@ -185,74 +188,113 @@ export const EpubReader = () => {
   }
   return (
     <Box>
-      {/* <Button onClick={clickBookmark}>Bookmark</Button> */}
-      <Button onClick={closeBook}>Exit</Button>
-      {loan && (
-        <Box style={{ height: '100vh' }}>
-          <ReactReader
-            location={location}
-            // their props is passing the epubcifi info
-            locationChanged={locationChanged}
-            //url={"https://storage.googleapis.com/webooks-epub/The-Secret-Adversary.epub"}
-            url={loan.book.epubUrl}
-            //url={ebook}
-            //   styles={ownStyles}
-            getRendition={(rendition) => {
-              //rendtion is gotten from this inbuilt props fucntion
-              console.log('getrendition')
-              renditionRef.current = rendition
-              renditionRef.current.themes.default({
-                '::selection': {
-                  background: 'yellow',
-                },
-              })
-              // set selections as empty array first, cos no seletion has been made
-              //change to the data selections
-             //this will  triiger the useeffect
-              setSelections([])
-            }}
-          />
-        </Box>
-      )}
-      {/* highlights */}
       <Box
-        style={{
+        sx={{
+          display: 'flex',
           position: 'absolute',
-          bottom: '1rem',
-          right: '1rem',
-          zIndex: 1,
-          backgroundColor: 'blue',
+          width: '100%',
+          justifyContent: 'right',
         }}
       >
-        <Box>
-          <List>
-            {selections.map(({ text, page }, i) => (
-              <li key={i}>
-                {text} {/* click the show button, brings to to the cfiRange */}
-                <button
-                  onClick={() => {
-                    console.log(page)
-                    renditionRef.current.display(page)
-                  }}
-                >
-                  Show
-                </button>
-                <button
-                  onClick={() => {
-                    renditionRef.current.annotations.remove(
-                      page,
-                      'highlight',
-                    )
-                    setSelections(selections.filter((item, j) => j !== i))
-                  }}
-                >
-                  x
-                </button>
-              </li>
-            ))}
-          </List>
-        </Box>
+        <Button
+          sx={{ zIndex: '10' }}
+          onClick={() => {
+            setBottomSheetOpen(true)
+          }}
+        >
+          <EditIcon sx={{ fontSize: 30 }} />
+        </Button>
+        <Button sx={{ zIndex: '10' }} onClick={closeBook}>
+          <CloseIcon sx={{ fontSize: 30 }} />
+        </Button>
       </Box>
+
+      <Box>
+        {loan && (
+          <Box style={{ height: '100vh' }}>
+            <ReactReader
+              location={location}
+              // their props is passing the epubcifi info
+              locationChanged={locationChanged}
+              //url={"https://storage.googleapis.com/webooks-epub/The-Secret-Adversary.epub"}
+              url={loan.book.epubUrl}
+              //url={ebook}
+              // styles={ownStyles}
+              // swipeable
+              getRendition={(rendition) => {
+                //rendtion is gotten from this inbuilt props fucntion
+                console.log('getrendition')
+                renditionRef.current = rendition
+                renditionRef.current.themes.default({
+                  '::selection': {
+                    background: 'yellow',
+                  },
+                })
+                // set selections as empty array first, cos no seletion has been made
+                //change to the data selections
+                //this will  triiger the useeffect
+                setSelections([])
+                showPreviousAnotations(selections)
+              }}
+            />
+          </Box>
+        )}
+      </Box>
+
+      {/* highlights */}
+
+      <Sheet
+        isOpen={bottomSheetOpen}
+        onClose={() => setBottomSheetOpen(false)}
+        snapPoints={[400, 1]}
+      >
+        <Sheet.Container>
+          <Sheet.Header />
+          <Sheet.Content>
+            {/* -------------------insert sheetbody comp here--------------- */}
+            <Box
+              style={{
+                width:"100%",
+                zIndex: 10,
+              }}
+            >
+              
+                <List sx={{ display: 'flex', flexDirection:"column", }}>
+                  {selections.map(({ text, page }, i) => (
+                    <ListItem key={i} sx ={{ justifyContent:"right"}}>
+                      <Typography noWrap>
+                      {text}
+                      </Typography>
+                    
+                      <Button
+                        onClick={() => {
+                          console.log(page)
+                          renditionRef.current.display(page)
+                        }}
+                      >
+                        < VisibilityIcon sx={{fontSize: 30}}/>
+                      </Button >
+                      <Button
+                        onClick={() => {
+                          renditionRef.current.annotations.remove(
+                            page,
+                            'highlight',
+                          )
+                          setSelections(selections.filter((item, j) => j !== i))
+                        }}
+                      >
+                        <DeleteOutlineIcon sx={{fontSize: 30, color:"red"}}/>
+                      </Button>
+                    </ListItem>
+                  ))}
+                </List>
+             
+            </Box>
+          </Sheet.Content>
+        </Sheet.Container>
+
+        <Sheet.Backdrop onClick={() => setBottomSheetOpen(false)} />
+      </Sheet>
     </Box>
   )
 }

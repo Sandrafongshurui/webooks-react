@@ -1,8 +1,7 @@
-import React, {useState} from 'react'
+import React from 'react'
 import {
   Divider,
   Container,
-  Button,
   Typography,
   CardContent,
   CardActions,
@@ -11,7 +10,6 @@ import {
 } from '@mui/material'
 import Image from 'mui-image'
 import style from '../global.module.css'
-import ArrowBackRoundedIcon from '@mui/icons-material/ArrowBackRounded'
 
 
 export const BookActionCard = (props) => {

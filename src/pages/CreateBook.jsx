@@ -18,6 +18,7 @@ import { Controller, useForm } from "react-hook-form";
 import { useDropzone } from "react-dropzone";
 import globalStyle from "../global.module.css";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 export const CreateBook = (props) => {
   const navigate = useNavigate()
@@ -223,10 +224,22 @@ export const CreateBook = (props) => {
       );
       if (res.status === 200 || res.status === 201) {
         console.log("Created book");
+        toast.success(
+          "Added a book successfully",
+          {
+              position: toast.POSITION.TOP_CENTER
+          }
+      )
         navigate("/")
       }
     } catch (error) {
       console.log(error);
+      toast.error(
+        error.response.data.error,
+        {
+            position: toast.POSITION.TOP_CENTER
+        }
+    )
     }
   };
   const genres = [

@@ -19,6 +19,7 @@ import { useDropzone } from 'react-dropzone'
 import globalStyle from '../global.module.css'
 import EditIcon from '@mui/icons-material/Edit'
 import { useNavigate } from 'react-router-dom'
+import { toast } from 'react-toastify'
 
 
 export const EditProfile = (props) => {
@@ -157,11 +158,17 @@ export const EditProfile = (props) => {
         },
       )
       if (res.status === 200 || res.status === 201) {
-        console.log('Edited Profile')
+        console.log('Edited')
+        toast.success('Edited profile successfullly', {
+          position: toast.POSITION.TOP_CENTER,
+        })
         navigate('/profile')
       }
     } catch (error) {
       console.log(error)
+      toast.error(error.response.data.error, {
+        position: toast.POSITION.TOP_CENTER,
+      })
     }
   }
   // const genres = [
