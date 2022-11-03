@@ -9,7 +9,6 @@ import {
   Divider,
   Link,
 } from '@mui/material'
-import Image from 'mui-image'
 import axios from 'axios'
 import { Controller, useForm } from 'react-hook-form'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -17,30 +16,41 @@ import { faEye } from '@fortawesome/free-solid-svg-icons'
 import * as yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
 import globalStyle from '../global.module.css'
-// import Cookies from "universal-cookie";
-import webooksLogo from '../assets/webooks-logo.png'
 import { useMediaQuery } from 'react-responsive'
 import { useNavigate } from 'react-router-dom'
 import { BackArrow } from '../components/Headers'
-// const axios = Axios.create({
-//   withCredentials: true
-// })
 
-export const Login = (props) => {
+export const Register = (props) => {
   const navigate = useNavigate()
-  const isMobile = useMediaQuery({ maxWidth: 900 })
+  const isMobile = useMediaQuery({ maxWidth: 600 })
   const eye = <FontAwesomeIcon icon={faEye} />
+  // form validation rules
   const validationSchema = yup.object().shape({
+    firstName: yup.string().min(4, 'Mininum 4 characters').required(),
+    lastName: yup.string().min(2, 'Mininum 2 characters').required(),
     email: yup.string().email('Valid email is required').required(),
-    password: yup.string().min(4, 'Mininum 4 characters').required(),
+    password: yup
+      .string()
+      .required('Password is required')
+      .min(4, 'Mininum 4 characters'),
+    confirmpassword: yup
+      .string()
+      .required('Confirm Password is required')
+      .oneOf([yup.ref('password')], 'Passwords must match'),
   })
   const [passwordShow, setPasswordShow] = useState(false)
-  // const [catchError, setCatchError] = useState(null);
+  const [confirmPasswordShow, setConfirmPasswordShow] = useState(false)
+  const [catchError, setCatchError] = useState(null)
   const togglePasswordVisiblity = () => {
     setPasswordShow(passwordShow ? false : true)
   }
+  const toggleConfirmPasswordVisiblity = () => {
+    setConfirmPasswordShow(confirmPasswordShow ? false : true)
+  }
   //actual input names
   const defaultValues = {
+    firstName: '',
+    lastName: '',
     email: '',
     password: '',
   }
@@ -51,15 +61,10 @@ export const Login = (props) => {
   } = useForm({ resolver: yupResolver(validationSchema), defaultValues })
 
   const onSubmit = async (data) => {
-    console.log('from login:', data)
-    // setCatchError(null);
-    // const url =
-    //   process.env.REACT_APP_ENV === 'production'
-    //     ? `${process.env.REACT_APP_SERVER_URL}/api/v1/auth/login/`
-    //     : `${process.env.REACT_APP_LOCAL_URL}/api/v1/auth/login/`
+    console.log('from register:', data)
     try {
       const res = await axios.post(
-        `${process.env.REACT_APP_SERVER_URL}/api/v1/auth/login/`,
+        `${process.env.REACT_APP_SERVER_URL}/api/v1/auth/register`,
         data,
         {
           headers: {
@@ -73,26 +78,26 @@ export const Login = (props) => {
         console.log(res.headers)
         console.log(res.cookie)
         // cookies.set("token", res.token, { path: "/" });
-        console.log('Login successfullly')
-        navigate(`/`)
+        console.log('Registered successfullly')
+        navigate('/')
       }
     } catch (error) {
       console.log(error)
-      // setCatchError(error.response.data.error);
+      setCatchError(error.response.data.error)
     }
   }
   const mobile = {
     card: {
       padding: '2em',
       boxShadow: '0 3px 5px 2px rgba(0, 0, 0, 0)',
-     
+      paddingTop: '0em',
     },
     logo: { width: '80%', objectFit: 'contain' },
     CardContent: {
       width: '100%',
       margin: '0 auto',
-      p: '0',
-      paddingTop: '2em',
+      p: '0 !important',
+      paddingTop: '0em',
     },
     image: {
       width: '20%',
@@ -101,15 +106,15 @@ export const Login = (props) => {
   }
   const desktop = {
     card: {
-      
+    //   width: '45%',
       margin: '0 auto',
-      p: '2em',
+      padding: "2em",
       boxShadow: '0 3px 5px 2px rgba(0, 0, 0, .1)',
       display: 'flex',
       gap: '40px',
       borderRadius: '30px',
       marginTop: '6em',
-      maxWidth: "700px"
+      maxWidth: "400px"
     },
     logo: { width: '80%', objectFit: 'contain' },
     CardContent: {
@@ -132,19 +137,63 @@ export const Login = (props) => {
       <BackArrow />
       <Box>
         <Card sx={responsiveLayout.card}>
-          <Box sx={{ margin: 'auto'}}>
-            <Box sx={responsiveLayout.image}>
-              <Image style={responsiveLayout.logo} src={webooksLogo} />
-            </Box>
-            <h2>
-              <span style={{ fontWeight: '100' }}>w</span>ebooks
-            </h2>
-          </Box>
           <CardContent sx={responsiveLayout.CardContent}>
+            {catchError && (
+              <Typography
+                variant="subtitle1"
+                className="author-name"
+                sx={{ color: 'red' }}
+                py={1}
+              >
+                {catchError}
+              </Typography>
+            )}
             <Typography variant="subtitle1" className="author-name" py={1}>
-              Login to your account
+              Sign up for an account
             </Typography>
             <form onSubmit={handleSubmit(onSubmit)}>
+              <Box mb={3}>
+                <Controller
+                  name="firstName" //actual input
+                  control={control} //take place of the register RHF
+                  render={({
+                    //takes a function and rturn a react element
+                    field, //this error will be displyed takes over form state errors
+                  }) => (
+                    <TextField
+                      label={'First Name'} //label in the box
+                      variant="outlined"
+                      fullWidth
+                      // error={!!error} //convert obj into a bool
+                      // helperText={error ? error.message : null}
+                      error={errors.firstName ? true : false}
+                      helperText={errors.firstName?.message}
+                      {...field}
+                    />
+                  )}
+                />
+              </Box>
+              <Box mb={3}>
+                <Controller
+                  name="lastName" //actual input
+                  control={control} //take place of the register RHF
+                  render={({
+                    //takes a function and rturn a react element
+                    field, //this error will be displyed takes over form state errors
+                  }) => (
+                    <TextField
+                      label={'Last Name'} //label in the box
+                      variant="outlined"
+                      fullWidth
+                      // error={!!error} //convert obj into a bool
+                      // helperText={error ? error.message : null}
+                      error={errors.lastName ? true : false}
+                      helperText={errors.lastName?.message}
+                      {...field}
+                    />
+                  )}
+                />
+              </Box>
               <Box mb={3}>
                 <Controller
                   name="email" //actual input
@@ -154,11 +203,9 @@ export const Login = (props) => {
                     field, //this error will be displyed takes over form state errors
                   }) => (
                     <TextField
-                      label={'email'} //label in the box
+                      label={'Email'} //label in the box
                       variant="outlined"
                       fullWidth
-                      autoComplete="email"
-                      autoFocus
                       // error={!!error} //convert obj into a bool
                       // helperText={error ? error.message : null}
                       error={errors.email ? true : false}
@@ -177,11 +224,9 @@ export const Login = (props) => {
                     field, //this error will be displyed takes over form state errors
                   }) => (
                     <TextField
-                      label={'password'} //label in the box
+                      label={'Password'} //label in the box
                       variant="outlined"
                       fullWidth
-                      autoComplete="password"
-                      autoFocus
                       placeholder="password"
                       type={passwordShow ? 'text' : 'password'}
                       // error={!!error} //convert obj into a bool
@@ -201,12 +246,44 @@ export const Login = (props) => {
                   )}
                 />
               </Box>
+              <Box mb={3}>
+                <Controller
+                  name="confirmPassword" //actual input
+                  control={control} //take place of the register RHF
+                  render={({
+                    //takes a function and rturn a react element
+                    field, //this error will be displyed takes over form state errors
+                  }) => (
+                    <TextField
+                      label={'Confirm Psssword'} //label in the box
+                      variant="outlined"
+                      fullWidth
+                      placeholder="password"
+                      type={confirmPasswordShow ? 'text' : 'Password'}
+                      // error={!!error} //convert obj into a bool
+                      // helperText={error ? error.message : null}
+                      error={errors.confirmPassword ? true : false}
+                      helperText={errors.confirmPassword?.message}
+                      {...field}
+                      InputProps={{
+                        // <-- This is where the toggle button is added.
+                        endAdornment: (
+                          <InputAdornment position="end">
+                            <i onClick={toggleConfirmPasswordVisiblity}>{eye}</i>{' '}
+                          </InputAdornment>
+                        ),
+                      }}
+                    />
+                  )}
+                />
+              </Box>
+
               <Link to="/bookshelf/loans">
                 <button
                   className={`${globalStyle.actionbutton} ${globalStyle.loginbutton}`}
                   type="submit"
                 >
-                  Login
+                  Register
                 </button>
               </Link>
             </form>
@@ -219,9 +296,9 @@ export const Login = (props) => {
               }}
             />
             <Typography variant="subtitle2" className="author-name" pt={3}>
-              Don't have an account?{' '}
+              Already have an account?{' '}
               <Link component="button" variant="subtitle2" color={'#FF8865'}>
-                Register
+                Login
               </Link>
             </Typography>
           </CardContent>

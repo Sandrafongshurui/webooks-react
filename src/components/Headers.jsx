@@ -16,7 +16,7 @@ import { useMediaQuery } from 'react-responsive'
 import MenuIcon from '@mui/icons-material/Menu'
 import webooksLogo from '../assets/webooks_logo.png'
 import ArrowBackRoundedIcon from '@mui/icons-material/ArrowBackRounded'
-import { useNavigate, Link} from 'react-router-dom'
+import { useNavigate, Link } from 'react-router-dom'
 
 
 export const SiteHeader = () => {
@@ -24,35 +24,35 @@ export const SiteHeader = () => {
 
   const mobile = {
     font: { fontSize: 32, margin: 'auto 0' },
-    logo: { width: '50%', objectFit: 'contain' },
+    logo: { width: '50%', objectFit: 'contain', alignItems: 'self-start' },
   }
-
   const desktop = {
     font: { fontSize: 40, margin: 'auto 0' },
-    logo: { width: '80%', objectFit: 'contain' },
+    logo: { width: '80%', objectFit: 'contain', alignItems: 'self-start' },
   }
   let responsiveLayout = null
   isMobile
     ? (responsiveLayout = { ...mobile })
     : (responsiveLayout = { ...desktop })
   return (
-    <Box
-      className={style.siteheader}
-      sx={{ boxShadow: '0 3px 5px 2px rgba(0, 0, 0, .1)', py: '0.5em' }}
-    >
-      <Box sx={{ width: '45px', alignItems: 'self-start' }}>
-        <Image style={responsiveLayout.logo} src={webooksLogo} />
+    <Box sx={{ boxShadow: '0 3px 5px 2px rgba(0, 0, 0, .1)', py: '0.5em' }}>
+      <Box className={style.siteheader} sx={{ width: '80%', margin: '0 auto' }}>
+        <Box sx={{ width: '45px', alignItems: 'self-start' }}>
+          <Image style={responsiveLayout.logo} src={webooksLogo} />
+        </Box>
+        <Box style={responsiveLayout.font} className={globalStyle.h2}>
+          <span style={{ fontWeight: '100' }}>w</span>ebooks
+        </Box>
+        <SiteHeaderDropDownMenu />
       </Box>
-      <Box style={responsiveLayout.font} className={globalStyle.h2}>
-        <span style={{ fontWeight: '100' }}>w</span>ebooks
-      </Box>
-      <SiteHeaderDropDownMenu />
     </Box>
   )
 }
 
 export const SiteHeaderDropDownMenu = () => {
-  const [anchorEl, setAnchorEl] = React.useState(null)
+  const [anchorEl, setAnchorEl] = useState(null)
+  const [authUser] = useState(true)
+  const navigate = useNavigate()
   const open = Boolean(anchorEl)
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget)
@@ -60,15 +60,27 @@ export const SiteHeaderDropDownMenu = () => {
   const handleClose = () => {
     setAnchorEl(null)
   }
+  const handleLogout = () => {
+    console.log('log out')
+  }
+  const mobile = {
+    logo: {
+      fontSize: 25,
+      alignItems: 'self-start',
+    },
+  }
+  const desktop = {
+    logo: {
+      fontSize: 40,
+      alignItems: 'self-start',
+    },
+  }
   const isMobile = useMediaQuery({ maxWidth: 900 })
-  const logoMobile = {
-    fontSize: 25,
-    alignItems: 'self-start',
-  }
-  const logoDesktop = {
-    fontSize: 40,
-    alignItems: 'self-start',
-  }
+
+  let responsiveLayout = null
+  isMobile
+    ? (responsiveLayout = { ...mobile })
+    : (responsiveLayout = { ...desktop })
   return (
     <React.Fragment>
       <Box
@@ -85,10 +97,7 @@ export const SiteHeaderDropDownMenu = () => {
             aria-haspopup="true"
             aria-expanded={open ? 'true' : undefined}
           >
-            <MenuIcon
-              sx={isMobile ? logoMobile : logoDesktop}
-              style={{ fill: '#633bf6' }}
-            />
+            <MenuIcon sx={responsiveLayout.logo} style={{ fill: '#633bf6' }} />
           </IconButton>
           {/* <IconButton
             onClick={handleClick}
@@ -133,23 +142,39 @@ export const SiteHeaderDropDownMenu = () => {
         transformOrigin={{ horizontal: 'right', vertical: 'top' }}
         anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
       >
-        <MenuItem>Bookshelf</MenuItem>
-        <MenuItem>Search</MenuItem>
+        <MenuItem
+          sx={{ cursor: 'pointer' }}
+          onClick={() => navigate('/bookshelf/loans')}
+        >
+          Bookshelf
+        </MenuItem>
+        <MenuItem sx={{ cursor: 'pointer' }} onClick={() => navigate('/')}>
+          Search
+        </MenuItem>
 
-        <MenuItem>Profile</MenuItem>
-        <MenuItem>Notifications</MenuItem>
-        <Divider />
-        <MenuItem>
-          {/* <ListItemIcon>
-            <PersonAdd fontSize="small" />
-          </ListItemIcon> */}
-          Add a book
+        <MenuItem
+          sx={{ cursor: 'pointer' }}
+          onClick={() => navigate('/profile')}
+        >
+          Profile
+        </MenuItem>
+        <MenuItem sx={{ cursor: 'pointer' }} onClick={() => navigate('/')}>
+          Notifications
         </MenuItem>
         <Divider />
-        <MenuItem>
-          {/* <ListItemIcon>
-            <Logout fontSize="small" />
-          </ListItemIcon> */}
+        {authUser && (
+          <div>
+            <MenuItem
+              sx={{ cursor: 'pointer' }}
+              onClick={() => navigate('/books/add-book')}
+            >
+              Add a book
+            </MenuItem>
+            <Divider />
+          </div>
+        )}
+
+        <MenuItem sx={{ cursor: 'pointer' }} onClick={handleLogout}>
           Logout
         </MenuItem>
       </Menu>
@@ -169,11 +194,13 @@ export const CategoriesSubheading = (props) => {
 }
 
 export const BookshelfHeader = (props) => {
+  const navigate = useNavigate()
   const [value, setValue] = useState('loans')
 
   const handleChange = (event, newValue) => {
     setValue(newValue)
     props.selectedTab(newValue)
+    navigate(`/bookshelf/${newValue}`)
   }
 
   const isMobile = useMediaQuery({ maxWidth: 900 })
@@ -191,53 +218,54 @@ export const BookshelfHeader = (props) => {
     ? (responsiveLayout = { ...mobile })
     : (responsiveLayout = { ...desktop })
   return (
-    <Box sx={{ boxShadow: '0 3px 5px 2px rgba(0, 0, 0, .1)', py: '0.5em' }}>
-      <Box
-        className={style.bookshelfheader}
-        sx={{ width: '80%', margin: '0 auto' }}
-      >
-        {/* <Box sx={{ width: "45px",  alignItems: "self-start" }}>
+    <div>
+      <Box sx={{ boxShadow: '0 3px 5px 2px rgba(0, 0, 0, .1)', py: '0.5em' }}>
+        <Box
+          className={style.bookshelfheader}
+          sx={{ width: '80%', margin: '0 auto' }}
+        >
+          {/* <Box sx={{ width: "45px",  alignItems: "self-start" }}>
         <Image style={responsiveLayout.logo} src={webooksLogo} />
       </Box> */}
-        <Box>
-          <Box style={responsiveLayout.font} className={globalStyle.h2}>
-            <span style={{ fontWeight: '100' }}>Book</span>shelf
-          </Box>
-          <Box
-            sx={{
-              color: ' #6238f2',
-              fontFamily: "'Roboto', sans-serif",
-              fontWeight: '900',
-            }}
-          >
-            <Tabs
-              value={value}
-              onChange={handleChange}
-              textColor="inherit"
-              TabIndicatorProps={{
-                style: {
-                  backgroundColor: '#6238f2',
-                  fontWeight: 'bold',
-                },
+          <Box>
+            <Box style={responsiveLayout.font} className={globalStyle.h2}>
+              <span style={{ fontWeight: '100' }}>Book</span>shelf
+            </Box>
+            <Box
+              sx={{
+                color: ' #6238f2',
+                fontFamily: "'Roboto', sans-serif",
+                fontWeight: '900',
               }}
-              // indicatorColor="secondary"
-              // aria-label="secondary tabs example"
             >
-              <Tab value="loans" label="Loans" />
-              <Tab value="reserves" label="Reserves" />
-              <Tab value="favourites" label="Favourites" />
-            </Tabs>
+              <Tabs
+                value={value}
+                onChange={handleChange}
+                textColor="inherit"
+                TabIndicatorProps={{
+                  style: {
+                    backgroundColor: '#6238f2',
+                    fontWeight: 'bold',
+                  },
+                }}
+                // indicatorColor="secondary"
+                // aria-label="secondary tabs example"
+              >
+                <Tab value="loans" label="Loans" />
+                <Tab value="reserves" label="Reserves" />
+                <Tab value="favourites" label="Favourites" />
+              </Tabs>
+            </Box>
           </Box>
-        </Box>
 
-        <SiteHeaderDropDownMenu />
+          <SiteHeaderDropDownMenu />
+        </Box>
       </Box>
-    </Box>
+    </div>
   )
 }
 
 export const ProfileHeader = (props) => {
-
   const isMobile = useMediaQuery({ maxWidth: 900 })
 
   const mobile = {
@@ -271,9 +299,7 @@ export const ProfileHeader = (props) => {
               fontFamily: "'Roboto', sans-serif",
               fontWeight: '900',
             }}
-          >
-         
-          </Box>
+          ></Box>
         </Box>
 
         <SiteHeaderDropDownMenu />
@@ -282,11 +308,10 @@ export const ProfileHeader = (props) => {
   )
 }
 
-
 export const BackArrow = () => {
   const navigate = useNavigate()
   return (
-    <Link onClick={()=>navigate(-1)}>
+    <Link onClick={() => navigate(-1)}>
       <Box sx={{ display: 'flex' }}>
         <Box
           className={globalStyle.triangletopleft}

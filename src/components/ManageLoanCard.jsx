@@ -1,26 +1,37 @@
-import React, {useState} from 'react'
+import React, { useState } from 'react'
 import {
   Divider,
   Container,
-  Button,
+  List,
+  ListItem,
+  ListItemText,
   Typography,
   CardContent,
   CardActions,
   Card,
   Box,
+  Icon,
 } from '@mui/material'
 import Image from 'mui-image'
 import style from '../global.module.css'
+import { AccessTime } from '@mui/icons-material'
 import ArrowBackRoundedIcon from '@mui/icons-material/ArrowBackRounded'
 
-
-export const BookActionCard = (props) => {
-  const { title, bookImgUrl } = props.data
- //const {actionPresent , setActionPresent} = useState(`${props.action === "Borrow" ? "borrowing" : "reserving"}`)
-  const handleClickAction = async () => {
-    props.onSubmit(props.action)
+export const ManageLoanCard = (props) => {
+  const { book, dueDate } = props.loanData
+  const handleReturnLoan = () => {
+    console.log('click manage loan')
   }
-  let actionPresent = `${props.action === "Borrow" ? "borrowing" : "reserving"}`
+
+  const handleRenewLoan = () => {
+    console.log('click return loan')
+  }
+
+  const getDateString = () => {
+    const date = new Date(dueDate)
+    return date.toLocaleDateString()
+  }
+
   return (
     <div>
       <Box>
@@ -53,7 +64,7 @@ export const BookActionCard = (props) => {
                     width: '100%',
                     boxShadow: '0 3px 5px 2px rgba(0, 0, 0, .3)',
                   }}
-                  src={bookImgUrl}
+                  src={book.bookImgUrl}
                 />
               </Box>
 
@@ -67,61 +78,37 @@ export const BookActionCard = (props) => {
                 }}
               >
                 <Divider />
+                {/* insert  content here */}
                 <Box sx={{ width: '100%', margin: '0 auto' }}>
-                  <Typography
-                    variant="h6"
-                    sx={{ textAlign: 'left', m: '1em', }}
-                  >
-                    You are {actionPresent}
-                    <Box sx={{ my: '0.5em' }}>{title}</Box>
-                    for 21 days
+                  <Typography variant="h6">{book.title}</Typography>
+                  <Typography variant="subtitle2" gutterBottom>
+                    by {book.author}
                   </Typography>
                 </Box>
-                 {/* <Box
-                  sx={{
-                    display: 'flex',
-                    justifyContent: 'space-between',
-                    m: '1em',
-                  }}
-                >
-                  <Typography
-                    sx={{ fontSize: 14 }}
-                    color="text.secondary"
-                    gutterBottom
-                  >
-                    Loans
-                  </Typography>
-                  <Typography
-                    sx={{ fontSize: 14 }}
-                    color="text.secondary"
-                    gutterBottom
-                  >
-                    2/10
-                  </Typography>
-                </Box>
-                <Divider />
                 <Box
                   sx={{
                     display: 'flex',
                     justifyContent: 'space-between',
-                    m: '1em',
                   }}
                 >
                   <Typography
-                    sx={{ fontSize: 14 }}
+                    sx={{ fontSize: 18 }}
                     color="text.secondary"
                     gutterBottom
                   >
-                    Reserves
+                    Due on : {getDateString()}
                   </Typography>
                   <Typography
                     sx={{ fontSize: 14 }}
                     color="text.secondary"
                     gutterBottom
                   >
-                    0/10
+                    <Icon edge="end" aria-label="comments">
+                      <AccessTime />
+                    </Icon>
                   </Typography>
-                </Box>  */}
+                </Box>
+
                 <Divider />
               </Box>
             </CardContent>
@@ -129,10 +116,20 @@ export const BookActionCard = (props) => {
               <CardActions sx={{ justifyContent: 'center', my: '2em', p: '0' }}>
                 <button
                   className={style.actionbutton}
-                  onClick={handleClickAction}
+                  onClick={handleReturnLoan}
                   type="submit"
                 >
-                  {props.action}
+                  Return Loan
+                </button>
+              </CardActions>
+              <CardActions sx={{ justifyContent: 'center', my: '2em', p: '0' }}>
+                <button
+                  className={style.actionbuttonDisabled}
+                  //   onClick={handleClickAction}
+                  type="submit"
+                  onClick={handleRenewLoan}
+                >
+                  Renew Loan
                 </button>
               </CardActions>
             </Box>

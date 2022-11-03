@@ -11,7 +11,9 @@ import {
 import {AccessTime} from '@mui/icons-material'
 import style from "./SheetBody.module.css";
 
-export const SheetBody = () => {
+export const SheetBody = (props) => {
+  
+  const {book, dueDate} = props.loanData
   const handleReturnLoan = () => {
     console.log("click manage loan");
   };
@@ -25,12 +27,12 @@ export const SheetBody = () => {
       <Box>
         <Box sx={{ display: "Flex" }}>
           <Box sx={{ width: "20%", paddingRight: 2 }}>
-            <Image src="https://www.gutenberg.org/cache/epub/37106/pg37106.cover.medium.jpg" />
+            <Image src={book.bookImgUrl} />
           </Box>
           <div>
-            <Typography variant="h4">Title pf book</Typography>
+            <Typography variant="h4">{book.title}</Typography>
             <Typography variant="subtitle2" gutterBottom>
-              Author of book
+              {book.author}
             </Typography>
           </div>
         </Box>
@@ -54,7 +56,7 @@ export const SheetBody = () => {
                   variant="body3"
                   color="text.secondary"
                 >
-                  Due in 21 Days
+                  {dueDate}
                 </Typography>
               }
             />

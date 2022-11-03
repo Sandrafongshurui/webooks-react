@@ -1,0 +1,50 @@
+.mobileCard{
+    padding: '2em';
+    box-shadow: '0 3px 5px 2px rgba(0, 0, 0, 0)';
+    padding-top: '0em',
+
+}
+
+/* 
+
+const mobile = {
+    card: {
+      padding: '2em',
+      boxShadow: '0 3px 5px 2px rgba(0, 0, 0, 0)',
+      paddingTop: '0em',
+    },
+    logo: { width: '80%', objectFit: 'contain' },
+    CardContent: {
+      width: '100%',
+      margin: '0 auto',
+      p: '0 !important',
+      paddingTop: '0em',
+    },
+    image: {
+      width: '20%',
+      m: '0 auto',
+    },
+  }
+  const desktop = {
+    card: {
+    //   width: '45%',
+      margin: '0 auto',
+      padding: "2em",
+      boxShadow: '0 3px 5px 2px rgba(0, 0, 0, .3)',
+      display: 'flex',
+      gap: '40px',
+      borderRadius: '30px',
+      marginTop: '6em',
+      maxWidth: "400px"
+    },
+    logo: { width: '80%', objectFit: 'contain' },
+    CardContent: {
+      width: '400px',
+      margin: '0 auto',
+      pb: '0',
+    },
+    image: {
+      width: '60%',
+      m: '0 auto',
+    },
+  } */

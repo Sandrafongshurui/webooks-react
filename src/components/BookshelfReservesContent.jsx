@@ -47,7 +47,7 @@ export const BookshelfReservesContent = (props) => {
     if (res.status === 200 || res.status === 201) {
       console.log('cancelled reservation')
     //   props.tab("reserves")
-      navigate("/bookshelf/loans")
+      navigate("/bookshelf/reserves")
     }
   }
 

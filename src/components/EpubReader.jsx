@@ -70,12 +70,30 @@ export const EpubReader = () => {
         }
         if(data.annotations.length>0){
           setSelections(data.annotations)
+          addAnnotations()
         }
       }
     }
     fetchApi()
       // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
+
+  const addAnnotations = (contents) => {
+    
+    contents.window.getSelection().addRange("epubcfi(/6/52!/4/2,/314/1:19,/316/1:205)");
+    // renditionRef.current.annotations.add(
+    //   'highlight', //type of annotation
+    //   cfiRange, //cfirange to to attache the annotation to
+    //   {}, //data to attach annottaion to
+    //   null, //cb to impelement after adding
+    //   'hl', //class name to assign to annotation
+    //   {
+    //     //css stylesfor annotation
+    //     fill: 'yellow',
+    //     'fill-opacity': '0.5',
+    //   },
+    // )
+  }
 
   useEffect(() => {
    
@@ -135,6 +153,7 @@ export const EpubReader = () => {
       // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [setSelections, selections])
 
+
   // const clickBookmark = () => {
   //   setBookmark(location)
   // }
@@ -189,8 +208,8 @@ export const EpubReader = () => {
               })
               // set selections as empty array first, cos no seletion has been made
               //change to the data selections
-             
-              // setSelections([])
+             //this will  triiger the useeffect
+              setSelections([])
             }}
           />
         </Box>

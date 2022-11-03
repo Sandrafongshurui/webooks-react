@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { SheetBody } from "./SheetBody";
 import { LoanReserveCard } from "./LoanReserveCard";
+import { ManageLoanCard } from "./ManageLoanCard";
 import { CategoriesSubheading } from "./Headers";
 import Sheet from "react-modal-sheet";
 import axios from "axios";
@@ -14,8 +15,7 @@ import {
 // });
 
 export const BookshelfLoansContent = () => {
-  // const [cardActions, setCardActions] = useState(null);
-  // const [bottomSheetDetails, setBottomSheetDatails] = useState(null);
+  const [loanData,setLoanData] = useState(null);
   const [loans, setLoans] = useState(null);
   const [bottomSheetOpen, setBottomSheetOpen] = useState(false);
 
@@ -40,6 +40,11 @@ export const BookshelfLoansContent = () => {
     fetchApi();
   }, []);
 
+  const handleBottomsheet = (loanData) => {
+    setLoanData(loanData)
+    setBottomSheetOpen(true)
+  }
+
   return (
     <Box sx={{margin: "0 auto", width: "80%", marginTop: "4em"}}>
       <CategoriesSubheading categoryName={"Yet to start"} />
@@ -50,7 +55,7 @@ export const BookshelfLoansContent = () => {
               <LoanReserveCard
                 data={loanData}
                 // actions={cardActions}
-                manageLoan={() => setBottomSheetOpen(true)}
+                manageLoan={()=>handleBottomsheet(loanData)}
                 key={loanData.id}
               />
             ))}
@@ -61,7 +66,7 @@ export const BookshelfLoansContent = () => {
         <Sheet.Container>
           <Sheet.Header />
           <Sheet.Content>
-            <SheetBody />
+          <ManageLoanCard loanData={loanData} />
           </Sheet.Content>
         </Sheet.Container>
 

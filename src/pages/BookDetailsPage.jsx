@@ -10,6 +10,7 @@ import {
   Typography,
   Divider,
   List,
+  Container,
 } from '@mui/material'
 import style from '../global.module.css'
 import { BookActionCard } from '../components/BookActionCard'
@@ -19,20 +20,24 @@ import { useParams, useNavigate } from 'react-router-dom'
 export const BookDetailsPage = (props) => {
   const { bookId } = useParams()
   const [book, setBook] = useState(null)
-  // const [openActionCard, setOpenActionCard] = useState(false)
+  const [action, setAction] = useState('')
   const [bottomSheetOpen, setBottomSheetOpen] = useState(false)
   const navigate = useNavigate()
 
   const handleBorrowBook = () => {
     setBottomSheetOpen(true)
   }
-  const handleSubmit = async () => {
+  const handleSubmit = (action) => {
+    action === 'Borrow' ? handleBorrow() : handleReserve()
+  }
+
+  const handleBorrow = async () => {
     console.log('borrow book')
     //fetch the post loan api
     try {
       const res = await axios.post(
         `${process.env.REACT_APP_SERVER_URL}/api/v1/loan/book/${bookId}`,
-        {body: "nodata"},
+        { body: 'nodata' },
         {
           headers: {
             'Content-Type': 'application/json',
@@ -43,6 +48,28 @@ export const BookDetailsPage = (props) => {
       if (res.status === 200 || res.status === 201) {
         console.log('Borrowed sucessfully')
         navigate('/bookshelf/loans')
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  }
+  const handleReserve = async () => {
+    console.log('reserve book')
+    //fetch the post loan api
+    try {
+      const res = await axios.post(
+        `${process.env.REACT_APP_SERVER_URL}/api/v1/reserve/book/${bookId}`,
+        { body: 'nodata' },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          withCredentials: true,
+        },
+      )
+      if (res.status === 200 || res.status === 201) {
+        console.log('reserved sucessfully')
+        navigate('/bookshelf/reserve')
       }
     } catch (error) {
       console.log(error)
@@ -69,11 +96,19 @@ export const BookDetailsPage = (props) => {
         const data = await res.data
         console.log('data', data)
         setBook(data)
+        setAction(getAction(data.copiesAvailable))
       }
     }
     fetchApi()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
+  const getAction = (copiesAvailable) => {
+    if (copiesAvailable > 0) {
+      return 'Borrow'
+    }
+    return 'Reserve'
+  }
+
   const listItemStyle = { padding: 0.5, color: '#4b4b4b', display: 'table' }
   return (
     <div>
@@ -117,7 +152,11 @@ export const BookDetailsPage = (props) => {
                       button
                       onClick={handleBorrowBook}
                     >
-                      <ListItemText primary="Borrow" />
+                      <ListItemText
+                        primary={
+                          book.copiesAvailable > 0 ? 'Borrow' : 'Reserve'
+                        }
+                      />
                     </ListItem>
                     <Divider />
                     <ListItem
@@ -136,30 +175,12 @@ export const BookDetailsPage = (props) => {
                     >
                       <ListItemText primary="Details" />
                       <ListItemText>
-                        <Box sx={{ display: 'flex' }}>
-                          <Typography
-                            sx={{ display: 'flex' }}
-                            variant="body3"
-                            color="text.secondary"
-                          >
-                            Title:
-                          </Typography>
-                          <Typography
-                            sx={{}}
-                            variant="body3"
-                            color="text.secondary"
-                          >
-                            {book.title}
-                          </Typography>
-                        </Box>
-                      </ListItemText>
-                      <ListItemText>
                         <Typography
                           sx={{ display: 'inline' }}
                           variant="body3"
                           color="text.secondary"
                         >
-                          Author: {book.author}
+                          <strong>Title:</strong> {book.title}
                         </Typography>
                       </ListItemText>
                       <ListItemText>
@@ -168,7 +189,7 @@ export const BookDetailsPage = (props) => {
                           variant="body3"
                           color="text.secondary"
                         >
-                          Genre: {book.genreId}
+                          <strong>Author:</strong> {book.author}
                         </Typography>
                       </ListItemText>
                       <ListItemText>
@@ -177,7 +198,17 @@ export const BookDetailsPage = (props) => {
                           variant="body3"
                           color="text.secondary"
                         >
-                          Copies available: {book.copiesAvailable}
+                          <strong>Genre:</strong> {book.genreId}
+                        </Typography>
+                      </ListItemText>
+                      <ListItemText>
+                        <Typography
+                          sx={{ display: 'inline' }}
+                          variant="body3"
+                          color="text.secondary"
+                        >
+                          <strong>Copies Available:</strong>{' '}
+                          {book.copiesAvailable}
                         </Typography>
                       </ListItemText>
                     </ListItem>
@@ -199,7 +230,11 @@ export const BookDetailsPage = (props) => {
           <Sheet.Header />
           <Sheet.Content>
             {/* -------------------insert sheetbody comp here--------------- */}
-            <BookActionCard data={book} onSubmit={handleSubmit} />
+            <BookActionCard
+              data={book}
+              action={action}
+              onSubmit={handleSubmit}
+            />
           </Sheet.Content>
         </Sheet.Container>
 
