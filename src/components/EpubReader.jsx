@@ -74,7 +74,7 @@ export const EpubReader = () => {
             setLocation(data.loan.bookProgress)
           }
           if (data.annotations.length > 0) {
-            setSelections(data.annotations)
+            setSelections(current => [...current, ...data.annotations])
           }
         }
       } catch (error) {

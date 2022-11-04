@@ -34,6 +34,7 @@ Postgres SQL
 
 ### Difficulties:
 - Uploading images and epub files in the same submit form for the create book route.
+- Configuring react-reader to return my highlights and bookmark my last page
 - Issues with cors configuration for fetching AWS bucket items
 - Cookies not setting due to different domains orgin
 - Making each componenet as reusable as possible
