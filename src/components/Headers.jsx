@@ -108,7 +108,7 @@ export const SiteHeaderDropDownMenu = (props) => {
   // const [authUser] = useState(true)
   const navigate = useNavigate()
   const open = Boolean(anchorEl)
-  const location = useLocation()
+  // const location = useLocation()
 
   useEffect(() => {
     const fetchApi = async () => {
