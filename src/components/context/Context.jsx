@@ -10,6 +10,7 @@ export const UserProvider = ({ children }) => {
   // User is the name of the "data" that gets stored in context
   const [user, setUser] = useState({});
 
+
   // Login updates the user data with a name parameter
   const login = (firstName, lastName, profileImgUrl,isLibrarian) => {
     setUser((user) => ({

@@ -35,7 +35,7 @@ export const Home = (props) => {
 
   return (
     <Box>
-      <SiteHeader />
+      {/* <SiteHeader /> */}
       {!category && (
         <>
           <BookCategoriesList

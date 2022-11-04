@@ -141,10 +141,10 @@ export const BookDetailsPage = (props) => {
   const listItemStyle = { padding: 0.5, color: '#4b4b4b', display: 'table' }
   return (
     <div>
-      <SiteHeader />
+      {/* <SiteHeader /> */}
       {book && (
         <Box className={style.contentsbody}>
-          <CategoriesSubheading categoryName={book.title} standard={true} />
+          <CategoriesSubheading categoryName={book.title} />
           <Grid>
             <Box sx={{ width: '100%', textAlign: 'left', maxWidth: '244px' }}>
               <Box

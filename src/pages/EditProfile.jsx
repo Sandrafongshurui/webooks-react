@@ -23,7 +23,7 @@ import { toast } from 'react-toastify'
 import { UserContext } from '../components/context/Context'
 
 export const EditProfile = (props) => {
-  const { editProfile } = useContext(UserContext)
+  const { editProfile, login } = useContext(UserContext)
   const navigate = useNavigate()
   const [isHovering, setIsHovering] = useState(false)
   const handleMouseOver = () => {
@@ -142,7 +142,7 @@ export const EditProfile = (props) => {
 
   const onSubmit = async (data) => {
     // console.log("create book", data);
-    const loading = toast.loading('Updating...')
+    const loading = toast.loading('Updating...',{ position: toast.POSITION.TOP_CENTER})
     try {
       const formData = new FormData()
       Object.keys(data).forEach((element) => {
@@ -164,15 +164,16 @@ export const EditProfile = (props) => {
         console.log('Edited')
         console.log(data)
         if (res.data.profileImgUrl === ' ') {
-          editProfile(data.firstName, data.lastName, data.profileImgUrl)
+          login(data.firstName, data.lastName, data.profileImgUrl)
         } else {
-          editProfile(data.firstName, data.lastName, res.data.profileImgUrl)
+          login(data.firstName, data.lastName, res.data.profileImgUrl)
         }
         toast.update(loading, {
           render: 'Edited profile successfullly',
           type: 'success',
           isLoading: false,
           position: toast.POSITION.TOP_CENTER,
+          autoClose: 5000
         })
         // toast.success('Edited profile successfullly', {
         //   position: toast.POSITION.TOP_CENTER,
@@ -187,6 +188,7 @@ export const EditProfile = (props) => {
         type: error,
         isLoading: false,
         position: toast.POSITION.TOP_CENTER,
+        autoClose: 5000
       })
       navigate('/')
     }

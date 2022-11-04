@@ -13,14 +13,13 @@ import { EditProfile } from './pages/EditProfile'
 import { BookshelfPage } from './pages/BookshelfPage'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
-
+import { OutletTemplate } from './components/OutletTemplate'
 
 export const App = () => {
   return (
     <div className="App">
       {/* <SiteHeader /> */}
       <Routes>
-        <Route path="/books/:bookId" element={<BookDetailsPage />} />
         <Route path="/books/add-book" element={<CreateBook />} />
         <Route path="/profile" element={<ProfilePage />} />
         <Route path="/profile/edit" element={<EditProfile />} />
@@ -36,17 +35,11 @@ export const App = () => {
           path="/bookshelf/loans/:loanId/book/:bookId/read"
           element={<EpubReader />}
         />
-
-        <Route path="/" element={<Home hasLimit={true} />} />
-        <Route path="/:category" element={<Home hasLimit={false} />} />
-        {/* <Route
-          path="/popular"
-          element={
-            <Home
-              hasLimit={false}
-            />
-          }
-        /> */}
+        <Route path="" element={<OutletTemplate />}>
+          <Route path="/books/:bookId" element={<BookDetailsPage />} />
+          <Route path="/" element={<Home hasLimit={true} />} />
+          <Route path="/:category" element={<Home hasLimit={false} />} />
+        </Route>
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
       </Routes>

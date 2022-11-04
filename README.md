@@ -1,9 +1,30 @@
 # WEBOOKS
+## Application Description
+An online library for you to browse, borrow and read!
 
-An online library for you to browse, borrow and read books!
+## Application link
+- **[Application Link](https://main--w-ebooks.netlify.app/)**
+- **[WireFrame Desktop](https://xd.adobe.com/view/1636a14c-d45d-4747-ae86-f8a85b0ca908-4365/)**
+- **[WireFrame Mobile](https://xd.adobe.com/view/0ee9aa87-06c8-49bf-9b47-7cdd196a9526-5bba/)**
+- **[SQL DB Design](https://dbdiagram.io/d/634c0deef0018a1c5f12f35e)**
 
-# packages
-express
+![Sample App Image](https://storage.googleapis.com/webooks-epub/Screenshot%202022-11-05%20003203.png)
+
+## Database
+Postgres SQL
+
+## packages
+### Front-end:
+React
+MUI library
+Axios
+Jwt-decode
+React-dropzone
+react-reader
+react-spring-bottom-sheet
+
+### Back-end:
+Express Node.js
 cookie-parser
 
 # Getting Started with Create React App

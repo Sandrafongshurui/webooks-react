@@ -18,7 +18,7 @@ import { useMediaQuery } from 'react-responsive'
 import MenuIcon from '@mui/icons-material/Menu'
 import webooksLogo from '../assets/webooks_logo.png'
 import ArrowBackRoundedIcon from '@mui/icons-material/ArrowBackRounded'
-import { useNavigate, Link } from 'react-router-dom'
+import { useNavigate, Link, useLocation } from 'react-router-dom'
 import { UserContext } from './context/Context'
 import { toast } from 'react-toastify'
 import axios from 'axios'
@@ -102,7 +102,7 @@ export const SiteHeader = () => {
   )
 }
 
-export const SiteHeaderDropDownMenu = () => {
+export const SiteHeaderDropDownMenu = (props) => {
   const cookies = new Cookies()
   const { user, logout, login } = useContext(UserContext)
   console.log(user)
@@ -110,26 +110,55 @@ export const SiteHeaderDropDownMenu = () => {
   // const [authUser] = useState(true)
   const navigate = useNavigate()
   const open = Boolean(anchorEl)
+  const location = useLocation()
+  console.log(location.pathname)
 
   useEffect(() => {
-    const setUserInContext = () => {
-      const token = cookies.get('user_token')
-      if (!token) {
-        return navigate('/')
-      }
-
-      const user = jwt_decode(token)
-      console.log(user)
-      login(
-        user.data.firstName,
-        user.data.lastName,
-        user.data.profileImgUrl,
-        user.data.isLibrarian,
+    const fetchApi = async () => {
+      const res = await axios.get(
+        `${process.env.REACT_APP_SERVER_URL}/api/v1/profile`,
+        {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          withCredentials: true,
+        },
       )
+      if (res.status === 200 || res.status === 201) {
+        const data = await res.data
+        login(
+          data.firstName,
+          data.lastName,
+          data.profileImgUrl,
+          data.isLibrarian,
+        )
+      } else if (res.status === 403) {
+        navigate('/login')
+      }
     }
-    setUserInContext()
+    fetchApi()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
+
+  // useEffect(() => {
+  //   const setUserInContext = () => {
+  //     const token = cookies.get('user_token')
+  //     if (!token) {
+  //       return navigate('/')
+  //     }
+
+  //     const user = jwt_decode(token)
+  //     console.log(user)
+  //     login(
+  //       user.data.firstName,
+  //       user.data.lastName,
+  //       user.data.profileImgUrl,
+  //       user.data.isLibrarian,
+  //     )
+  //   }
+  //   setUserInContext()
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [props])
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget)
@@ -295,11 +324,19 @@ export const SiteHeaderDropDownMenu = () => {
             >
               Profile
             </MenuItem>
-            <MenuItem disabled sx={{ cursor: 'pointer' }} onClick={() => navigate('/')}>
+            <MenuItem
+              disabled
+              sx={{ cursor: 'pointer' }}
+              onClick={() => navigate('/')}
+            >
               Search
             </MenuItem>
 
-            <MenuItem  disabled sx={{ cursor: 'pointer' }} onClick={() => navigate('/')}>
+            <MenuItem
+              disabled
+              sx={{ cursor: 'pointer' }}
+              onClick={() => navigate('/')}
+            >
               Notifications
             </MenuItem>
             <Divider />

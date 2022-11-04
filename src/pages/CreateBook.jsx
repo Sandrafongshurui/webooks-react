@@ -227,10 +227,11 @@ export const CreateBook = (props) => {
       if (res.status === 200 || res.status === 201) {
         console.log('Created book')
         toast.update(loading, {
-          render: 'added a book successfullly',
+          render: 'Added a book successfully',
           type: 'success',
           isLoading: false,
           position: toast.POSITION.TOP_CENTER,
+          autoClose: 5000
         })
         navigate('/')
       }
@@ -241,6 +242,7 @@ export const CreateBook = (props) => {
         type: error,
         isLoading: false,
         position: toast.POSITION.TOP_CENTER,
+        autoClose: 5000
       })
       navigate('/')
     }
@@ -647,7 +649,7 @@ export const CreateBook = (props) => {
               }) => (
                 <TextField
                   label={
-                    'Write a brief synopsis meaning of this book, it will help our users in selecting!'
+                    'Write a brief synopsis of this book, it will help our users in selecting!'
                   } //label in the box
                   variant="outlined"
                   fullWidth
