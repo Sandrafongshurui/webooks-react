@@ -38,7 +38,6 @@ Postgres SQL
 - Cookies not setting due to different domains orgin
 - Making each componenet as reusable as possible
 - Keep editing tables with many migration files
-- Not even touching any of my stretch goals
 
 ### Stretch Goals:
 - Search/filter Bar by genres
