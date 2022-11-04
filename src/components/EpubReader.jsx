@@ -252,7 +252,7 @@ export const EpubReader = () => {
       <Sheet
         isOpen={bottomSheetOpen}
         onClose={() => setBottomSheetOpen(false)}
-        snapPoints={[400, 1]}
+        snapPoints={[400, 0]}
       >
         <Sheet.Container>
           <Sheet.Header />
