@@ -63,13 +63,13 @@ export const Profile = (props) => {
   //     backgroundBlendMode: 'overlay',
   //   }
 
-  const genrePropertyField = {
-    width: '80px',
-    color: '#3d3d3d',
-    border: '2px dashed #bdbdbd',
-    height: '80px',
-    borderRadius: '100%',
-  }
+  // const genrePropertyField = {
+  //   width: '80px',
+  //   color: '#3d3d3d',
+  //   border: '2px dashed #bdbdbd',
+  //   height: '80px',
+  //   borderRadius: '100%',
+  // }
 
   //   const genres = [
   //     {

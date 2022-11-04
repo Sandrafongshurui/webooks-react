@@ -239,7 +239,7 @@ export const BookDetailsPage = (props) => {
                           variant="body3"
                           color="text.secondary"
                         >
-                          <strong>Genre:</strong> {book.genreId}
+                          <strong>Genre:</strong> {book.genre.genreName}
                         </Typography>
                       </ListItemText>
                       <ListItemText>
