@@ -11,9 +11,8 @@ import {
 } from '@mui/material'
 
 export const LoanReserveCard = (props) => {
-  const { book, id, dueDate } = props.data
+  const { book, id, dueDate, createdAt } = props.data
   const navigate = useNavigate()
-
 
   const handleCancel = () => {
     console.log('cancel reservation')
@@ -45,16 +44,16 @@ export const LoanReserveCard = (props) => {
     if (props.isTimeline) {
       return 'Returned on due date'
     } else if (props.isReserve) {
-      return `Placed on ${props.data.createdAt}`
+      return `Placed on ${getDateString(createdAt)}`
     } else {
-      return `Due on ${getDateString(value)}`
+      return `Due: ${getDateString(value)}`
     }
   }
 
   const listItemStyle = { padding: 0.5, color: '#4b4b4b' }
   return (
     <Grid item xs={2} sm={1} key={props.id} sx={{ height: '338px' }}>
-      <Box sx={{ width: '100%', textAlign: 'left', maxWidth: '271px' }}>
+      <Box sx={{ textAlign: 'left', maxWidth: '400px' }}>
         <Box>
           <Typography noWrap variant="h6" style={{ color: '#4b4b4b' }}>
             {book.title}{' '}
@@ -136,21 +135,28 @@ export const LoanReserveCard = (props) => {
                 />
               </ListItem>
               <Divider />
-              <ListItem alignItems="flex-start" sx={listItemStyle}>
-                <ListItemText
-                  primary={
-                    <Typography
-                      sx={{ display: 'inline' }}
-                      component="span"
-                      variant="body3"
-                      color="text.secondary"
-                    >
-                      {props.isTimeline ? 'september 2022' : ' Borrowed today'}
-                    </Typography>
-                  }
-                />
-              </ListItem>
-              <Divider />
+              {!props.isReserve && (
+                <div>
+                  <ListItem alignItems="flex-start" sx={listItemStyle}>
+                    <ListItemText
+                      primary={
+                        <Typography
+                          sx={{ display: 'inline' }}
+                          component="span"
+                          variant="body3"
+                          color="text.secondary"
+                        >
+                          Borrowed:<></>
+                          {props.isTimeline
+                            ? 'september 2021'
+                            : getDateString(createdAt)}
+                        </Typography>
+                      }
+                    />
+                  </ListItem>
+                  <Divider />
+                </div>
+              )}
             </List>
           </Box>
         </Box>

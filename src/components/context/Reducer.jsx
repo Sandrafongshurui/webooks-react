@@ -1,1 +1,0 @@
-// create the AuthReducer and the initialState object that was used by the useReducer hook.

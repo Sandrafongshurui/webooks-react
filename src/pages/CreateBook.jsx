@@ -309,7 +309,7 @@ export const CreateBook = (props) => {
       <Box
         sx={{
           margin: "0 auto",
-          width: "50%",
+          width: "600px",
           marginTop: "4em",
           marginBottom: "4em",
         }}

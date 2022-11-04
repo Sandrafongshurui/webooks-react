@@ -25,7 +25,7 @@ export const Home = (props) => {
       )
       if (res.status === 200 || res.status === 201) {
         const data = await res.data
-        console.log('data', data)
+        console.log(res)
         setPopularBooks(data.popularBooks)
         setLatestBooks(data.latestBooks)
       }

@@ -13,7 +13,7 @@ import {
 import Image from 'mui-image'
 import style from './Headers.module.css'
 import globalStyle from '../global.module.css'
-import React, { useState, useContext } from 'react'
+import React, { useState, useContext, useEffect } from 'react'
 import { useMediaQuery } from 'react-responsive'
 import MenuIcon from '@mui/icons-material/Menu'
 import webooksLogo from '../assets/webooks_logo.png'
@@ -23,6 +23,7 @@ import { UserContext } from './context/Context'
 import { toast } from 'react-toastify'
 import axios from 'axios'
 import Cookies from 'universal-cookie'
+import jwt_decode from 'jwt-decode'
 
 export const Logo = () => {
   const isMobile = useMediaQuery({ maxWidth: 900 })
@@ -103,12 +104,32 @@ export const SiteHeader = () => {
 
 export const SiteHeaderDropDownMenu = () => {
   const cookies = new Cookies()
-  const { user, logout } = useContext(UserContext)
+  const { user, logout, login } = useContext(UserContext)
   console.log(user)
   const [anchorEl, setAnchorEl] = useState(null)
   const [authUser] = useState(true)
   const navigate = useNavigate()
   const open = Boolean(anchorEl)
+
+  useEffect(() => {
+    const setUserInContext = () => {
+      const token = cookies.get('user_token')
+      if (!token) {
+        return navigate('/')
+      }
+
+      const user = jwt_decode(token)
+      console.log(user)
+      login(
+        user.data.firstName,
+        user.data.lastName,
+        user.data.profileImgUrl,
+        user.data.isLibrarian,
+      )
+    }
+    setUserInContext()
+  }, [])
+
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget)
   }
@@ -272,11 +293,11 @@ export const SiteHeaderDropDownMenu = () => {
             >
               Profile
             </MenuItem>
-            <MenuItem sx={{ cursor: 'pointer' }} onClick={() => navigate('/')}>
+            <MenuItem disabled sx={{ cursor: 'pointer' }} onClick={() => navigate('/')}>
               Search
             </MenuItem>
 
-            <MenuItem sx={{ cursor: 'pointer' }} onClick={() => navigate('/')}>
+            <MenuItem  disabled sx={{ cursor: 'pointer' }} onClick={() => navigate('/')}>
               Notifications
             </MenuItem>
             <Divider />
@@ -312,7 +333,7 @@ export const CategoriesSubheading = (props) => {
   return (
     <Box className={style.container}>
       <Box className={style.category}>
-        {!props.hasViewMore && (
+        {!props.hasViewMore && !props.standard && (
           <Link
             sx={{
               fontSize: 30,
@@ -328,7 +349,7 @@ export const CategoriesSubheading = (props) => {
         {props.categoryName}
       </Box>
 
-      {props.hasViewMore && (
+      {props.hasViewMore && !props.standard && (
         <Link to={`${props.linkPage}`}>
           <Box className={style.viewmore}>View More</Box>
         </Link>
@@ -401,7 +422,7 @@ export const BookshelfHeader = (props) => {
               >
                 <Tab value="loans" label="Loans" />
                 <Tab value="reserves" label="Reserves" />
-                <Tab value="favourites" label="Favourites" />
+                {/* <Tab value="favourites" label="Favourites" /> */}
               </Tabs>
             </Box>
           </Box>

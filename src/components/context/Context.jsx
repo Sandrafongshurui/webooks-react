@@ -8,7 +8,7 @@ export const UserContext = createContext({ name: '', auth: false });
 //This function will be the parent of every other component in our app. 
 export const UserProvider = ({ children }) => {
   // User is the name of the "data" that gets stored in context
-  const [user, setUser] = useState({ name: '', auth: true });
+  const [user, setUser] = useState({});
 
   // Login updates the user data with a name parameter
   const login = (firstName, lastName, profileImgUrl,isLibrarian) => {

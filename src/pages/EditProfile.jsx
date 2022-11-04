@@ -9,6 +9,7 @@ import {
   ListItemText,
   Avatar,
   Paper,
+  CircularProgress,
 } from '@mui/material'
 import { BackArrow } from '../components/Headers'
 import axios from 'axios'
@@ -83,9 +84,9 @@ export const EditProfile = (props) => {
 
   const imageInputBackground = () => {
     //if fetch data, and has image profile and is not a new image input
-    if (user && user.profileImgUrl !== null && backgroundImg) {
+    if (backgroundImg) {
       return { ...backgroundImgStyle, backgroundImage: `url(${imagefile})` }
-    } else if (user && user.profileImgUrl !== null) {
+    } else if (user.profileImgUrl !== null) {
       return {
         ...backgroundImgStyle,
         backgroundImage: `url(${user.profileImgUrl})`,
@@ -142,6 +143,7 @@ export const EditProfile = (props) => {
 
   const onSubmit = async (data) => {
     // console.log("create book", data);
+    const loading = toast.loading('Updating...')
     try {
       const formData = new FormData()
       Object.keys(data).forEach((element) => {
@@ -167,17 +169,28 @@ export const EditProfile = (props) => {
         } else {
           editProfile(data.firstName, data.lastName, res.data.profileImgUrl)
         }
-
-        toast.success('Edited profile successfullly', {
+        toast.update(loading, {
+          render: 'Edited profile successfullly',
+          type: 'success',
+          isLoading: false,
           position: toast.POSITION.TOP_CENTER,
         })
+        // toast.success('Edited profile successfullly', {
+        //   position: toast.POSITION.TOP_CENTER,
+        // })
         navigate('/profile')
       } else if (res.status === 403) {
         navigate('/login')
       }
     } catch (error) {
       console.log(error)
-      toast.error(error.response.data.error, {
+      // toast.error(error.response.data.error, {
+      //   position: toast.POSITION.TOP_CENTER,
+      // })
+      toast.update(loading, {
+        render: error.response.data.error,
+        type: error,
+        isLoading: false,
         position: toast.POSITION.TOP_CENTER,
       })
     }
@@ -329,7 +342,7 @@ export const EditProfile = (props) => {
                         </div>
                       ) : (
                         <div>
-                          {user.profileImgUrl !== null ? (
+                          {user.profileImgUrl !== null || backgroundImg ? (
                             ' '
                           ) : (
                             <Typography

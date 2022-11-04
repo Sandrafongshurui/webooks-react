@@ -201,12 +201,12 @@ export const Profile = (props) => {
             </Box>
           </Box>
           <Box>
-            <CategoriesSubheading categoryName={'Total Loans'} />
+            <CategoriesSubheading categoryName={'Total Loans'} standard={true}/>
             <Typography noWrap variant="h6" sx={{textAlign:"left"}}>
               Total Loans: {user.loans.length}
             </Typography>
           </Box>
-          <CategoriesSubheading categoryName={'Timeline'} />
+          <CategoriesSubheading categoryName={'Timeline'} standard={true}/>
           <Box sx={{ flexGrow: 1 }}>
             <Grid
               container

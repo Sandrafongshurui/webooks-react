@@ -7,6 +7,7 @@ import Sheet from 'react-modal-sheet'
 import axios from 'axios'
 import { Box, Grid } from '@mui/material'
 import { useNavigate } from 'react-router-dom'
+import globalStyle from '../global.module.css'
 //send the cookies along with each req, make sure BE cors is not *
 // const axios = Axios.create({
 //   withCredentials: true,
@@ -48,9 +49,9 @@ export const BookshelfLoansContent = () => {
   }
 
   return (
-    <Box sx={{ margin: '0 auto', width: '70%', marginTop: '4em' }}>
-      <CategoriesSubheading categoryName={'Yet to start'}/>
-      <Box sx={{ flexGrow: 1 }}>
+    <Box className={globalStyle.contentsbody}>
+      <CategoriesSubheading categoryName={'Continue Reading'} standard={true}/>
+      <Box sx={{ flexGrow: 1, width:"100%" }}>
         <Grid
           container
           spacing={{ xs: 1, sm: 2, md: 1 }}

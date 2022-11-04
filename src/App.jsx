@@ -1,6 +1,6 @@
 import './App.css'
 import { Routes, Route } from 'react-router-dom'
-import React, { useContext } from 'react';
+import React, { useContext } from 'react'
 import { Login } from './pages/Login'
 import { Register } from './pages/Register'
 import { EpubReader } from './components/EpubReader'
@@ -13,8 +13,8 @@ import { EditProfile } from './pages/EditProfile'
 import { BookshelfPage } from './pages/BookshelfPage'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
-import { UserContext } from './components/context/Context';
-// import { Auth } from './components/Auth'
+import { UserContext } from './components/context/Context'
+import { Auth } from './components/Auth'
 
 export const App = () => {
   return (
@@ -38,20 +38,8 @@ export const App = () => {
           element={<EpubReader />}
         />
 
-        <Route
-          path="/"
-          element={
-            <Home hasLimit={true} />
-          }
-        />
-        <Route
-          path="/:category"
-          element={
-            <Home
-              hasLimit={false}
-            />
-          }
-        />
+        <Route path="/" element={<Home hasLimit={true} />} />
+        <Route path="/:category" element={<Home hasLimit={false} />} />
         {/* <Route
           path="/popular"
           element={

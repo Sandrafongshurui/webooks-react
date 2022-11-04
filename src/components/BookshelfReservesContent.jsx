@@ -6,6 +6,7 @@ import axios from 'axios'
 import { Box, Grid } from '@mui/material'
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
+import globalStyle from '../global.module.css'
 
 
 export const BookshelfReservesContent = (props) => {
@@ -67,8 +68,8 @@ export const BookshelfReservesContent = (props) => {
   }
 
   return (
-    <Box sx={{ margin: '0 auto', width: '70%', marginTop: '4em' }}>
-      <CategoriesSubheading categoryName={'Fully booked'} />
+    <Box className={globalStyle.contentsbody}>
+      <CategoriesSubheading categoryName={'Fully booked'} standard={true}/>
       <Box sx={{ flexGrow: 1 }}>
         <Grid
           container

@@ -79,11 +79,18 @@ export const BookDetailsPage = (props) => {
         },
       )
       if (res.status === 200 || res.status === 201) {
-        console.log('reserved sucessfully')
-        toast.success('Reserved successfullly', {
-          position: toast.POSITION.TOP_CENTER,
-        })
-        navigate('/bookshelf/reserves')
+        if (res.data === 'Reserve already exists') {
+          toast.error('You can only reserve a book once', {
+            position: toast.POSITION.TOP_CENTER,
+          })
+          setBottomSheetOpen(false)
+        } else {
+          console.log('reserved sucessfully')
+          toast.success('Reserved successfullly', {
+            position: toast.POSITION.TOP_CENTER,
+          })
+          navigate('/bookshelf/reserves')
+        }
       } else if (res.status === 403) {
         navigate('/login')
       }
@@ -130,8 +137,8 @@ export const BookDetailsPage = (props) => {
     return 'Reserve'
   }
 
-  const handleLogin =() => {
-    navigate("/login")
+  const handleLogin = () => {
+    navigate('/login')
   }
 
   const listItemStyle = { padding: 0.5, color: '#4b4b4b', display: 'table' }
@@ -140,7 +147,7 @@ export const BookDetailsPage = (props) => {
       <SiteHeader />
       {book && (
         <Box className={style.contentsbody}>
-          <CategoriesSubheading categoryName={book.title} />
+          <CategoriesSubheading categoryName={book.title} standard={true} />
           <Grid>
             <Box sx={{ width: '100%', textAlign: 'left', maxWidth: '244px' }}>
               <Box
@@ -263,7 +270,6 @@ export const BookDetailsPage = (props) => {
         </Box>
       )}
       <Sheet
-        animationOptions="Tween"
         isOpen={bottomSheetOpen}
         onClose={() => setBottomSheetOpen(false)}
         snapPoints={[500, 0]}

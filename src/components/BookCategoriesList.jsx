@@ -1,13 +1,10 @@
-import {
-  Box,
-  Grid, 
-} from '@mui/material'
+import { Box, Grid } from '@mui/material'
 import style from '../global.module.css'
-import { CategoriesSubheading} from '../components/Headers'
-import { BookCard} from '../components/BookCard'
+import { CategoriesSubheading } from '../components/Headers'
+import { BookCard } from '../components/BookCard'
 
 export const BookCategoriesList = (props) => {
-    const{hasLimit, data, title, link} = props
+  const { hasLimit, data, title, link } = props
   return (
     <Box className={style.contentsbody}>
       <CategoriesSubheading
