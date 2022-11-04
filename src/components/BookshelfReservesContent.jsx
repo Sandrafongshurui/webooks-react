@@ -4,12 +4,12 @@ import { LoanReserveCard } from './LoanReserveCard'
 import { CategoriesSubheading } from './Headers'
 import axios from 'axios'
 import { Box, Grid } from '@mui/material'
-// import { useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 
 
 export const BookshelfReservesContent = (props) => {
-  // const navigate = useNavigate()
+  const navigate = useNavigate()
 
   // const [cardActions, setCardActions] = useState(null);
   // const [bottomSheetDetails, setBottomSheetDatails] = useState(null);
@@ -31,6 +31,8 @@ export const BookshelfReservesContent = (props) => {
         const data = await res.data
         console.log('data', data)
         setReserves(data)
+      }else if (res.status === 403){
+        navigate("/login")
       }
     }
     fetchApi()
@@ -53,6 +55,8 @@ export const BookshelfReservesContent = (props) => {
           position: toast.POSITION.TOP_CENTER,
         })
         window.location.reload(false)
+      }else if (res.status === 403){
+        navigate("/login")
       }
     } catch (error) {
       console.log(error)
@@ -63,12 +67,12 @@ export const BookshelfReservesContent = (props) => {
   }
 
   return (
-    <Box sx={{ margin: '0 auto', width: '80%', marginTop: '4em' }}>
+    <Box sx={{ margin: '0 auto', width: '70%', marginTop: '4em' }}>
       <CategoriesSubheading categoryName={'Fully booked'} />
       <Box sx={{ flexGrow: 1 }}>
         <Grid
           container
-          spacing={{ xs: 5, sm: 5, md: 5 }}
+          spacing={{ xs: 1, sm: 2, md: 1 }}
           columns={{ xs: 1, sm: 2, md: 3 }}
         >
           {reserves &&

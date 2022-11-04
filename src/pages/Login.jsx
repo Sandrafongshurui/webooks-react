@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import {
   CardContent,
   Card,
@@ -23,8 +23,12 @@ import { useMediaQuery } from 'react-responsive'
 import { useNavigate } from 'react-router-dom'
 import { BackArrow } from '../components/Headers'
 import { toast } from 'react-toastify'
+import Cookies from 'universal-cookie'
+import { UserContext } from '../components/context/Context'
+import jwt_decode from 'jwt-decode'
 
 export const Login = (props) => {
+  const cookies = new Cookies()
   const navigate = useNavigate()
   const isMobile = useMediaQuery({ maxWidth: 900 })
   const eye = <FontAwesomeIcon icon={faEye} />
@@ -48,13 +52,22 @@ export const Login = (props) => {
     formState: { errors },
   } = useForm({ resolver: yupResolver(validationSchema), defaultValues })
 
+  const { login } = useContext(UserContext)
+
+  const setNameInContext = (token) => {
+    // const token = cookies.get('user_token')
+    const user = jwt_decode(token)
+    console.log(user)
+    login(
+      user.data.firstName,
+      user.data.lastName,
+      user.data.profileImgUrl,
+      user.data.isLibrarian,
+    )
+  }
+
   const onSubmit = async (data) => {
     console.log('from login:', data)
-    // setCatchError(null);
-    // const url =
-    //   process.env.REACT_APP_ENV === 'production'
-    //     ? `${process.env.REACT_APP_SERVER_URL}/api/v1/auth/login/`
-    //     : `${process.env.REACT_APP_LOCAL_URL}/api/v1/auth/login/`
     try {
       const res = await axios.post(
         `${process.env.REACT_APP_SERVER_URL}/api/v1/auth/login/`,
@@ -69,15 +82,17 @@ export const Login = (props) => {
       if (res.status === 200 || res.status === 201) {
         //set my cookie
         console.log(res)
-        // const token = res.data.token
-        localStorage.setItem("user_token", res.data.token);
-        // console.log(res.cookie)
-        // cookies.set("token", res.token, { path: "/" });
+        cookies.set('user_token', res.data.token, {
+          path: '/',
+        })
         console.log('Login successfullly')
         toast.success('Login successfullly', {
           position: toast.POSITION.TOP_CENTER,
         })
-        navigate(`/`)
+        setNameInContext(res.data.token)
+        // setName(res.data.token)
+
+        navigate(-1)
       }
     } catch (error) {
       console.log(error)
@@ -91,7 +106,7 @@ export const Login = (props) => {
       padding: '2em',
       boxShadow: '0 3px 5px 2px rgba(0, 0, 0, 0)',
     },
-    logo: { width: '80%', objectFit: 'contain' },
+    logo: { width: '80%', objectFit: 'contain', animation: 'none' },
     CardContent: {
       width: '100%',
       margin: '0 auto',
@@ -114,7 +129,7 @@ export const Login = (props) => {
       marginTop: '6em',
       maxWidth: '700px',
     },
-    logo: { width: '80%', objectFit: 'contain' },
+    logo: { width: '80%', objectFit: 'contain', animation: 'none' },
     CardContent: {
       width: '400px',
       margin: '0 auto',
@@ -130,6 +145,7 @@ export const Login = (props) => {
   isMobile
     ? (responsiveLayout = { ...mobile })
     : (responsiveLayout = { ...desktop })
+
   return (
     <Box>
       <BackArrow />
@@ -137,7 +153,11 @@ export const Login = (props) => {
         <Card sx={responsiveLayout.card}>
           <Box sx={{ margin: 'auto' }}>
             <Box sx={responsiveLayout.image}>
-              <Image style={responsiveLayout.logo} src={webooksLogo} />
+              <Image
+                sx={{ animation: 'none' }}
+                style={responsiveLayout.logo}
+                src={webooksLogo}
+              />
             </Box>
             <h2>
               <span style={{ fontWeight: '100' }}>w</span>ebooks

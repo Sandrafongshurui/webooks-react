@@ -10,7 +10,7 @@ import {
   ListItem,
   ListItemText,
 } from "@mui/material";
-import { SiteHeader, CategoriesSubheading } from "../components/Headers";
+import { AddBookHeader} from "../components/Headers";
 import axios from "axios";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -231,6 +231,8 @@ export const CreateBook = (props) => {
           }
       )
         navigate("/")
+      }else if (res.status === 403){
+        navigate("/login")
       }
     } catch (error) {
       console.log(error);
@@ -299,7 +301,7 @@ export const CreateBook = (props) => {
 
   return (
     <div>
-      <SiteHeader />
+      <AddBookHeader />
       {/* <div>
         <input type="file" onChange={previewImage}/>
         <img src={this.state.file}/>
@@ -312,7 +314,6 @@ export const CreateBook = (props) => {
           marginBottom: "4em",
         }}
       >
-        <CategoriesSubheading categoryName={"Add a book"} />
         <form onSubmit={handleSubmit(onSubmit)}>
           <Box
             mb={3}

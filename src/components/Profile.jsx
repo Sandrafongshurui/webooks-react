@@ -27,6 +27,8 @@ export const Profile = (props) => {
         const data = await res.data
         console.log('data', data)
         setUser(data)
+      } else if (res.status === 403) {
+        navigate('/login')
       }
     }
     fetchApi()
@@ -46,6 +48,8 @@ export const Profile = (props) => {
         const data = await res.data
         console.log('data', data)
         setLoans(data)
+      } else if (res.status === 403) {
+        navigate('/login')
       }
     }
     fetchApi()
@@ -125,7 +129,6 @@ export const Profile = (props) => {
   }
 
   return (
-
     <Box className={globalStyle.contentsbody}>
       {user && (
         <Box
@@ -159,14 +162,13 @@ export const Profile = (props) => {
               }}
               src={user.profileImgUrl}
             >
-              {user.profileImgUrl === 'null' ? (
+              {user.profileImgUrl === null ? (
                 <div>
                   {user.firstName.charAt(0)}
                   {user.lastName.charAt(0)}
                 </div>
               ) : (
-                ""
-                
+                ''
               )}
             </Avatar>
             <Box
@@ -199,12 +201,10 @@ export const Profile = (props) => {
             </Box>
           </Box>
           <Box>
-            <CategoriesSubheading categoryName={'Interests'} />
-            <Box sx={genrePropertyField}>
-              <Typography noWrap variant="h6">
-                {user.genreId}
-              </Typography>
-            </Box>
+            <CategoriesSubheading categoryName={'Total Loans'} />
+            <Typography noWrap variant="h6" sx={{textAlign:"left"}}>
+              Total Loans: {user.loans.length}
+            </Typography>
           </Box>
           <CategoriesSubheading categoryName={'Timeline'} />
           <Box sx={{ flexGrow: 1 }}>

@@ -27,8 +27,9 @@ export const BookActionCard = (props) => {
             sx={{
               width: '450px',
               margin: '0 auto',
-              py: '4em',
+              pb: '0',
               px: '1em',
+              pt: "4em",
               boxShadow: '0 3px 5px 2px rgba(0, 0, 0, 0)',
             }}
           >

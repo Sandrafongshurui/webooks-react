@@ -44,3 +44,16 @@ h4 {
 .roundedInput{
   border-radius: 50px;
 }
+
+a:-webkit-any-link {
+  text-decoration: none;
+  color: inherit;
+}
+
+a:hover :-webkit-any-link {
+  text-decoration: underline;
+}
+
+a:hover {
+  text-decoration: underline;
+}

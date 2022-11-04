@@ -100,20 +100,10 @@ h2 {
 
 .contentsbody {
   margin: 0 auto;
-  width: 70%;
+  width: 700px;
   margin-top: 4em;
 }
-a -webkit-any-link {
-  text-decoration: none;
-}
 
-a:hover -webkit-any-link {
-  text-decoration: underline;
-}
-
-a:hover {
-  text-decoration: underline;
-}
 
 .triangletopleft {
   width: 0;

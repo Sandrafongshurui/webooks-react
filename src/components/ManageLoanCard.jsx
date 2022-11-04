@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import axios from 'axios'
-// import { useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import {
   Divider,
   Container,
@@ -19,7 +19,7 @@ import { toast } from 'react-toastify'
 
 
 export const ManageLoanCard = (props) => {
-  // const navigate = useNavigate()
+  const navigate = useNavigate()
   const { book, dueDate, id, bookId } = props.loanData
   const [renewMsg, setRenewMsg] = useState(null)
 
@@ -44,6 +44,8 @@ export const ManageLoanCard = (props) => {
         // navigate("/bookshelf/loans")
         props.returnLoan(true)
         props.bottomSheetOpen(false)
+      }else if (res.status === 403){
+        navigate("/login")
       }
     } catch (error) {
       console.log(error)
@@ -91,6 +93,8 @@ export const ManageLoanCard = (props) => {
             position: toast.POSITION.TOP_CENTER,
           })
           window.location.reload(false)
+        }else if (res.status === 403){
+          navigate("/login")
         }
       } catch (error) {
         console.log(error)
@@ -114,7 +118,7 @@ export const ManageLoanCard = (props) => {
             sx={{
               width: '450px',
               margin: '0 auto',
-              py: '4em',
+              pt: '4em',
               px: '1em',
               boxShadow: '0 3px 5px 2px rgba(0, 0, 0, 0)',
             }}

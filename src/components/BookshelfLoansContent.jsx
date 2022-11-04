@@ -6,12 +6,14 @@ import { CategoriesSubheading } from './Headers'
 import Sheet from 'react-modal-sheet'
 import axios from 'axios'
 import { Box, Grid } from '@mui/material'
+import { useNavigate } from 'react-router-dom'
 //send the cookies along with each req, make sure BE cors is not *
 // const axios = Axios.create({
 //   withCredentials: true,
 // });
 
 export const BookshelfLoansContent = () => {
+  const navigate = useNavigate()
   const [returnLoan, setReturnLoan] = useState(false)
   const [loanData, setLoanData] = useState(null)
   const [loans, setLoans] = useState(null)
@@ -33,6 +35,8 @@ export const BookshelfLoansContent = () => {
         const data = await res.data
         console.log('data', data)
         setLoans(data)
+      }else if (res.status === 403){
+        navigate("/login")
       }
     }
     fetchApi()
@@ -44,12 +48,12 @@ export const BookshelfLoansContent = () => {
   }
 
   return (
-    <Box sx={{ margin: '0 auto', width: '80%', marginTop: '4em' }}>
-      <CategoriesSubheading categoryName={'Yet to start'} />
+    <Box sx={{ margin: '0 auto', width: '70%', marginTop: '4em' }}>
+      <CategoriesSubheading categoryName={'Yet to start'}/>
       <Box sx={{ flexGrow: 1 }}>
         <Grid
           container
-          spacing={{ xs: 5, sm: 5, md: 5 }}
+          spacing={{ xs: 1, sm: 2, md: 1 }}
           columns={{ xs: 1, sm: 2, md: 3 }}
         >
           {loans &&
@@ -65,7 +69,7 @@ export const BookshelfLoansContent = () => {
         </Grid>
       </Box>
 
-      <Sheet isOpen={bottomSheetOpen} onClose={() => setBottomSheetOpen(false)}>
+      <Sheet isOpen={bottomSheetOpen} onClose={() => setBottomSheetOpen(false)} snapPoints={[600,0]}>
         <Sheet.Container>
           <Sheet.Header />
           <Sheet.Content>

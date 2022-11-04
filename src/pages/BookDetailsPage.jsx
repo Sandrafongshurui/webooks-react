@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import { SiteHeader, CategoriesSubheading } from '../components/Headers'
 import Image from 'mui-image'
 import axios from 'axios'
@@ -15,10 +15,12 @@ import style from '../global.module.css'
 import { BookActionCard } from '../components/BookActionCard'
 import Sheet from 'react-modal-sheet'
 import { useParams, useNavigate } from 'react-router-dom'
-import { toast } from "react-toastify";
-
+import { toast } from 'react-toastify'
+import { UserContext } from '../components/context/Context'
+import { type } from '@testing-library/user-event/dist/type'
 
 export const BookDetailsPage = (props) => {
+  const { user } = useContext(UserContext)
   const { bookId } = useParams()
   const [book, setBook] = useState(null)
   const [action, setAction] = useState('')
@@ -48,22 +50,18 @@ export const BookDetailsPage = (props) => {
       )
       if (res.status === 200 || res.status === 201) {
         console.log('Borrowed sucessfully')
-        toast.success(
-          "Borrowed sucessfully",
-          {
-              position: toast.POSITION.TOP_CENTER
-          }
-        )
+        toast.success('Borrowed sucessfully', {
+          position: toast.POSITION.TOP_CENTER,
+        })
         navigate('/bookshelf/loans')
+      } else if (res.status === 403) {
+        navigate('/login')
       }
     } catch (error) {
       console.log(error)
-      toast.error(
-        error.response.data.error,
-        {
-            position: toast.POSITION.TOP_CENTER
-        }
-    )
+      toast.error(error.response.data.error, {
+        position: toast.POSITION.TOP_CENTER,
+      })
     }
   }
   const handleReserve = async () => {
@@ -82,22 +80,18 @@ export const BookDetailsPage = (props) => {
       )
       if (res.status === 200 || res.status === 201) {
         console.log('reserved sucessfully')
-        toast.success(
-          "Reserved successfullly",
-          {
-              position: toast.POSITION.TOP_CENTER
-          }
-      )
+        toast.success('Reserved successfullly', {
+          position: toast.POSITION.TOP_CENTER,
+        })
         navigate('/bookshelf/reserves')
+      } else if (res.status === 403) {
+        navigate('/login')
       }
     } catch (error) {
       console.log(error)
-      toast.error(
-        error.response.data.error,
-        {
-            position: toast.POSITION.TOP_CENTER
-        }
-    )
+      toast.error(error.response.data.error, {
+        position: toast.POSITION.TOP_CENTER,
+      })
     }
   }
 
@@ -122,6 +116,8 @@ export const BookDetailsPage = (props) => {
         console.log('data', data)
         setBook(data)
         setAction(getAction(data.copiesAvailable))
+      } else if (res.status === 403) {
+        navigate('/login')
       }
     }
     fetchApi()
@@ -132,6 +128,10 @@ export const BookDetailsPage = (props) => {
       return 'Borrow'
     }
     return 'Reserve'
+  }
+
+  const handleLogin =() => {
+    navigate("/login")
   }
 
   const listItemStyle = { padding: 0.5, color: '#4b4b4b', display: 'table' }
@@ -171,18 +171,30 @@ export const BookDetailsPage = (props) => {
                     }}
                   >
                     <Divider />
-                    <ListItem
-                      alignItems="flex-start"
-                      sx={listItemStyle}
-                      button
-                      onClick={handleBorrowBook}
-                    >
-                      <ListItemText
-                        primary={
-                          book.copiesAvailable > 0 ? 'Borrow' : 'Reserve'
-                        }
-                      />
-                    </ListItem>
+                    {user.auth ? (
+                      <ListItem
+                        alignItems="flex-start"
+                        sx={listItemStyle}
+                        button
+                        onClick={handleBorrowBook}
+                      >
+                        <ListItemText
+                          primary={
+                            book.copiesAvailable > 0 ? 'Borrow' : 'Reserve'
+                          }
+                        />
+                      </ListItem>
+                    ) : (
+                      <ListItem
+                        alignItems="flex-start"
+                        sx={listItemStyle}
+                        button
+                        onClick={handleLogin}
+                      >
+                        <ListItemText primary={'Login to borrow'} />
+                      </ListItem>
+                    )}
+
                     <Divider />
                     <ListItem
                       alignItems="flex-start"
@@ -250,7 +262,12 @@ export const BookDetailsPage = (props) => {
           </Box>
         </Box>
       )}
-      <Sheet isOpen={bottomSheetOpen} onClose={() => setBottomSheetOpen(false)}>
+      <Sheet
+        animationOptions="Tween"
+        isOpen={bottomSheetOpen}
+        onClose={() => setBottomSheetOpen(false)}
+        snapPoints={[500, 0]}
+      >
         <Sheet.Container>
           <Sheet.Header />
           <Sheet.Content>
@@ -262,7 +279,7 @@ export const BookDetailsPage = (props) => {
           </Sheet.Content>
         </Sheet.Container>
 
-        <Sheet.Backdrop />
+        <Sheet.Backdrop onClick={() => setBottomSheetOpen(false)} />
       </Sheet>
     </div>
   )

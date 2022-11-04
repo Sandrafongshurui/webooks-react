@@ -76,6 +76,8 @@ export const EpubReader = () => {
         if (data.annotations.length > 0) {
           setSelections(data.annotations)
         }
+      }else if (res.status === 403){
+        navigate("/login")
       }
     }
     fetchApi()
@@ -181,6 +183,8 @@ export const EpubReader = () => {
       if (res.status === 200 || res.status === 201) {
         console.log('Updated, book pregress')
         navigate('/bookshelf/loans')
+      }else if (res.status === 403){
+        navigate("/login")
       }
     } catch (error) {
       console.log(error)

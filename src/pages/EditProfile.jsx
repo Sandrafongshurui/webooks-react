@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import ErrorIcon from '@mui/icons-material/Error'
 import {
   Box,
@@ -10,7 +10,7 @@ import {
   Avatar,
   Paper,
 } from '@mui/material'
-import { CategoriesSubheading, BackArrow } from '../components/Headers'
+import { BackArrow } from '../components/Headers'
 import axios from 'axios'
 import * as yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
@@ -20,9 +20,10 @@ import globalStyle from '../global.module.css'
 import EditIcon from '@mui/icons-material/Edit'
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
-
+import { UserContext } from '../components/context/Context'
 
 export const EditProfile = (props) => {
+  const { editProfile } = useContext(UserContext)
   const navigate = useNavigate()
   const [isHovering, setIsHovering] = useState(false)
   const handleMouseOver = () => {
@@ -124,7 +125,6 @@ export const EditProfile = (props) => {
       )
       if (res.status === 200 || res.status === 201) {
         const data = await res.data
-        console.log('data', data)
         setUser(data)
         reset({
           firstName: data.firstName,
@@ -132,6 +132,8 @@ export const EditProfile = (props) => {
           email: data.email,
           profileImgUrl: data.profileImgUrl,
         })
+      } else if (res.status === 403) {
+        navigate('/login')
       }
     }
     fetchApi()
@@ -159,10 +161,19 @@ export const EditProfile = (props) => {
       )
       if (res.status === 200 || res.status === 201) {
         console.log('Edited')
+        console.log(data)
+        if (res.data.profileImgUrl === ' ') {
+          editProfile(data.firstName, data.lastName, data.profileImgUrl)
+        } else {
+          editProfile(data.firstName, data.lastName, res.data.profileImgUrl)
+        }
+
         toast.success('Edited profile successfullly', {
           position: toast.POSITION.TOP_CENTER,
         })
         navigate('/profile')
+      } else if (res.status === 403) {
+        navigate('/login')
       }
     } catch (error) {
       console.log(error)
@@ -239,12 +250,11 @@ export const EditProfile = (props) => {
       <Box
         sx={{
           margin: '0 auto',
-          width: '50%',
+          width: '400px',
           marginTop: '4em',
           marginBottom: '4em',
         }}
       >
-        <CategoriesSubheading categoryName={'Edit Profile'} />
         {user && (
           <form onSubmit={handleSubmit(onSubmit)}>
             <Box
