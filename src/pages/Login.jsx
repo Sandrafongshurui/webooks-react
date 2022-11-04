@@ -57,7 +57,6 @@ export const Login = (props) => {
   const setNameInContext = (token) => {
     // const token = cookies.get('user_token')
     const user = jwt_decode(token)
-    console.log(user)
     login(
       user.data.firstName,
       user.data.lastName,

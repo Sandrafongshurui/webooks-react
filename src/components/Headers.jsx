@@ -24,7 +24,6 @@ import { toast } from 'react-toastify'
 import axios from 'axios'
 import Cookies from 'universal-cookie'
 
-
 export const Logo = () => {
   const isMobile = useMediaQuery({ maxWidth: 900 })
   const navigate = useNavigate()
@@ -105,60 +104,41 @@ export const SiteHeader = () => {
 export const SiteHeaderDropDownMenu = (props) => {
   const cookies = new Cookies()
   const { user, logout, login } = useContext(UserContext)
-  console.log(user)
   const [anchorEl, setAnchorEl] = useState(null)
   // const [authUser] = useState(true)
   const navigate = useNavigate()
   const open = Boolean(anchorEl)
   const location = useLocation()
-  console.log(location.pathname)
 
   useEffect(() => {
     const fetchApi = async () => {
-      const res = await axios.get(
-        `${process.env.REACT_APP_SERVER_URL}/api/v1/profile`,
-        {
-          headers: {
-            'Content-Type': 'application/json',
+      const cookie = cookies.get('user_token')
+      if (cookie) {
+        const res = await axios.get(
+          `${process.env.REACT_APP_SERVER_URL}/api/v1/profile`,
+          {
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            withCredentials: true,
           },
-          withCredentials: true,
-        },
-      )
-      if (res.status === 200 || res.status === 201) {
-        const data = await res.data
-        login(
-          data.firstName,
-          data.lastName,
-          data.profileImgUrl,
-          data.isLibrarian,
         )
-      } else if (res.status === 403) {
-        navigate('/login')
+        if (res.status === 200 || res.status === 201) {
+          const data = await res.data
+          login(
+            data.firstName,
+            data.lastName,
+            data.profileImgUrl,
+            data.isLibrarian,
+          )
+        } else if (res.status === 403) {
+          navigate('/login')
+        }
       }
     }
     fetchApi()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
-
-  // useEffect(() => {
-  //   const setUserInContext = () => {
-  //     const token = cookies.get('user_token')
-  //     if (!token) {
-  //       return navigate('/')
-  //     }
-
-  //     const user = jwt_decode(token)
-  //     console.log(user)
-  //     login(
-  //       user.data.firstName,
-  //       user.data.lastName,
-  //       user.data.profileImgUrl,
-  //       user.data.isLibrarian,
-  //     )
-  //   }
-  //   setUserInContext()
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [props])
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget)
@@ -167,7 +147,6 @@ export const SiteHeaderDropDownMenu = (props) => {
     setAnchorEl(null)
   }
   const handleLogout = async () => {
-    logout()
     try {
       const res = await axios.post(
         `${process.env.REACT_APP_SERVER_URL}/api/v1/auth/logout/`,
@@ -188,6 +167,7 @@ export const SiteHeaderDropDownMenu = (props) => {
         toast.success('Logout successfullly', {
           position: toast.POSITION.TOP_CENTER,
         })
+        logout()
         navigate('/')
       }
     } catch (error) {
