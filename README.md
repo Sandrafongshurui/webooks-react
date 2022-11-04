@@ -18,14 +18,17 @@ Postgres SQL
 React
 MUI library
 Axios
-Jwt-decode
 React-dropzone
 react-reader
 react-spring-bottom-sheet
 
 ### Back-end:
 Express Node.js
-cookie-parser
+Google-cloud/storage
+Image Kit
+Elephant sql
+sequelize ORM
+Hosted on render.com : **[webooks server](https://dbdiagram.io/d/634c0deef0018a1c5f12f35e)**
 
 # Getting Started with Create React App
 
