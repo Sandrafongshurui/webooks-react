@@ -17,7 +17,6 @@ import { AccessTime } from '@mui/icons-material'
 import datesBetween from 'dates-between'
 import { toast } from 'react-toastify'
 
-
 export const ManageLoanCard = (props) => {
   const navigate = useNavigate()
   const { book, dueDate, id, bookId } = props.loanData
@@ -44,16 +43,14 @@ export const ManageLoanCard = (props) => {
         // navigate("/bookshelf/loans")
         props.returnLoan(true)
         props.bottomSheetOpen(false)
-      }else if (res.status === 403){
-        navigate("/login")
       }
     } catch (error) {
       console.log(error)
       toast.error(error.response.data.error, {
         position: toast.POSITION.TOP_CENTER,
       })
+      navigate('/')
     }
-  
   }
   const getDatesInRange = (startDate, endDate) => {
     const arrayOfDates = []
@@ -93,14 +90,13 @@ export const ManageLoanCard = (props) => {
             position: toast.POSITION.TOP_CENTER,
           })
           window.location.reload(false)
-        }else if (res.status === 403){
-          navigate("/login")
-        }
+        } 
       } catch (error) {
         console.log(error)
         toast.error(error.response.data.error, {
           position: toast.POSITION.TOP_CENTER,
         })
+        navigate('/')
       }
     }
   }

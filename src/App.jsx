@@ -1,6 +1,6 @@
 import './App.css'
 import { Routes, Route } from 'react-router-dom'
-import React, { useContext } from 'react'
+import React from 'react'
 import { Login } from './pages/Login'
 import { Register } from './pages/Register'
 import { EpubReader } from './components/EpubReader'
@@ -13,8 +13,7 @@ import { EditProfile } from './pages/EditProfile'
 import { BookshelfPage } from './pages/BookshelfPage'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
-import { UserContext } from './components/context/Context'
-import { Auth } from './components/Auth'
+
 
 export const App = () => {
   return (

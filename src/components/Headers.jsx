@@ -107,7 +107,7 @@ export const SiteHeaderDropDownMenu = () => {
   const { user, logout, login } = useContext(UserContext)
   console.log(user)
   const [anchorEl, setAnchorEl] = useState(null)
-  const [authUser] = useState(true)
+  // const [authUser] = useState(true)
   const navigate = useNavigate()
   const open = Boolean(anchorEl)
 
@@ -128,6 +128,7 @@ export const SiteHeaderDropDownMenu = () => {
       )
     }
     setUserInContext()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const handleClick = (event) => {
@@ -165,6 +166,7 @@ export const SiteHeaderDropDownMenu = () => {
       toast.error(error.response.data.error, {
         position: toast.POSITION.TOP_CENTER,
       })
+      navigate('/')
     }
   }
 

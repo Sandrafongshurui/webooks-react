@@ -1,5 +1,5 @@
 
-import React, {createContext, useContext, useReducer, useState} from 'react';
+import React, {createContext, useState} from 'react';
  
 //create a conetext
 export const UserContext = createContext({ name: '', auth: false });

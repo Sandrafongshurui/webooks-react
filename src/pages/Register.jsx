@@ -98,6 +98,7 @@ export const Register = (props) => {
       toast.error(error.response.data.error, {
         position: toast.POSITION.TOP_CENTER,
       })
+      navigate('/')
     }
   }
   const mobile = {

@@ -41,6 +41,7 @@ export const BookshelfLoansContent = () => {
       }
     }
     fetchApi()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [returnLoan])
 
   const handleBottomsheet = (loanData) => {

@@ -17,7 +17,6 @@ import Sheet from 'react-modal-sheet'
 import { useParams, useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import { UserContext } from '../components/context/Context'
-import { type } from '@testing-library/user-event/dist/type'
 
 export const BookDetailsPage = (props) => {
   const { user } = useContext(UserContext)
@@ -54,14 +53,13 @@ export const BookDetailsPage = (props) => {
           position: toast.POSITION.TOP_CENTER,
         })
         navigate('/bookshelf/loans')
-      } else if (res.status === 403) {
-        navigate('/login')
       }
     } catch (error) {
       console.log(error)
       toast.error(error.response.data.error, {
         position: toast.POSITION.TOP_CENTER,
       })
+      navigate('/')
     }
   }
   const handleReserve = async () => {
@@ -91,14 +89,13 @@ export const BookDetailsPage = (props) => {
           })
           navigate('/bookshelf/reserves')
         }
-      } else if (res.status === 403) {
-        navigate('/login')
       }
     } catch (error) {
       console.log(error)
       toast.error(error.response.data.error, {
         position: toast.POSITION.TOP_CENTER,
       })
+      navigate('/')
     }
   }
 

@@ -32,6 +32,7 @@ export const Profile = (props) => {
       }
     }
     fetchApi()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
   useEffect(() => {
     const fetchApi = async () => {
@@ -53,6 +54,7 @@ export const Profile = (props) => {
       }
     }
     fetchApi()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
   //   const backgroundImgStyle = {
   //     // backgroundImage: `url(${imagefile})`,

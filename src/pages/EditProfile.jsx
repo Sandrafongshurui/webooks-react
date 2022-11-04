@@ -9,7 +9,6 @@ import {
   ListItemText,
   Avatar,
   Paper,
-  CircularProgress,
 } from '@mui/material'
 import { BackArrow } from '../components/Headers'
 import axios from 'axios'
@@ -179,20 +178,17 @@ export const EditProfile = (props) => {
         //   position: toast.POSITION.TOP_CENTER,
         // })
         navigate('/profile')
-      } else if (res.status === 403) {
-        navigate('/login')
       }
     } catch (error) {
       console.log(error)
-      // toast.error(error.response.data.error, {
-      //   position: toast.POSITION.TOP_CENTER,
-      // })
+
       toast.update(loading, {
         render: error.response.data.error,
         type: error,
         isLoading: false,
         position: toast.POSITION.TOP_CENTER,
       })
+      navigate('/')
     }
   }
   // const genres = [

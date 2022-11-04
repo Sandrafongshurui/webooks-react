@@ -8,7 +8,6 @@ import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import globalStyle from '../global.module.css'
 
-
 export const BookshelfReservesContent = (props) => {
   const navigate = useNavigate()
 
@@ -32,11 +31,12 @@ export const BookshelfReservesContent = (props) => {
         const data = await res.data
         console.log('data', data)
         setReserves(data)
-      }else if (res.status === 403){
-        navigate("/login")
+      } else if (res.status === 403) {
+        navigate('/login')
       }
     }
     fetchApi()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const handleCancelReserve = async (id) => {
@@ -56,8 +56,6 @@ export const BookshelfReservesContent = (props) => {
           position: toast.POSITION.TOP_CENTER,
         })
         window.location.reload(false)
-      }else if (res.status === 403){
-        navigate("/login")
       }
     } catch (error) {
       console.log(error)
@@ -65,11 +63,12 @@ export const BookshelfReservesContent = (props) => {
         position: toast.POSITION.TOP_CENTER,
       })
     }
+    navigate('/')
   }
 
   return (
     <Box className={globalStyle.contentsbody}>
-      <CategoriesSubheading categoryName={'Fully booked'} standard={true}/>
+      <CategoriesSubheading categoryName={'Fully booked'} standard={true} />
       <Box sx={{ flexGrow: 1 }}>
         <Grid
           container

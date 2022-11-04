@@ -1,6 +1,6 @@
-import React, { useState } from "react";
-import ErrorIcon from "@mui/icons-material/Error";
-import UploadIcon from "@mui/icons-material/Upload";
+import React, { useState } from 'react'
+import ErrorIcon from '@mui/icons-material/Error'
+import UploadIcon from '@mui/icons-material/Upload'
 import {
   Box,
   TextField,
@@ -9,28 +9,31 @@ import {
   List,
   ListItem,
   ListItemText,
-} from "@mui/material";
-import { AddBookHeader} from "../components/Headers";
-import axios from "axios";
-import * as yup from "yup";
-import { yupResolver } from "@hookform/resolvers/yup";
-import { Controller, useForm } from "react-hook-form";
-import { useDropzone } from "react-dropzone";
-import globalStyle from "../global.module.css";
-import { useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
+} from '@mui/material'
+import { AddBookHeader } from '../components/Headers'
+import axios from 'axios'
+import * as yup from 'yup'
+import { yupResolver } from '@hookform/resolvers/yup'
+import { Controller, useForm } from 'react-hook-form'
+import { useDropzone } from 'react-dropzone'
+import globalStyle from '../global.module.css'
+import { useNavigate } from 'react-router-dom'
+import { toast } from 'react-toastify'
 
 export const CreateBook = (props) => {
   const navigate = useNavigate()
   const validationSchema = yup.object().shape({
-    title: yup.string().min(1, "Please include a title").required(),
-    author: yup.string().min(4, "Please include an author").required(),
-    genreId: yup.number().min(1, "Please select a genre").required(),
-    copiesAvailable: yup.number().min(1, "Please state the number of copies available").required(),
-    sypnosis: yup.string().min(10, "Please include a sypnosis").required(),
-  });
-  const [backgroundImg, setBackgroundImg] = useState(false);
-  const [epubFile, setEpubFile] = useState(false);
+    title: yup.string().min(1, 'Please include a title').required(),
+    author: yup.string().min(4, 'Please include an author').required(),
+    genreId: yup.number().min(1, 'Please select a genre').required(),
+    copiesAvailable: yup
+      .number()
+      .min(1, 'Please state the number of copies available')
+      .required(),
+    sypnosis: yup.string().min(10, 'Please include a sypnosis').required(),
+  })
+  const [backgroundImg, setBackgroundImg] = useState(false)
+  const [epubFile, setEpubFile] = useState(false)
   const files = []
   // const numOfFiles = (file) => {
   //   if (imageAcceptedFiles.length > 1) {
@@ -49,22 +52,22 @@ export const CreateBook = (props) => {
     getInputProps: imageGetInputProps,
   } = useDropzone({
     accept: {
-      "image/png": [".png"],
-      "image/jpeg": [".jpg"],
+      'image/png': ['.png'],
+      'image/jpeg': ['.jpg'],
     },
     maxFiles: 1,
     onDrop: () => {
-      setBackgroundImg(true);
+      setBackgroundImg(true)
     },
     multiple: false,
-  });
+  })
 
   const imageFileRejectionItems = imageFileRejections.map(
     ({ file, errors }) => {
       return (
         <ListItem
           key={file.path}
-          sx={{ display: "flex", p: "0", flexWrap: "wrap" }}
+          sx={{ display: 'flex', p: '0', flexWrap: 'wrap' }}
         >
           {/* //   <ListItemText
         //     sx={{ width: "inherit" }}
@@ -80,7 +83,7 @@ export const CreateBook = (props) => {
         //     }
         //   /> */}
           <ListItemText
-            sx={{ width: "inherit", padding: "0", margin: "0" }}
+            sx={{ width: 'inherit', padding: '0', margin: '0' }}
             primary={
               <Typography
                 component="span"
@@ -100,11 +103,11 @@ export const CreateBook = (props) => {
         //     ))}
         //   </ul>
         // </li>
-      );
-    }
-  );
+      )
+    },
+  )
 
-  const imagefile = imageAcceptedFiles.map((file) => URL.createObjectURL(file));
+  const imagefile = imageAcceptedFiles.map((file) => URL.createObjectURL(file))
 
   const {
     fileRejections: epubFileRejections,
@@ -113,21 +116,20 @@ export const CreateBook = (props) => {
     getInputProps: epubGetInputProps,
   } = useDropzone({
     accept: {
-      "application/epub+zip": [".epub"],
+      'application/epub+zip': ['.epub'],
     },
     maxFiles: 1,
     onDrop: () => {
-      setEpubFile(true);
-
+      setEpubFile(true)
     },
     // validator: numOfFiles,
-  });
+  })
 
   const epubFileRejectionItems = epubFileRejections.map(({ file, errors }) => {
     return (
       <ListItem
         key={file.path}
-        sx={{ display: "flex", p: "0", flexWrap: "wrap" }}
+        sx={{ display: 'flex', p: '0', flexWrap: 'wrap' }}
       >
         {/* //   <ListItemText
       //     sx={{ width: "inherit" }}
@@ -143,7 +145,7 @@ export const CreateBook = (props) => {
       //     }
       //   /> */}
         <ListItemText
-          sx={{ width: "inherit", padding: "0", margin: "0" }}
+          sx={{ width: 'inherit', padding: '0', margin: '0' }}
           primary={
             <Typography
               component="span"
@@ -163,36 +165,36 @@ export const CreateBook = (props) => {
       //     ))}
       //   </ul>
       // </li>
-    );
-  });
-  const epubFilePath = epubAcceptedFiles.map((file) => file.path);
+    )
+  })
+  const epubFilePath = epubAcceptedFiles.map((file) => file.path)
 
   const backgroundImgStyle = {
     backgroundImage: `url(${imagefile})`,
-    backgroundRepeat: "no-repeat",
-    backgroundSize: "cover",
-    backgroundBlendMode: "overlay",
-  };
+    backgroundRepeat: 'no-repeat',
+    backgroundSize: 'cover',
+    backgroundBlendMode: 'overlay',
+  }
 
   const propertyField = {
-    width: "100%",
-  };
+    width: '100%',
+  }
 
   const defaultValues = {
-    title: "",
-    author: "",
+    title: '',
+    author: '',
     genreId: 0,
     copiesAvailable: 1,
-    sypnosis: "",
-    
-  };
+    sypnosis: '',
+  }
   const {
     control,
     handleSubmit,
     formState: { errors },
-  } = useForm({ resolver: yupResolver(validationSchema), defaultValues });
+  } = useForm({ resolver: yupResolver(validationSchema), defaultValues })
 
   const onSubmit = async (data) => {
+    const loading = toast.loading('Updating...')
     // console.log("create book", data);
     files.push(epubAcceptedFiles)
     files.push(imageAcceptedFiles)
@@ -201,13 +203,13 @@ export const CreateBook = (props) => {
     // console.log(imageAcceptedFiles)
     // console.log(files)
     try {
-      const formData = new FormData();
+      const formData = new FormData()
       Object.keys(data).forEach((element) => {
-        formData.append(element, data[element]);
-      });
-    
-        formData.append("file", epubAcceptedFiles[0]);
-        formData.append("file", imageAcceptedFiles[0]);
+        formData.append(element, data[element])
+      })
+
+      formData.append('file', epubAcceptedFiles[0])
+      formData.append('file', imageAcceptedFiles[0])
       // Object.keys(imageAcceptedFiles).forEach((element) => {
       //   formData.append(element, data[element]);
       // });
@@ -217,87 +219,86 @@ export const CreateBook = (props) => {
         formData,
         {
           headers: {
-            "Content-Type": "multipart/form-data",
+            'Content-Type': 'multipart/form-data',
           },
           withCredentials: true,
-        }
-      );
-      if (res.status === 200 || res.status === 201) {
-        console.log("Created book");
-        toast.success(
-          "Added a book successfully",
-          {
-              position: toast.POSITION.TOP_CENTER
-          }
+        },
       )
-        navigate("/")
-      }else if (res.status === 403){
-        navigate("/login")
+      if (res.status === 200 || res.status === 201) {
+        console.log('Created book')
+        toast.update(loading, {
+          render: 'added a book successfullly',
+          type: 'success',
+          isLoading: false,
+          position: toast.POSITION.TOP_CENTER,
+        })
+        navigate('/')
       }
     } catch (error) {
-      console.log(error);
-      toast.error(
-        error.response.data.error,
-        {
-            position: toast.POSITION.TOP_CENTER
-        }
-    )
+      console.log(error)
+      toast.update(loading, {
+        render: error.response.data.error,
+        type: error,
+        isLoading: false,
+        position: toast.POSITION.TOP_CENTER,
+      })
+      navigate('/')
     }
-  };
+  }
   const genres = [
     {
-      value: "0",
-      label: "Select",
+      value: '0',
+      label: 'Select',
     },
     {
-      value: "11",
-      label: "Mystery",
+      value: '11',
+      label: 'Mystery',
     },
     {
-      value: "12",
-      label: "Crime",
+      value: '12',
+      label: 'Crime',
     },
     {
-      value: "13",
-      label: "Family",
+      value: '13',
+      label: 'Family',
     },
     {
-      value: "14",
-      label: "Thriller",
+      value: '14',
+      label: 'Thriller',
     },
     {
-      value: "15",
-      label: "Psychological",
+      value: '15',
+      label: 'Psychological',
     },
     {
-      value: "16",
-      label: "Biographies",
+      value: '16',
+      label: 'Biographies',
     },
     {
-      value: "17",
-      label: "Fantasy",
+      value: '17',
+      label: 'Fantasy',
     },
     {
-      value: "18",
-      label: "Young Adult",
+      value: '18',
+      label: 'Young Adult',
     },
     {
-      value: "19",
-      label: "Classic",
+      value: '19',
+      label: 'Classic',
     },
     {
-      value: "20",
-      label: "Fiction",
+      value: '20',
+      label: 'Fiction',
     },
     {
-      value: "21",
-      label: "Romance",
+      value: '21',
+      label: 'Romance',
     },
     {
-      value: "22",
-      label: "Adventure",
+      value: '22',
+      label: 'Adventure',
     },
-  ];
+  ]
 
   return (
     <div>
@@ -308,84 +309,84 @@ export const CreateBook = (props) => {
       </div> */}
       <Box
         sx={{
-          margin: "0 auto",
-          width: "600px",
-          marginTop: "4em",
-          marginBottom: "4em",
+          margin: '0 auto',
+          width: '600px',
+          marginTop: '4em',
+          marginBottom: '4em',
         }}
       >
         <form onSubmit={handleSubmit(onSubmit)}>
           <Box
             mb={3}
             sx={{
-              display: "flex",
-              flexWrap: "wrap",
-              justifyContent: "space-between",
+              display: 'flex',
+              flexWrap: 'wrap',
+              justifyContent: 'space-between',
             }}
           >
-            <Box sx={{ width: "40%" }}>
+            <Box sx={{ width: '40%' }}>
               <Box
                 mb={3}
                 style={backgroundImg ? backgroundImgStyle : {}}
                 sx={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  width: "100%",
-                  color: "#3d3d3d",
-                  border: "2px dashed #bdbdbd",
-                  fontSize: "14px",
-                  cursor: "pointer",
-                  flexWrap: "wrap",
-                  height: "350px",
-                  borderRadius: "20px",
-                  margin: "0",
-                  "&:hover": {
-                    backgroundColor: "#ffffff63",
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  width: '100%',
+                  color: '#3d3d3d',
+                  border: '2px dashed #bdbdbd',
+                  fontSize: '14px',
+                  cursor: 'pointer',
+                  flexWrap: 'wrap',
+                  height: '350px',
+                  borderRadius: '20px',
+                  margin: '0',
+                  '&:hover': {
+                    backgroundColor: '#ffffff63',
                   },
                 }}
-                {...imageGetRootProps({ className: "dropzone" })}
+                {...imageGetRootProps({ className: 'dropzone' })}
               >
                 <input {...imageGetInputProps()} />
                 {imageFileRejectionItems.length > 0 ? (
                   <List
                     sx={{
-                      display: "flex",
+                      display: 'flex',
                       // flexWrap: "wrap",
-                      gap: "10px",
-                      width: "250px",
+                      gap: '10px',
+                      width: '250px',
                     }}
                   >
-                    {" "}
+                    {' '}
                     <ListItem
                       sx={{
-                        display: "flex",
+                        display: 'flex',
                         // flexWrap: "wrap",
-                        alignItems: "baseline",
-                        width: "fit-content",
-                        padding: "0",
+                        alignItems: 'baseline',
+                        width: 'fit-content',
+                        padding: '0',
                       }}
                     >
-                      <ErrorIcon style={{ color: "red" }} />
+                      <ErrorIcon style={{ color: 'red' }} />
                     </ListItem>
                     {imageFileRejectionItems}
                   </List>
                 ) : (
                   <List
                     sx={{
-                      display: "contents",
-                      flexWrap: "wrap",
-                      width: "100%",
-                      justifyContent: "space-between",
-                      padding: "1em",
+                      display: 'contents',
+                      flexWrap: 'wrap',
+                      width: '100%',
+                      justifyContent: 'space-between',
+                      padding: '1em',
                     }}
                   >
-                    {" "}
+                    {' '}
                     <ListItem
                       sx={{
-                        alignItems: "center",
-                        width: "fit-content",
-                        padding: "0",
+                        alignItems: 'center',
+                        width: 'fit-content',
+                        padding: '0',
                       }}
                     >
                       <Typography variant="subtitle1">
@@ -394,13 +395,13 @@ export const CreateBook = (props) => {
                     </ListItem>
                     <ListItem
                       sx={{
-                        alignItems: "center",
-                        width: "fit-content",
-                        padding: "0",
+                        alignItems: 'center',
+                        width: 'fit-content',
+                        padding: '0',
                       }}
                     >
                       <UploadIcon
-                        style={{ color: "#633bf6", marginLeft: "10px" }}
+                        style={{ color: '#633bf6', marginLeft: '10px' }}
                       />
                     </ListItem>
                     {/* {epubFileRejectionItems} */}
@@ -441,10 +442,10 @@ export const CreateBook = (props) => {
             {/* right side inputs */}
             <Box
               sx={{
-                width: "55%",
-                display: "flex",
-                flexWrap: "Wrap",
-                alignContent: "space-between",
+                width: '55%',
+                display: 'flex',
+                flexWrap: 'Wrap',
+                alignContent: 'space-between',
               }}
             >
               {/* Title */}
@@ -457,7 +458,7 @@ export const CreateBook = (props) => {
                     field, //this error will be displyed takes over form state errors
                   }) => (
                     <TextField
-                      label={"Title"} //label in the box
+                      label={'Title'} //label in the box
                       variant="outlined"
                       fullWidth
                       // error={!!error} //convert obj into a bool
@@ -479,7 +480,7 @@ export const CreateBook = (props) => {
                     field, //this error will be displyed takes over form state errors
                   }) => (
                     <TextField
-                      label={"Author"} //label in the box
+                      label={'Author'} //label in the box
                       variant="outlined"
                       fullWidth
                       // error={!!error} //convert obj into a bool
@@ -494,17 +495,17 @@ export const CreateBook = (props) => {
               {/* genres and copies */}
               <Box
                 sx={{
-                  display: "flex",
-                  flexWrap: "wrap",
-                  justifyContent: "space-between",
-                  width: "100%",
+                  display: 'flex',
+                  flexWrap: 'wrap',
+                  justifyContent: 'space-between',
+                  width: '100%',
                 }}
               >
-                <Box width={"60%"}>
+                <Box width={'60%'}>
                   <Controller
                     name="genreId" //actual input
                     control={control} //take place of the register RHF
-                    defaultValue='11'
+                    defaultValue="11"
                     render={({
                       //takes a function and rturn a react element
                       field, //this error will be displyed takes over form state errors
@@ -514,7 +515,6 @@ export const CreateBook = (props) => {
                         label="Genre"
                         variant="outlined"
                         fullWidth
-                      
                         error={errors.genreId ? true : false}
                         helperText={errors.genreId?.message}
                         {...field}
@@ -528,7 +528,7 @@ export const CreateBook = (props) => {
                     )}
                   />
                 </Box>
-                <Box width={"35%"}>
+                <Box width={'35%'}>
                   <Controller
                     name="copiesAvailable" //actual input
                     control={control} //take place of the register RHF
@@ -553,60 +553,60 @@ export const CreateBook = (props) => {
               <Box sx={propertyField}>
                 <Box
                   sx={{
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "flex-start",
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'flex-start',
                     // width: "100%",
-                    color: "#3d3d3d",
-                    border: "2px dashed #bdbdbd",
-                    fontSize: "14px",
-                    cursor: "pointer",
-                    flexWrap: "wrap",
-                    padding: "1em",
+                    color: '#3d3d3d',
+                    border: '2px dashed #bdbdbd',
+                    fontSize: '14px',
+                    cursor: 'pointer',
+                    flexWrap: 'wrap',
+                    padding: '1em',
                     //  borderRadius: "20px",
                     // height: "85px",
                   }}
-                  {...epubGetRootProps({ className: "dropzone" })}
+                  {...epubGetRootProps({ className: 'dropzone' })}
                 >
                   <input {...epubGetInputProps()} />
                   {epubFileRejectionItems.length > 0 ? (
                     <List
                       sx={{
-                        display: "flex",
+                        display: 'flex',
                         // flexWrap: "wrap",
-                        gap: "10px",
-                        width: "250px",
+                        gap: '10px',
+                        width: '250px',
                       }}
                     >
-                      {" "}
+                      {' '}
                       <ListItem
                         sx={{
-                          display: "flex",
+                          display: 'flex',
                           // flexWrap: "wrap",
-                          alignItems: "baseline",
-                          width: "fit-content",
-                          padding: "0",
+                          alignItems: 'baseline',
+                          width: 'fit-content',
+                          padding: '0',
                         }}
                       >
-                        <ErrorIcon style={{ color: "red" }} />
+                        <ErrorIcon style={{ color: 'red' }} />
                       </ListItem>
                       {epubFileRejectionItems}
                     </List>
                   ) : (
                     <List
                       sx={{
-                        display: "flex",
+                        display: 'flex',
                         // flexWrap: "wrap",
-                        width: "100%",
-                        justifyContent: "space-between",
+                        width: '100%',
+                        justifyContent: 'space-between',
                       }}
                     >
-                      {" "}
+                      {' '}
                       <ListItem
                         sx={{
-                          alignItems: "center",
-                          width: "fit-content",
-                          padding: "0",
+                          alignItems: 'center',
+                          width: 'fit-content',
+                          padding: '0',
                         }}
                       >
                         {epubFile ? (
@@ -621,13 +621,13 @@ export const CreateBook = (props) => {
                       </ListItem>
                       <ListItem
                         sx={{
-                          alignItems: "center",
-                          width: "fit-content",
-                          padding: "0",
+                          alignItems: 'center',
+                          width: 'fit-content',
+                          padding: '0',
                         }}
                       >
                         <UploadIcon
-                          style={{ color: "#633bf6", marginLeft: "10px" }}
+                          style={{ color: '#633bf6', marginLeft: '10px' }}
                         />
                       </ListItem>
                       {/* {epubFileRejectionItems} */}
@@ -646,7 +646,9 @@ export const CreateBook = (props) => {
                 field, //this error will be displyed takes over form state errors
               }) => (
                 <TextField
-                  label={"Write a brief synopsis meaning of this book, it will help our users in selecting!"} //label in the box
+                  label={
+                    'Write a brief synopsis meaning of this book, it will help our users in selecting!'
+                  } //label in the box
                   variant="outlined"
                   fullWidth
                   multiline
@@ -659,7 +661,7 @@ export const CreateBook = (props) => {
                   {...field}
                   inputProps={{
                     style: {
-                      height: "170px",
+                      height: '170px',
                     },
                   }}
                 />
@@ -675,5 +677,5 @@ export const CreateBook = (props) => {
         </form>
       </Box>
     </div>
-  );
-};
+  )
+}
