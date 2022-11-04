@@ -23,7 +23,7 @@ import { toast } from 'react-toastify'
 import { UserContext } from '../components/context/Context'
 
 export const EditProfile = (props) => {
-  const { editProfile, login } = useContext(UserContext)
+  const { login } = useContext(UserContext)
   const navigate = useNavigate()
   const [isHovering, setIsHovering] = useState(false)
   const handleMouseOver = () => {
@@ -114,26 +114,29 @@ export const EditProfile = (props) => {
   const [user, setUser] = useState(null)
   useEffect(() => {
     const fetchApi = async () => {
-      const res = await axios.get(
-        `${process.env.REACT_APP_SERVER_URL}/api/v1/profile`,
-        {
-          headers: {
-            'Content-Type': 'application/json',
+      try {
+        const res = await axios.get(
+          `${process.env.REACT_APP_SERVER_URL}/api/v1/profile`,
+          {
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            withCredentials: true,
           },
-          withCredentials: true,
-        },
-      )
-      if (res.status === 200 || res.status === 201) {
-        const data = await res.data
-        setUser(data)
-        reset({
-          firstName: data.firstName,
-          lastName: data.lastName,
-          email: data.email,
-          profileImgUrl: data.profileImgUrl,
-        })
-      } else if (res.status === 403) {
-        navigate('/login')
+        )
+        if (res.status === 200 || res.status === 201) {
+          const data = await res.data
+          setUser(data)
+          reset({
+            firstName: data.firstName,
+            lastName: data.lastName,
+            email: data.email,
+            profileImgUrl: data.profileImgUrl,
+          })
+        }
+      } catch (error) {
+        console.log(error)
+        navigate('/')
       }
     }
     fetchApi()
@@ -142,7 +145,9 @@ export const EditProfile = (props) => {
 
   const onSubmit = async (data) => {
     // console.log("create book", data);
-    const loading = toast.loading('Updating...',{ position: toast.POSITION.TOP_CENTER})
+    const loading = toast.loading('Updating...', {
+      position: toast.POSITION.TOP_CENTER,
+    })
     try {
       const formData = new FormData()
       Object.keys(data).forEach((element) => {
@@ -173,7 +178,7 @@ export const EditProfile = (props) => {
           type: 'success',
           isLoading: false,
           position: toast.POSITION.TOP_CENTER,
-          autoClose: 5000
+          autoClose: 5000,
         })
         // toast.success('Edited profile successfullly', {
         //   position: toast.POSITION.TOP_CENTER,
@@ -188,7 +193,7 @@ export const EditProfile = (props) => {
         type: error,
         isLoading: false,
         position: toast.POSITION.TOP_CENTER,
-        autoClose: 5000
+        autoClose: 5000,
       })
       navigate('/')
     }
@@ -257,7 +262,7 @@ export const EditProfile = (props) => {
   return (
     <div>
       {' '}
-      <BackArrow />
+      <BackArrow/>
       <Box
         sx={{
           margin: '0 auto',

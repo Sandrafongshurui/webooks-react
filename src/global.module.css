@@ -127,3 +127,14 @@ h2 {
 .css-md26zr-MuiInputBase-root-MuiOutlinedInput-root {
   border-radius: 50px !important;
 }
+
+.flexwrapper {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+.footer {
+  margin-top: auto;
+}

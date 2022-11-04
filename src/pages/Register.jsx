@@ -314,7 +314,7 @@ export const Register = (props) => {
             />
             <Typography variant="subtitle2" className="author-name" pt={3}>
               Already have an account?{' '}
-              <Link component="button" variant="subtitle2" color={'#FF8865'}>
+              <Link component="button" onClick={()=>navigate("/login")} variant="subtitle2" color={'#FF8865'}>
                 Login
               </Link>
             </Typography>

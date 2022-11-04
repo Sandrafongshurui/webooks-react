@@ -19,6 +19,7 @@ import { useDropzone } from 'react-dropzone'
 import globalStyle from '../global.module.css'
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
+import { Footer } from '../components/Footer'
 
 export const CreateBook = (props) => {
   const navigate = useNavigate()
@@ -303,7 +304,7 @@ export const CreateBook = (props) => {
   ]
 
   return (
-    <div>
+    <div className={globalStyle.flexwrapper }>
       <AddBookHeader />
       {/* <div>
         <input type="file" onChange={previewImage}/>
@@ -678,6 +679,7 @@ export const CreateBook = (props) => {
           </button>
         </form>
       </Box>
+      <div className={globalStyle.footer}><Footer /></div>
     </div>
   )
 }

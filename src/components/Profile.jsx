@@ -14,43 +14,50 @@ export const Profile = (props) => {
   const [user, setUser] = useState(null)
   useEffect(() => {
     const fetchApi = async () => {
-      const res = await axios.get(
-        `${process.env.REACT_APP_SERVER_URL}/api/v1/profile`,
-        {
-          headers: {
-            'Content-Type': 'application/json',
+      try {
+        const res = await axios.get(
+          `${process.env.REACT_APP_SERVER_URL}/api/v1/profile`,
+          {
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            withCredentials: true,
           },
-          withCredentials: true,
-        },
-      )
-      if (res.status === 200 || res.status === 201) {
-        const data = await res.data
-        console.log('data', data)
-        setUser(data)
-      } else if (res.status === 403) {
-        navigate('/login')
+        )
+        if (res.status === 200 || res.status === 201) {
+          const data = await res.data
+          console.log('data', data)
+          setUser(data)
+        }
+      } catch (error) {
+        console.log(error)
+        navigate('/')
       }
     }
+
     fetchApi()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
   useEffect(() => {
     const fetchApi = async () => {
-      const res = await axios.get(
-        `${process.env.REACT_APP_SERVER_URL}/api/v1/loans`,
-        {
-          headers: {
-            'Content-Type': 'application/json',
+      try {
+        const res = await axios.get(
+          `${process.env.REACT_APP_SERVER_URL}/api/v1/loans`,
+          {
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            withCredentials: true,
           },
-          withCredentials: true,
-        },
-      )
-      if (res.status === 200 || res.status === 201) {
-        const data = await res.data
-        console.log('data', data)
-        setLoans(data)
-      } else if (res.status === 403) {
-        navigate('/login')
+        )
+        if (res.status === 200 || res.status === 201) {
+          const data = await res.data
+          console.log('data', data)
+          setLoans(data)
+        }
+      } catch (error) {
+        console.log(error)
+        navigate('/')
       }
     }
     fetchApi()
@@ -203,12 +210,15 @@ export const Profile = (props) => {
             </Box>
           </Box>
           <Box>
-            <CategoriesSubheading categoryName={'Total Loans'} standard={true}/>
-            <Typography noWrap variant="h6" sx={{textAlign:"left"}}>
+            <CategoriesSubheading
+              categoryName={'Total Loans'}
+              standard={true}
+            />
+            <Typography noWrap variant="h6" sx={{ textAlign: 'left' }}>
               Total Loans: {user.loans.length}
             </Typography>
           </Box>
-          <CategoriesSubheading categoryName={'Timeline'} standard={true}/>
+          <CategoriesSubheading categoryName={'Timeline'} standard={true} />
           <Box sx={{ flexGrow: 1 }}>
             <Grid
               container

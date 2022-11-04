@@ -23,7 +23,7 @@ import { UserContext } from './context/Context'
 import { toast } from 'react-toastify'
 import axios from 'axios'
 import Cookies from 'universal-cookie'
-import jwt_decode from 'jwt-decode'
+
 
 export const Logo = () => {
   const isMobile = useMediaQuery({ maxWidth: 900 })
@@ -511,8 +511,17 @@ export const ProfileHeader = (props) => {
   )
 }
 
-export const BackArrow = () => {
+export const BackArrow = (props) => {
   const navigate = useNavigate()
+
+  // const handleClick = () => {
+  //   if (props.link) {
+  //     navigate(`${props.link}`)
+  //   } else {
+  //     navigate(-1)
+  //   }
+  // }
+
   return (
     <Link onClick={() => navigate(-1)}>
       <Box sx={{ display: 'flex' }}>

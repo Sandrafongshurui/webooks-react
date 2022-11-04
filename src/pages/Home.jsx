@@ -14,6 +14,11 @@ export const Home = (props) => {
   //fetch api for get loans
   useEffect(() => {
     const fetchApi = async () => {
+      try {
+        
+      } catch (error) {
+        
+      }
       const res = await axios.get(
         `${process.env.REACT_APP_SERVER_URL}/api/v1/books`,
         {

@@ -243,7 +243,7 @@ export const Login = (props) => {
             />
             <Typography variant="subtitle2" className="author-name" pt={3}>
               Don't have an account?{' '}
-              <Link component="button" variant="subtitle2" color={'#FF8865'}>
+              <Link component="button"  onClick={()=>navigate("/register")} variant="subtitle2" color={'#FF8865'}>
                 Register
               </Link>
             </Typography>

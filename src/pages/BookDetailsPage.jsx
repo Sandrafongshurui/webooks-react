@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react'
-import { SiteHeader, CategoriesSubheading } from '../components/Headers'
+import { CategoriesSubheading } from '../components/Headers'
 import Image from 'mui-image'
 import axios from 'axios'
 import {
@@ -106,22 +106,25 @@ export const BookDetailsPage = (props) => {
   useEffect(() => {
     console.log('get book')
     const fetchApi = async () => {
-      const res = await axios.get(
-        `${process.env.REACT_APP_SERVER_URL}/api/v1/books/${bookId}`,
-        {
-          headers: {
-            'Content-Type': 'application/json',
+      try {
+        const res = await axios.get(
+          `${process.env.REACT_APP_SERVER_URL}/api/v1/books/${bookId}`,
+          {
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            withCredentials: true,
           },
-          withCredentials: true,
-        },
-      )
-      if (res.status === 200 || res.status === 201) {
-        const data = await res.data
-        console.log('data', data)
-        setBook(data)
-        setAction(getAction(data.copiesAvailable))
-      } else if (res.status === 403) {
-        navigate('/login')
+        )
+        if (res.status === 200 || res.status === 201) {
+          const data = await res.data
+          console.log('data', data)
+          setBook(data)
+          setAction(getAction(data.copiesAvailable))
+        }
+      } catch (error) {
+        console.log(error)
+        navigate('/')
       }
     }
     fetchApi()

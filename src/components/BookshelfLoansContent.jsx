@@ -23,23 +23,27 @@ export const BookshelfLoansContent = () => {
   //fetch api for get loans
   useEffect(() => {
     const fetchApi = async () => {
-      const res = await axios.get(
-        `${process.env.REACT_APP_SERVER_URL}/api/v1/loans`,
-        {
-          headers: {
-            'Content-Type': 'application/json',
+      try {
+        const res = await axios.get(
+          `${process.env.REACT_APP_SERVER_URL}/api/v1/loans`,
+          {
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            withCredentials: true,
           },
-          withCredentials: true,
-        },
-      )
-      if (res.status === 200 || res.status === 201) {
-        const data = await res.data
-        console.log('data', data)
-        setLoans(data)
-      }else if (res.status === 403){
-        navigate("/login")
+        )
+        if (res.status === 200 || res.status === 201) {
+          const data = await res.data
+          console.log('data', data)
+          setLoans(data)
+        }
+      } catch (error) {
+        console.log(error)
+        navigate('/')
       }
     }
+
     fetchApi()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [returnLoan])
@@ -51,8 +55,8 @@ export const BookshelfLoansContent = () => {
 
   return (
     <Box className={globalStyle.contentsbody}>
-      <CategoriesSubheading categoryName={'Continue Reading'} standard={true}/>
-      <Box sx={{ flexGrow: 1, width:"100%" }}>
+      <CategoriesSubheading categoryName={'Continue Reading'} standard={true} />
+      <Box sx={{ flexGrow: 1, width: '100%' }}>
         <Grid
           container
           spacing={{ xs: 1, sm: 2, md: 1 }}
@@ -71,7 +75,11 @@ export const BookshelfLoansContent = () => {
         </Grid>
       </Box>
 
-      <Sheet isOpen={bottomSheetOpen} onClose={() => setBottomSheetOpen(false)} snapPoints={[600,0]}>
+      <Sheet
+        isOpen={bottomSheetOpen}
+        onClose={() => setBottomSheetOpen(false)}
+        snapPoints={[600, 0]}
+      >
         <Sheet.Container>
           <Sheet.Header />
           <Sheet.Content>

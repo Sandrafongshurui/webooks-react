@@ -18,21 +18,24 @@ export const BookshelfReservesContent = (props) => {
   //fetch api for get loans
   useEffect(() => {
     const fetchApi = async () => {
-      const res = await axios.get(
-        `${process.env.REACT_APP_SERVER_URL}/api/v1/reserves`,
-        {
-          headers: {
-            'Content-Type': 'application/json',
+      try {
+        const res = await axios.get(
+          `${process.env.REACT_APP_SERVER_URL}/api/v1/reserves`,
+          {
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            withCredentials: true,
           },
-          withCredentials: true,
-        },
-      )
-      if (res.status === 200 || res.status === 201) {
-        const data = await res.data
-        console.log('data', data)
-        setReserves(data)
-      } else if (res.status === 403) {
-        navigate('/login')
+        )
+        if (res.status === 200 || res.status === 201) {
+          const data = await res.data
+          console.log('data', data)
+          setReserves(data)
+        }
+      } catch (error) {
+        console.log(error)
+        navigate('/')
       }
     }
     fetchApi()

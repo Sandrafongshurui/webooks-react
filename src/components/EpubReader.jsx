@@ -3,14 +3,14 @@ import React, { useRef, useState, useEffect } from 'react'
 import { ReactReader } from 'react-reader'
 // import Ebook from "./epub/sample.epub";
 import axios from 'axios'
-import { Box, Button, ListItem,  List, Typography } from '@mui/material'
+import { Box, Button, ListItem, List, Typography } from '@mui/material'
 
 import { useNavigate, useParams } from 'react-router-dom'
 import CloseIcon from '@mui/icons-material/Close'
 import EditIcon from '@mui/icons-material/Edit'
 import Sheet from 'react-modal-sheet'
-import VisibilityIcon from '@mui/icons-material/Visibility';
-import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
+import VisibilityIcon from '@mui/icons-material/Visibility'
+import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline'
 // import ebook from '../assets/Little-Women.epub'
 
 // const ownStyles = {
@@ -55,29 +55,31 @@ export const EpubReader = () => {
 
   useEffect(() => {
     const fetchApi = async () => {
-      console.log('fetch')
-      const res = await axios.get(
-        `${process.env.REACT_APP_SERVER_URL}/api/v1/loan/${loanId}/book/${bookId}/open`,
-        {
-          headers: {
-            'Content-Type': 'application/json',
+      try {
+        const res = await axios.get(
+          `${process.env.REACT_APP_SERVER_URL}/api/v1/loan/${loanId}/book/${bookId}/open`,
+          {
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            withCredentials: true,
           },
-          withCredentials: true,
-        },
-      )
-      if (res.status === 200 || res.status === 201) {
-        const data = await res.data
-        console.log('data', data)
-        setLoan(data.loan)
-        // setAnnotations(data.annotations)
-        if (data.loan.bookProgress !== '0') {
-          setLocation(data.loan.bookProgress)
+        )
+        if (res.status === 200 || res.status === 201) {
+          const data = await res.data
+          console.log('data', data)
+          setLoan(data.loan)
+          // setAnnotations(data.annotations)
+          if (data.loan.bookProgress !== '0') {
+            setLocation(data.loan.bookProgress)
+          }
+          if (data.annotations.length > 0) {
+            setSelections(data.annotations)
+          }
         }
-        if (data.annotations.length > 0) {
-          setSelections(data.annotations)
-        }
-      }else if (res.status === 403){
-        navigate("/login")
+      } catch (error) {
+        console.log(error)
+        navigate('/')
       }
     }
     fetchApi()
@@ -183,8 +185,8 @@ export const EpubReader = () => {
       if (res.status === 200 || res.status === 201) {
         console.log('Updated, book pregress')
         navigate('/bookshelf/loans')
-      }else if (res.status === 403){
-        navigate("/login")
+      } else if (res.status === 403) {
+        navigate('/login')
       }
     } catch (error) {
       console.log(error)
@@ -258,41 +260,37 @@ export const EpubReader = () => {
             {/* -------------------insert sheetbody comp here--------------- */}
             <Box
               style={{
-                width:"100%",
+                width: '100%',
                 zIndex: 10,
               }}
             >
-              
-                <List sx={{ display: 'flex', flexDirection:"column", }}>
-                  {selections.map(({ text, page }, i) => (
-                    <ListItem key={i} sx ={{ justifyContent:"right"}}>
-                      <Typography noWrap>
-                      {text}
-                      </Typography>
-                    
-                      <Button
-                        onClick={() => {
-                          console.log(page)
-                          renditionRef.current.display(page)
-                        }}
-                      >
-                        < VisibilityIcon sx={{fontSize: 30}}/>
-                      </Button >
-                      <Button
-                        onClick={() => {
-                          renditionRef.current.annotations.remove(
-                            page,
-                            'highlight',
-                          )
-                          setSelections(selections.filter((item, j) => j !== i))
-                        }}
-                      >
-                        <DeleteOutlineIcon sx={{fontSize: 30, color:"red"}}/>
-                      </Button>
-                    </ListItem>
-                  ))}
-                </List>
-             
+              <List sx={{ display: 'flex', flexDirection: 'column' }}>
+                {selections.map(({ text, page }, i) => (
+                  <ListItem key={i} sx={{ justifyContent: 'right' }}>
+                    <Typography noWrap>{text}</Typography>
+
+                    <Button
+                      onClick={() => {
+                        console.log(page)
+                        renditionRef.current.display(page)
+                      }}
+                    >
+                      <VisibilityIcon sx={{ fontSize: 30 }} />
+                    </Button>
+                    <Button
+                      onClick={() => {
+                        renditionRef.current.annotations.remove(
+                          page,
+                          'highlight',
+                        )
+                        setSelections(selections.filter((item, j) => j !== i))
+                      }}
+                    >
+                      <DeleteOutlineIcon sx={{ fontSize: 30, color: 'red' }} />
+                    </Button>
+                  </ListItem>
+                ))}
+              </List>
             </Box>
           </Sheet.Content>
         </Sheet.Container>
