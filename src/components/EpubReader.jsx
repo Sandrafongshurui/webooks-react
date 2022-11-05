@@ -74,7 +74,8 @@ export const EpubReader = () => {
             setLocation(data.loan.bookProgress)
           }
           if (data.annotations.length > 0) {
-            setSelections(current => [...current, ...data.annotations])
+            // setSelections(current => [...current, ...data.annotations])
+            setSelections(data.annotations)
           }
         }
       } catch (error) {
@@ -159,7 +160,7 @@ export const EpubReader = () => {
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [setSelections])
+  }, [setSelections, selections])
 
   // const clickBookmark = () => {
   //   setBookmark(location)

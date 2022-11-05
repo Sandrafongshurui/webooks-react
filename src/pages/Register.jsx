@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import {
   CardContent,
   Card,
@@ -69,6 +69,19 @@ export const Register = (props) => {
     formState: { errors },
   } = useForm({ resolver: yupResolver(validationSchema), defaultValues })
 
+  const { login } = useContext(UserContext)
+
+  const setNameInContext = (token) => {
+    // const token = cookies.get('user_token')
+    const user = jwt_decode(token)
+    login(
+      user.data.firstName,
+      user.data.lastName,
+      user.data.profileImgUrl,
+      user.data.isLibrarian,
+    )
+  }
+
   const onSubmit = async (data) => {
     console.log('from register:', data)
     try {
@@ -91,6 +104,8 @@ export const Register = (props) => {
         toast.success('Registered successfully', {
           position: toast.POSITION.TOP_CENTER,
         })
+
+        setNameInContext(res.data.token)
         navigate('/')
       }
     } catch (error) {
