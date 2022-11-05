@@ -20,6 +20,8 @@ import { useMediaQuery } from 'react-responsive'
 import { useNavigate } from 'react-router-dom'
 import { BackArrow } from '../components/Headers'
 import { toast } from 'react-toastify'
+import { UserContext } from '../components/context/Context'
+import jwt_decode from 'jwt-decode'
 
 export const Register = (props) => {
   const navigate = useNavigate()
