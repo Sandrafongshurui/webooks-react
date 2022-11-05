@@ -159,7 +159,7 @@ export const EpubReader = () => {
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [setSelections, selections])
+  }, [setSelections])
 
   // const clickBookmark = () => {
   //   setBookmark(location)
@@ -239,7 +239,7 @@ export const EpubReader = () => {
                 // set selections as empty array first, cos no seletion has been made
                 //change to the data selections
                 //this will  triiger the useeffect
-                // setSelections([])
+                setSelections([])
                 showPreviousAnotations(selections)
               }}
             />
