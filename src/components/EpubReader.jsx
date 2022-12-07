@@ -11,7 +11,7 @@ import EditIcon from '@mui/icons-material/Edit'
 import Sheet from 'react-modal-sheet'
 import VisibilityIcon from '@mui/icons-material/Visibility'
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline'
-import { faL } from '@fortawesome/free-solid-svg-icons'
+
 // import ebook from '../assets/Little-Women.epub'
 
 // const ownStyles = {

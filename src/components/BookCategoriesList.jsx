@@ -1,4 +1,4 @@
-import { Box, Grid, Skeleton, Stack } from '@mui/material'
+import { Box, Grid, Skeleton} from '@mui/material'
 import style from '../global.module.css'
 import { CategoriesSubheading } from '../components/Headers'
 import { BookCard } from '../components/BookCard'
