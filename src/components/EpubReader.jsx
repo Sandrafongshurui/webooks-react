@@ -11,6 +11,7 @@ import EditIcon from '@mui/icons-material/Edit'
 import Sheet from 'react-modal-sheet'
 import VisibilityIcon from '@mui/icons-material/Visibility'
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline'
+import { faL } from '@fortawesome/free-solid-svg-icons'
 // import ebook from '../assets/Little-Women.epub'
 
 // const ownStyles = {
@@ -29,6 +30,7 @@ export const EpubReader = () => {
   const { loanId, bookId } = useParams()
   const [selections, setSelections] = useState([])
   const [loan, setLoan] = useState(null)
+  const [message, setMessage] = useState(true)
   // const [annotations, setAnnotations] = useState(null)
   const [bottomSheetOpen, setBottomSheetOpen] = useState(false)
   //rendition Displays an Epub as a series of Views for each Section
@@ -76,6 +78,7 @@ export const EpubReader = () => {
           if (data.annotations.length > 0) {
             // setSelections(current => [...current, ...data.annotations])
             setSelections(data.annotations)
+            setMessage(false)
           }
         }
       } catch (error) {
@@ -123,6 +126,7 @@ export const EpubReader = () => {
             loanId: parseInt(loanId),
           }),
         )
+        setMessage(false)
         console.log(
           '1',
           cfiRange,
@@ -149,15 +153,17 @@ export const EpubReader = () => {
         //can hv multiple range instances, but only can get 1 selection per doc
         //remove old ranges that are currently selected.
         contents.window.getSelection().removeAllRanges()
+        
       }
       //console.log(renditionRef.current.location)
       //trigger the setRenderSelection()
       renditionRef.current.on('selected', setRenderSelection)
-      console.log(selections)
+      console.log(selections)  
       //must off immediately, if not will keep rerender because is seting the selections
       return () => {
         renditionRef.current.off('selected', setRenderSelection)
       }
+      
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [setSelections, selections])
@@ -284,7 +290,13 @@ export const EpubReader = () => {
                           page,
                           'highlight',
                         )
+                        console.log('---->', selections.length)
+
                         setSelections(selections.filter((item, j) => j !== i))
+                       
+                        if (selections.length < 2) {
+                          setMessage(true)
+                        }
                       }}
                     >
                       <DeleteOutlineIcon sx={{ fontSize: 30, color: 'red' }} />
@@ -292,6 +304,9 @@ export const EpubReader = () => {
                   </ListItem>
                 ))}
               </List>
+              {message && (
+                <Typography noWrap sx={{textAlign: "center"}}> No annotations selected</Typography>
+              )}
             </Box>
           </Sheet.Content>
         </Sheet.Container>

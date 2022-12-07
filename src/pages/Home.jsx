@@ -38,7 +38,7 @@ export const Home = (props) => {
   }, [])
 
   return (
-    <Box>
+    <Box >
       {/* <SiteHeader /> */}
       {!category && (
         <>

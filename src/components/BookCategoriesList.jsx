@@ -2,7 +2,6 @@ import { Box, Grid, Skeleton, Stack } from '@mui/material'
 import style from '../global.module.css'
 import { CategoriesSubheading } from '../components/Headers'
 import { BookCard } from '../components/BookCard'
-import { padding } from '@mui/system'
 
 export const BookCategoriesList = (props) => {
   const { hasLimit, data, title, link } = props
@@ -13,16 +12,16 @@ export const BookCategoriesList = (props) => {
           .fill(1)
           .map((card, idx) => (
             // render your skeleton here
-          <>
+            <Box sx={{ marginBottom: '2em', marginRight:"5em" }}>
               <Skeleton
                 key={idx}
                 variant="rounded"
                 width={126}
                 height={180}
-                sx={{ margin: '30px' }}
+                sx={{ marginBottom: '10px'}}
               />
-              {/* <Skeleton  width={126} variant="text" sx={{ fontSize: '2rem' }} /> */}
-            </>
+              <Skeleton width={126} variant="text" sx={{ fontSize: '1Rem' }} />
+            </Box>
           ))}
       </>
     )
@@ -40,8 +39,9 @@ export const BookCategoriesList = (props) => {
           container
           spacing={{ xs: 1, sm: 2, md: 2 }}
           columns={{ xs: 4, sm: 3, md: 4 }}
+          style={{ margin: 'auto 0', justifyContent: "space-evenly"}}
         >
-          {!data && <ListSkeleton listsToRender={12} />}
+          {!data && <ListSkeleton listsToRender={8} />}
           {data &&
             hasLimit &&
             data.map((booksData, idx) =>

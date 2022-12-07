@@ -10,6 +10,7 @@ import {
   Typography,
   Divider,
   List,
+  Skeleton,
 } from '@mui/material'
 import style from '../global.module.css'
 import { BookActionCard } from '../components/BookActionCard'
@@ -145,10 +146,10 @@ export const BookDetailsPage = (props) => {
   return (
     <div>
       {/* <SiteHeader /> */}
-      {book && (
+      {book ? (
         <Box className={style.contentsbody}>
           <CategoriesSubheading categoryName={book.title} />
-          <Grid>
+          <Grid sx={{ display: 'flex', flexWrap: 'wrap' }}>
             <Box sx={{ width: '100%', textAlign: 'left', maxWidth: '244px' }}>
               <Box
                 sx={{
@@ -261,12 +262,24 @@ export const BookDetailsPage = (props) => {
                 </Box>
               </Box>
             </Box>
+            <Box sx={{ textAlign: 'start', my: '2em' }}>
+              <Typography variant="body3" color="text.secondary" lineHeight="2">
+                {book.sypnosis}
+              </Typography>
+            </Box>
           </Grid>
-          <Box sx={{ textAlign: 'start', my: '2em' }}>
-            <Typography variant="body3" color="text.secondary" lineHeight="2">
-              {book.sypnosis}
-            </Typography>
-          </Box>
+        </Box>
+      ) : (
+        <Box className={style.contentsbody}>
+          <Skeleton
+            variant="rounded"
+            width={300}
+            height={400}
+            sx={{ marginBottom: '10px' }}
+          />
+          <Skeleton
+            variant="text"
+          />
         </Box>
       )}
       <Sheet
