@@ -10,35 +10,54 @@ import {
 } from '@mui/material'
 import Image from 'mui-image'
 import style from '../global.module.css'
+import { useMediaQuery } from 'react-responsive'
+
+const mobile = {
+  card: {
+    width: '100%',
+    margin: '0 auto',
+    // boxShadow: '0 3px 5px 2px rgba(0, 0, 0, 0)',
+  },
+}
+const desktop = {
+  card: {
+    width: '450px',
+    margin: '0 auto',
+    pb: '0',
+    px: '1em',
+    pt: "4em",
+    // boxShadow: '0 3px 5px 2px rgba(0, 0, 0, 0)',
+  }
+}
 
 
 export const BookActionCard = (props) => {
   const { title, bookImgUrl } = props.data
+  const isMobile = useMediaQuery({ maxWidth: 900 })
  //const {actionPresent , setActionPresent} = useState(`${props.action === "Borrow" ? "borrowing" : "reserving"}`)
   const handleClickAction = async () => {
     props.onSubmit(props.action)
   }
   let actionPresent = `${props.action === "Borrow" ? "borrowing" : "reserving"}`
+  let responsiveLayout = null
+  isMobile
+    ? (responsiveLayout = { ...mobile })
+    : (responsiveLayout = { ...desktop })
+
+  
   return (
-    <div>
-      <Box>
+ 
+      <Box >
         <Container sx={{ my: 0 }}>
           <Card
-            sx={{
-              width: '450px',
-              margin: '0 auto',
-              pb: '0',
-              px: '1em',
-              pt: "4em",
-              boxShadow: '0 3px 5px 2px rgba(0, 0, 0, 0)',
-            }}
+            sx={responsiveLayout.card}
           >
             <CardContent
               sx={{
-                width: '100%',
+                // width: '100%',
                 height: '240px',
                 margin: '0 auto',
-                p: '0',
+                padding: '16px',
                 display: 'flex',
                 justifyContent: 'space-between',
               }}
@@ -58,7 +77,7 @@ export const BookActionCard = (props) => {
 
               <Box
                 sx={{
-                  width: '60%',
+                  width: '50%',
                   display: 'flex',
                   flexWrap: 'wrap',
                   flexDirection: 'column',
@@ -138,6 +157,6 @@ export const BookActionCard = (props) => {
           </Card>
         </Container>
       </Box>
-    </div>
+  
   )
 }

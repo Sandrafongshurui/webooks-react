@@ -16,11 +16,30 @@ import globalStyle from '../global.module.css'
 import { AccessTime } from '@mui/icons-material'
 import datesBetween from 'dates-between'
 import { toast } from 'react-toastify'
+import { useMediaQuery } from 'react-responsive'
 
+const mobile = {
+  card: {
+    width: '100%',
+    margin: '0 auto',
+    // boxShadow: '0 3px 5px 2px rgba(0, 0, 0, 0)',
+  },
+}
+const desktop = {
+  card: {
+    width: '450px',
+    margin: '0 auto',
+    pb: '0',
+    px: '1em',
+    pt: "4em",
+    // boxShadow: '0 3px 5px 2px rgba(0, 0, 0, 0)',
+  }
+}
 export const ManageLoanCard = (props) => {
   const navigate = useNavigate()
   const { book, dueDate, id, bookId } = props.loanData
   const [renewMsg, setRenewMsg] = useState(null)
+  const isMobile = useMediaQuery({ maxWidth: 900 })
 
   const handleReturnLoan = async () => {
     console.log('Return loan')
@@ -106,25 +125,25 @@ export const ManageLoanCard = (props) => {
     return date.toLocaleDateString()
   }
 
+  let responsiveLayout = null
+  isMobile
+    ? (responsiveLayout = { ...mobile })
+    : (responsiveLayout = { ...desktop })
+
+  
   return (
     <div>
       <Box>
         <Container sx={{ my: 0 }}>
           <Card
-            sx={{
-              width: '450px',
-              margin: '0 auto',
-              pt: '4em',
-              px: '1em',
-              boxShadow: '0 3px 5px 2px rgba(0, 0, 0, 0)',
-            }}
+            sx={responsiveLayout.card}
           >
             <CardContent
               sx={{
-                width: '100%',
+                // width: '100%',
                 height: '240px',
                 margin: '0 auto',
-                p: '0',
+                padding: '0px',
                 display: 'flex',
                 justifyContent: 'space-between',
               }}
@@ -144,7 +163,7 @@ export const ManageLoanCard = (props) => {
 
               <Box
                 sx={{
-                  width: '60%',
+                  width: '50%',
                   display: 'flex',
                   flexWrap: 'wrap',
                   flexDirection: 'column',

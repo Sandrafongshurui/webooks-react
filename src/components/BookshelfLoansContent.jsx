@@ -78,7 +78,7 @@ export const BookshelfLoansContent = () => {
       <Sheet
         isOpen={bottomSheetOpen}
         onClose={() => setBottomSheetOpen(false)}
-        snapPoints={[600, 0]}
+        snapPoints={[500, 0]}
       >
         <Sheet.Container>
           <Sheet.Header />

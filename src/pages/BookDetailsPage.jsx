@@ -18,6 +18,7 @@ import Sheet from 'react-modal-sheet'
 import { useParams, useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import { UserContext } from '../components/context/Context'
+import { useMediaQuery } from 'react-responsive'
 
 export const BookDetailsPage = (props) => {
   const { user } = useContext(UserContext)
@@ -25,6 +26,7 @@ export const BookDetailsPage = (props) => {
   const [book, setBook] = useState(null)
   const [action, setAction] = useState('')
   const [bottomSheetOpen, setBottomSheetOpen] = useState(false)
+  const isMobile = useMediaQuery({ maxWidth: 900 })
   const navigate = useNavigate()
 
   const handleBorrowBook = () => {
@@ -142,6 +144,30 @@ export const BookDetailsPage = (props) => {
     navigate('/login')
   }
 
+  const mobile = {
+    details: {
+      display: 'inline-table',
+                  width: '577px',
+                  maxHeight: '400px',
+                  marginTop: '1.5em',
+    },
+  }
+  const desktop = {
+    details: {
+      display: 'inline-flex',
+      width: '577px',
+      maxHeight: '400px',
+      marginTop: '1.5em', 
+    }
+  }
+
+
+  let responsiveLayout = null
+  isMobile
+    ? (responsiveLayout = { ...mobile })
+    : (responsiveLayout = { ...desktop })
+
+
   const listItemStyle = { padding: 0.5, color: '#4b4b4b', display: 'table' }
   return (
     <div>
@@ -149,15 +175,10 @@ export const BookDetailsPage = (props) => {
       {book ? (
         <Box className={style.contentsbody}>
           <CategoriesSubheading categoryName={book.title} />
-          <Grid sx={{ display: 'flex', flexWrap: 'wrap' }}>
+          <Grid sx={{display: 'flex', flexWrap: 'wrap'}}>
             <Box sx={{ width: '100%', textAlign: 'left', maxWidth: '244px' }}>
               <Box
-                sx={{
-                  display: 'Flex',
-                  width: '577px',
-                  maxHeight: '400px',
-                  marginTop: '1.5em',
-                }}
+                sx={responsiveLayout.details}
               >
                 <Box sx={{ paddingRight: 2, height: '400px', width: '50%' }}>
                   <Image
@@ -262,7 +283,7 @@ export const BookDetailsPage = (props) => {
                 </Box>
               </Box>
             </Box>
-            <Box sx={{ textAlign: 'start', my: '2em' }}>
+            <Box sx={{ textAlign: 'start', my: '2em', width: "100%"}}>
               <Typography variant="body3" color="text.secondary" lineHeight="2">
                 {book.sypnosis}
               </Typography>
